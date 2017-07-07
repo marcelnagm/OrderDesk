@@ -45,9 +45,9 @@ class Order {
     protected $fulfillment_name; //	Once the order has been sent for fulfillment, the name of the fulfillment method is entered here
     /** @Column(type="integer") * */
     protected $fulfillment_id; //	The internal ID of the fulfillment service will be saved here for some services
-    /** @Column(type="date") * */
+    /** @Column(type="string") * */
     protected $date_added; //	The order date stored in UTC
-    /** @Column(type="date") * */
+    /** @Column(type="string") * */
     protected $date_updated; //	The date that the order was last updated in UTC
     /** @Column(type="string") * */
     protected $checkout_data; //	Array with a list of extra order details in key => value format. Used when it may need to be manually edited in Order Desk.
@@ -66,6 +66,12 @@ class Order {
     /** @Column(type="string") * */
     protected $order_shipments; //	Array with a list of order shipments. See order shipments properties for reference.
 
+    function getId() {
+        return $this->id;
+    }
+
+        
+    
     function getNome() {
         return $this->nome;
     }
