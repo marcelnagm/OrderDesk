@@ -35,8 +35,6 @@ class Order {
     protected $payment_type; //	Visa, MasterCard, PayPal, etc.
     /** @Column(type="string") * */
     protected $payment_status; //	Available options: Approved, Authorized, Captured, Fully Refunded, Partially Refunded, Pending, Rejected, or Voided. Default is Captured
-    /** @Column(type="string") * */
-    protected $payment_method; //	Available options: Approved, Authorized, Captured, Fully Refunded, Partially Refunded, Pending, Rejected, or Voided. Default is Captured
     /** @Column(type="integer") * */
     protected $customer_id; //	The customer ID field from the originating shopping cart
     /** @Column(type="string") * */
@@ -324,7 +322,6 @@ class Order {
     function setCustomer_array($customer_array) {
         $this->customer_array = $customer_array;
     }
-
 
     
 }
