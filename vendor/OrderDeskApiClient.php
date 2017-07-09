@@ -1,4 +1,6 @@
 <?php
+namespace vendor;
+
 class OrderDeskApiClient
 {
 

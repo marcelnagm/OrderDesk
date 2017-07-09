@@ -8,76 +8,85 @@ namespace src;
 class Order {
 
     /** @Id @Column(type="integer") @GeneratedValue * */
-    protected $id;    
+    private $id;    
     /** @Column(type="integer") * */
-    protected $source_id; //	Your order ID. If blank, Order Desks internal ID will be used READ-ONLY
+    private $source_id; //	Your order ID. If blank, Order Desks internal ID will be used READ-ONLY
     /** @Column(type="string") * */
-    protected $source_name; //	Pick from Available Source Names. Defaults to Order Desk
+    private $source_name; //	Pick from Available Source Names. Defaults to Order Desk
     /** @Column(type="integer") * */
-    protected $source_id2; //	The original ID # of the order. If nothing entered, Order Desks internal ID number will be used
+    private $source_id2; //	The original ID # of the order. If nothing entered, Order Desks internal ID number will be used
     /** @Column(type="string") * */
-    protected $email; //	Customers email address
+    private $email; //	Customers email address
     /** @Column(type="float") * */
-    protected $quantity_total; //	The total number of all the items in the order READ-ONLY
+    private $quantity_total; //	The total number of all the items in the order READ-ONLY
     /** @Column(type="float") * */
-    protected $product_total; //	The total price of all the items in the order READ-ONLY
+    private $product_total; //	The total price of all the items in the order READ-ONLY
     /** @Column(type="float") * */
-    protected $shipping_total; //	The total price of shipping in the order
+    private $shipping_total; //	The total price of shipping in the order
     /** @Column(type="float") * */
-    protected $discount_total; //	The total price of all the discounts in the order stored as a positive number READ-ONLY
+    private $discount_total; //	The total price of all the discounts in the order stored as a positive number READ-ONLY
     /** @Column(type="float") * */
-    protected $order_total; //	The total calculated price of the entire order READ-ONLY
+    private $order_total; //	The total calculated price of the entire order READ-ONLY
     /** @Column(type="string") * */
-    protected $cc_number; //	Obfuscated credit card number. Enter only the last four digits
+    private $cc_number; //	Obfuscated credit card number. Enter only the last four digits
     /** @Column(type="string") * */
-    protected $cc_exp; //	Credit card expiration in format MM/YYYY
+    private $cc_exp; //	Credit card expiration in format MM/YYYY
     /** @Column(type="string") * */
-    protected $payment_type; //	Visa, MasterCard, PayPal, etc.
+    private $payment_type; //	Visa, MasterCard, PayPal, etc.
     /** @Column(type="string") * */
-    protected $payment_status; //	Available options: Approved, Authorized, Captured, Fully Refunded, Partially Refunded, Pending, Rejected, or Voided. Default is Captured
+    private $payment_status; //	Available options: Approved, Authorized, Captured, Fully Refunded, Partially Refunded, Pending, Rejected, or Voided. Default is Captured
     /** @Column(type="integer") * */
-    protected $customer_id; //	The customer ID field from the originating shopping cart
+    private $customer_id; //	The customer ID field from the originating shopping cart
     /** @Column(type="string") * */
-    protected $email_count; //	The number of orders that match this email address READ-ONLY
+    private $email_count; //	The number of orders that match this email address READ-ONLY
     /** @Column(type="string") * */
-    protected $ip_address; //	The customers IP address
+    private $ip_address; //	The customers IP address
     /** @Column(type="string") * */
-    protected $fulfillment_name; //	Once the order has been sent for fulfillment, the name of the fulfillment method is entered here
+    private $fulfillment_name; //	Once the order has been sent for fulfillment, the name of the fulfillment method is entered here
     /** @Column(type="integer") * */
-    protected $fulfillment_id; //	The internal ID of the fulfillment service will be saved here for some services
+    private $fulfillment_id; //	The internal ID of the fulfillment service will be saved here for some services
     /** @Column(type="string") * */
-    protected $date_added; //	The order date stored in UTC
+    private $date_added; //	The order date stored in UTC
     /** @Column(type="string") * */
-    protected $date_updated; //	The date that the order was last updated in UTC
+    private $date_updated; //	The date that the order was last updated in UTC
     /** @Column(type="string") * */
-    protected $checkout_data; //	Array with a list of extra order details in key => value format. Used when it may need to be manually edited in Order Desk.
-    /** @Column(type="string") * */
-    protected $order_metadata; //	Array with a list of extra (hidden) order details in key => value format
-    /** @Column(type="string") * */
-    protected $shipping; //	Array with shipping address details. If nothing is entered, the customer array will be copied to the shipping array. A first and last name combination or a company name must be entered to be a valid order.
-    /** @Column(type="string") * */
-    protected $customer; //	Array with customer address details. If nothing is entered, the shipping array will be copied to the customer array. A first and last name combination or a company name must be entered to be a valid order.
-    /** @Column(type="string") * */
-    protected $customer_array; //	Array with customer address details. If nothing is entered, the shipping array will be copied to the customer array. A first and last name combination or a company name must be entered to be a valid order.
-    /** @Column(type="string") * */
-    protected $return_address; //	Array with return address details. Not required.
-    /** @Column(type="string") * */
-    protected $discount_list; //	Array with a list of discounts. See discount properties for reference.
-    /** @Column(type="string") * */
-    protected $order_notes; //	Array with a list of order notes. See order note properties for reference.
-    /** @Column(type="string") * */
-    protected $order_shipments; //	Array with a list of order shipments. See order shipments properties for reference.
-
-    function getId() {
-        return $this->id;
-    }
-
-        
+// order to remove this part from the databases
+//    private $checkout_data; //	Array with a list of extra order details in key => value format. Used when it may need to be manually edited in Order Desk.
+//    /** @Column(type="string") * */
+//    private $order_metadata; //	Array with a list of extra (hidden) order details in key => value format
+//    /** @Column(type="string") * */
     
-    function getNome() {
-        return $this->nome;
-    }
+    private $shipping; //	Array with shipping address details. If nothing is entered, the customer array will be copied to the shipping array. A first and last name combination or a company name must be entered to be a valid order.
+    /** @Column(type="string") * */
+    
+// order to remove this part from the databases
+//    private $customer; //	Array with customer address details. If nothing is entered, the shipping array will be copied to the customer array. A first and last name combination or a company name must be entered to be a valid order.
+//    /** @Column(type="string") * */
+//    private $customer_array; //	Array with customer address details. If nothing is entered, the shipping array will be copied to the customer array. A first and last name combination or a company name must be entered to be a valid order.
+//    /** @Column(type="string") * */
+//    private $return_address; //	Array with return address details. Not required.
+//    /** @Column(type="string") * */
+//    private $discount_list; //	Array with a list of discounts. See discount properties for reference.
+//    /** @Column(type="string") * */
+//    private $order_notes; //	Array with a list of order notes. See order note properties for reference.
+//    /** @Column(type="string") * */
+//    private $order_shipments; //	Array with a list of order shipments. See order shipments properties for reference.
 
+    public function __construct($array = null) {
+        if (is_array($array)) {    
+            $fields = get_class_vars(Shipments::class);
+            unset($fields['id']);          
+            foreach ($fields as $field => $value) {
+                echo $field ;
+                echo "<br>";
+                if(isset($array[$field])){
+                   
+                $this->{'set' . ucfirst($field)}($array[$field]);
+                }
+            }
+        }
+    }
+    
     function getSource_id() {
         return $this->source_id;
     }
@@ -158,40 +167,8 @@ class Order {
         return $this->date_updated;
     }
 
-    function getCheckout_data() {
-        return $this->checkout_data;
-    }
-
-    function getOrder_metadata() {
-        return $this->order_metadata;
-    }
-
     function getShipping() {
         return $this->shipping;
-    }
-
-    function getCustomer() {
-        return $this->customer;
-    }
-
-    function getReturn_address() {
-        return $this->return_address;
-    }
-
-    function getDiscount_list() {
-        return $this->discount_list;
-    }
-
-    function getOrder_notes() {
-        return $this->order_notes;
-    }
-
-    function getOrder_shipments() {
-        return $this->order_shipments;
-    }
-
-    function setNome($nome) {
-        $this->nome = $nome;
     }
 
     function setSource_id($source_id) {
@@ -266,15 +243,6 @@ class Order {
         $this->fulfillment_id = $fulfillment_id;
     }
 
-    function getPayment_method() {
-        return $this->payment_method;
-    }
-
-    function setPayment_method($payment_method) {
-        $this->payment_method = $payment_method;
-    }
-
-        
     function setDate_added($date_added) {
         $this->date_added = $date_added;
     }
@@ -283,45 +251,14 @@ class Order {
         $this->date_updated = $date_updated;
     }
 
-    function setCheckout_data($checkout_data) {
-        $this->checkout_data = $checkout_data;
-    }
-
-    function setOrder_metadata($order_metadata) {
-        $this->order_metadata = $order_metadata;
-    }
-
     function setShipping($shipping) {
         $this->shipping = $shipping;
     }
 
-    function setCustomer($customer) {
-        $this->customer = $customer;
+        function getId() {
+        return $this->id;
     }
-
-    function setReturn_address($return_address) {
-        $this->return_address = $return_address;
-    }
-
-    function setDiscount_list($discount_list) {
-        $this->discount_list = $discount_list;
-    }
-
-    function setOrder_notes($order_notes) {
-        $this->order_notes = $order_notes;
-    }
-
-    function setOrder_shipments($order_shipments) {
-        $this->order_shipments = $order_shipments;
-    }
-
-    function getCustomer_array() {
-        return $this->customer_array;
-    }
-
-    function setCustomer_array($customer_array) {
-        $this->customer_array = $customer_array;
-    }
-
+       
+    
     
 }
