@@ -9,102 +9,75 @@ class Order {
 
     /** @Id @Column(type="integer") @GeneratedValue * */
     private $id;    
-    /** @Column(type="integer") * */
-    private $source_id; //	Your order ID. If blank, Order Desks internal ID will be used READ-ONLY
-    /** @Column(type="string") * */
-    private $source_name; //	Pick from Available Source Names. Defaults to Order Desk
-    /** @Column(type="integer") * */
-    private $source_id2; //	The original ID # of the order. If nothing entered, Order Desks internal ID number will be used
-    /** @Column(type="string") * */
-    private $email; //	Customers email address
-    /** @Column(type="float") * */
-    private $quantity_total; //	The total number of all the items in the order READ-ONLY
-    /** @Column(type="float") * */
-    private $product_total; //	The total price of all the items in the order READ-ONLY
-    /** @Column(type="float") * */
-    private $shipping_total; //	The total price of shipping in the order
-    /** @Column(type="float") * */
-    private $discount_total; //	The total price of all the discounts in the order stored as a positive number READ-ONLY
-    /** @Column(type="float") * */
-    private $order_total; //	The total calculated price of the entire order READ-ONLY
-    /** @Column(type="string") * */
-    private $cc_number; //	Obfuscated credit card number. Enter only the last four digits
-    /** @Column(type="string") * */
-    private $cc_exp; //	Credit card expiration in format MM/YYYY
-    /** @Column(type="string") * */
-    private $payment_type; //	Visa, MasterCard, PayPal, etc.
-    /** @Column(type="string") * */
-    private $payment_status; //	Available options: Approved, Authorized, Captured, Fully Refunded, Partially Refunded, Pending, Rejected, or Voided. Default is Captured
-    /** @Column(type="integer") * */
-    private $customer_id; //	The customer ID field from the originating shopping cart
-    /** @Column(type="string") * */
-    private $email_count; //	The number of orders that match this email address READ-ONLY
-    /** @Column(type="string") * */
-    private $ip_address; //	The customers IP address
-    /** @Column(type="string") * */
-    private $fulfillment_name; //	Once the order has been sent for fulfillment, the name of the fulfillment method is entered here
-    /** @Column(type="integer") * */
-    private $fulfillment_id; //	The internal ID of the fulfillment service will be saved here for some services
-    /** @Column(type="string") * */
-    private $date_added; //	The order date stored in UTC
-    /** @Column(type="string") * */
-    private $date_updated; //	The date that the order was last updated in UTC
-    /** @Column(type="string") * */
-// order to remove this part from the databases
-//    private $checkout_data; //	Array with a list of extra order details in key => value format. Used when it may need to be manually edited in Order Desk.
-//    /** @Column(type="string") * */
-//    private $order_metadata; //	Array with a list of extra (hidden) order details in key => value format
-//    /** @Column(type="string") * */
-    
-    private $shipping; //	Array with shipping address details. If nothing is entered, the customer array will be copied to the shipping array. A first and last name combination or a company name must be entered to be a valid order.
-    /** @Column(type="string") * */
-    
-// order to remove this part from the databases
-//    private $customer; //	Array with customer address details. If nothing is entered, the shipping array will be copied to the customer array. A first and last name combination or a company name must be entered to be a valid order.
-//    /** @Column(type="string") * */
-//    private $customer_array; //	Array with customer address details. If nothing is entered, the shipping array will be copied to the customer array. A first and last name combination or a company name must be entered to be a valid order.
-//    /** @Column(type="string") * */
-//    private $return_address; //	Array with return address details. Not required.
-//    /** @Column(type="string") * */
-//    private $discount_list; //	Array with a list of discounts. See discount properties for reference.
-//    /** @Column(type="string") * */
-//    private $order_notes; //	Array with a list of order notes. See order note properties for reference.
-//    /** @Column(type="string") * */
-//    private $order_shipments; //	Array with a list of order shipments. See order shipments properties for reference.
+                    protected $id_order; 
+                    private $email;
+                    private $shipping_method;
+                    private $quantity_total; 
+                    private $weight_total; 
+                    private $product_total;
+                    private $shipping_total;
+                    private $handling_total; 
+                    private $tax_total; 
+                    private $discount_total; 
+                    private $order_total; 
+                    private $cc_number_masked; 
+                    private $cc_exp; 
+                    private $processor_response; 
+                    private $payment_type; 
+                    private $payment_status; 
+                    private $processor_balance; 
+                    private $customer_id; 
+                    private $email_count;
+                    private $ip_address; 
+                    private $tag_color; 
+                    private $source_name; 
+                    private $source_id; 
+                    private $fulfillment_name; 
+                    private $fulfillment_id;  
+                    private $tag_name; 
+                    private $folder_id; 
+                    private $date_added; 
+                    private $date_updated; 
 
     public function __construct($array = null) {
-        if (is_array($array)) {    
-            $fields = get_class_vars(Shipments::class);
-            unset($fields['id']);          
+        if (is_array($array)) {
+         
+            $fields = get_class_vars(__CLASS__);
+            $this->setId_order($array['id']);
+            unset($fields['id']);
             foreach ($fields as $field => $value) {
-                echo $field ;
-                echo "<br>";
-                if(isset($array[$field])){
-                   
-                $this->{'set' . ucfirst($field)}($array[$field]);
+//                echo $field ;
+//                echo "<br>";
+                if (isset($array[$field])) {
+                    
+                    $this->{'set' . ucfirst($field)}($array[$field]);
                 }
             }
         }
     }
     
-    function getSource_id() {
-        return $this->source_id;
+        function getId() {
+        return $this->id;
     }
-
-    function getSource_name() {
-        return $this->source_name;
-    }
-
-    function getSource_id2() {
-        return $this->source_id2;
+           
+    function getId_order() {
+        return $this->id_order;
     }
 
     function getEmail() {
         return $this->email;
     }
 
+    function getShipping_method() {
+        return $this->shipping_method;
+    }
+
     function getQuantity_total() {
         return $this->quantity_total;
+    }
+
+    function getWeight_total() {
+        return $this->weight_total;
     }
 
     function getProduct_total() {
@@ -115,6 +88,14 @@ class Order {
         return $this->shipping_total;
     }
 
+    function getHandling_total() {
+        return $this->handling_total;
+    }
+
+    function getTax_total() {
+        return $this->tax_total;
+    }
+
     function getDiscount_total() {
         return $this->discount_total;
     }
@@ -123,12 +104,16 @@ class Order {
         return $this->order_total;
     }
 
-    function getCc_number() {
-        return $this->cc_number;
+    function getCc_number_masked() {
+        return $this->cc_number_masked;
     }
 
     function getCc_exp() {
         return $this->cc_exp;
+    }
+
+    function getProcessor_response() {
+        return $this->processor_response;
     }
 
     function getPayment_type() {
@@ -137,6 +122,10 @@ class Order {
 
     function getPayment_status() {
         return $this->payment_status;
+    }
+
+    function getProcessor_balance() {
+        return $this->processor_balance;
     }
 
     function getCustomer_id() {
@@ -151,12 +140,32 @@ class Order {
         return $this->ip_address;
     }
 
+    function getTag_color() {
+        return $this->tag_color;
+    }
+
+    function getSource_name() {
+        return $this->source_name;
+    }
+
+    function getSource_id() {
+        return $this->source_id;
+    }
+
     function getFulfillment_name() {
         return $this->fulfillment_name;
     }
 
     function getFulfillment_id() {
         return $this->fulfillment_id;
+    }
+
+    function getTag_name() {
+        return $this->tag_name;
+    }
+
+    function getFolder_id() {
+        return $this->folder_id;
     }
 
     function getDate_added() {
@@ -167,28 +176,24 @@ class Order {
         return $this->date_updated;
     }
 
-    function getShipping() {
-        return $this->shipping;
-    }
-
-    function setSource_id($source_id) {
-        $this->source_id = $source_id;
-    }
-
-    function setSource_name($source_name) {
-        $this->source_name = $source_name;
-    }
-
-    function setSource_id2($source_id2) {
-        $this->source_id2 = $source_id2;
+    function setId_order($id_order) {
+        $this->id_order = $id_order;
     }
 
     function setEmail($email) {
         $this->email = $email;
     }
 
+    function setShipping_method($shipping_method) {
+        $this->shipping_method = $shipping_method;
+    }
+
     function setQuantity_total($quantity_total) {
         $this->quantity_total = $quantity_total;
+    }
+
+    function setWeight_total($weight_total) {
+        $this->weight_total = $weight_total;
     }
 
     function setProduct_total($product_total) {
@@ -199,6 +204,14 @@ class Order {
         $this->shipping_total = $shipping_total;
     }
 
+    function setHandling_total($handling_total) {
+        $this->handling_total = $handling_total;
+    }
+
+    function setTax_total($tax_total) {
+        $this->tax_total = $tax_total;
+    }
+
     function setDiscount_total($discount_total) {
         $this->discount_total = $discount_total;
     }
@@ -207,12 +220,16 @@ class Order {
         $this->order_total = $order_total;
     }
 
-    function setCc_number($cc_number) {
-        $this->cc_number = $cc_number;
+    function setCc_number_masked($cc_number_masked) {
+        $this->cc_number_masked = $cc_number_masked;
     }
 
     function setCc_exp($cc_exp) {
         $this->cc_exp = $cc_exp;
+    }
+
+    function setProcessor_response($processor_response) {
+        $this->processor_response = $processor_response;
     }
 
     function setPayment_type($payment_type) {
@@ -221,6 +238,10 @@ class Order {
 
     function setPayment_status($payment_status) {
         $this->payment_status = $payment_status;
+    }
+
+    function setProcessor_balance($processor_balance) {
+        $this->processor_balance = $processor_balance;
     }
 
     function setCustomer_id($customer_id) {
@@ -235,12 +256,32 @@ class Order {
         $this->ip_address = $ip_address;
     }
 
+    function setTag_color($tag_color) {
+        $this->tag_color = $tag_color;
+    }
+
+    function setSource_name($source_name) {
+        $this->source_name = $source_name;
+    }
+
+    function setSource_id($source_id) {
+        $this->source_id = $source_id;
+    }
+
     function setFulfillment_name($fulfillment_name) {
         $this->fulfillment_name = $fulfillment_name;
     }
 
     function setFulfillment_id($fulfillment_id) {
         $this->fulfillment_id = $fulfillment_id;
+    }
+
+    function setTag_name($tag_name) {
+        $this->tag_name = $tag_name;
+    }
+
+    function setFolder_id($folder_id) {
+        $this->folder_id = $folder_id;
     }
 
     function setDate_added($date_added) {
@@ -251,14 +292,6 @@ class Order {
         $this->date_updated = $date_updated;
     }
 
-    function setShipping($shipping) {
-        $this->shipping = $shipping;
-    }
 
-        function getId() {
-        return $this->id;
-    }
-       
-    
     
 }

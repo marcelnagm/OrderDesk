@@ -11,30 +11,27 @@ class Shipments {
     private $id;
 
     /** @Column(type="string") * */
-    private $tracking_number; // The carrier’s assigned tracking number. Use n/a if no tracking number is applicable.
-    /** @Column(type="string") * */
-    private $carrier_code; //Code like USPS or FedEx if available.
-    /** @Column(type="string") * */
-    private $shipment_method; //Name of shipping service, example: First Class International
-    /** @Column(type="float") * */
-    private $weight; //Final weight of shipment
-    /** @Column(type="float") * */
-    private $cost; // Your cost to send shipment
-    /** @Column(type="string") * */
-    private $status; // The shipment’s current status - used by EasyPost webhook
-    /** @Column(type="string") * */
-    private $tracking_url; // If not entered, we will try to guess it based on tracking number format and carrier code
+    private $first_name;
+    private $last_name;
+    private $company;
+    private $address1;
+    private $address2;
+    private $address3;
+    private $address4;
+    private $city;
+    private $state;
+    private $postal_code;
+    private $country;
+    private $phone;
 
     public function __construct($array = null) {
-        if (is_array($array)) {    
-            $fields = get_class_vars(Shipments::class);
-            unset($fields['id']);          
+        if (is_array($array)) {         
+            $fields = get_class_vars(__CLASS__);
+            unset($fields['id']);
             foreach ($fields as $field => $value) {
-//                echo $field ;
-//                echo "<br>";
-                if(isset($array[$field])){
-                   
-                $this->{'set' . ucfirst($field)}($array[$field]);
+                if (isset($array[$field])) {
+
+                    $this->{'set' . ucfirst($field)}($array[$field]);
                 }
             }
         }
@@ -44,60 +41,102 @@ class Shipments {
         return $this->id;
     }
 
-    function getTracking_number() {
-        return $this->tracking_number;
+    function getFirst_name() {
+        return $this->first_name;
     }
 
-    function getCarrier_code() {
-        return $this->carrier_code;
+    function getLast_name() {
+        return $this->last_name;
     }
 
-    function getShipment_method() {
-        return $this->shipment_method;
+    function getCompany() {
+        return $this->company;
     }
 
-    function getWeight() {
-        return $this->weight;
+    function getAddress1() {
+        return $this->address1;
     }
 
-    function getCost() {
-        return $this->cost;
+    function getAddress2() {
+        return $this->address2;
     }
 
-    function getStatus() {
-        return $this->status;
+    function getAddress3() {
+        return $this->address3;
     }
 
-    function getTracking_url() {
-        return $this->tracking_url;
+    function getAddress4() {
+        return $this->address4;
     }
 
-    function setTracking_number(&$tracking_number) {
-        $this->tracking_number = $tracking_number;
+    function getCity() {
+        return $this->city;
     }
 
-    function setCarrier_code($carrier_code) {
-        $this->carrier_code = $carrier_code;
+    function getState() {
+        return $this->state;
     }
 
-    function setShipment_method($shipment_method) {
-        $this->shipment_method = $shipment_method;
+    function getPostal_code() {
+        return $this->postal_code;
     }
 
-    function setWeight($weight) {
-        $this->weight = $weight;
+    function getCountry() {
+        return $this->country;
     }
 
-    function setCost($cost) {
-        $this->cost = $cost;
+    function getPhone() {
+        return $this->phone;
     }
 
-    function setStatus($status) {
-        $this->status = $status;
+    function setFirst_name($first_name) {
+        $this->first_name = $first_name;
     }
 
-    function setTracking_url($tracking_url) {
-        $this->tracking_url = $tracking_url;
+    function setLast_name($last_name) {
+        $this->last_name = $last_name;
     }
 
+    function setCompany($company) {
+        $this->company = $company;
+    }
+
+    function setAddress1($address1) {
+        $this->address1 = $address1;
+    }
+
+    function setAddress2($address2) {
+        $this->address2 = $address2;
+    }
+
+    function setAddress3($address3) {
+        $this->address3 = $address3;
+    }
+
+    function setAddress4($address4) {
+        $this->address4 = $address4;
+    }
+
+    function setCity($city) {
+        $this->city = $city;
+    }
+
+    function setState($state) {
+        $this->state = $state;
+    }
+
+    function setPostal_code($postal_code) {
+        $this->postal_code = $postal_code;
+    }
+
+    function setCountry($country) {
+        $this->country = $country;
+    }
+
+    function setPhone($phone) {
+        $this->phone = $phone;
+    }
+
+
+    
 }
