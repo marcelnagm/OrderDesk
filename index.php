@@ -1,8 +1,8 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+//error_reporting(E_ALL);
+//ini_set('display_errors', 1);
 
 
 
@@ -12,7 +12,7 @@ use Doctrine\ORM\EntityManager;
 $paths = array("/model");
 $isDevMode = true;
 //
-require_once './src/Object.php';
+//require_once './src/Object.php';
 require_once './src/Order.php';
 require_once './src/Shipments.php';
 require './vendor/OrderDeskApiClient.php';
@@ -21,10 +21,10 @@ require './vendor/OrderDeskApiClient.php';
 //// the connection configuration
 $dbParams = array(
     'driver'   => 'pdo_sqlsrv',
-    'user'     => 'testando',
+    'user'     => 'sa',
     'password' => '#Alessandr4',
     'dbname'   => 'OrderDesk',
-    'host'     => '52.242.37.158',
+    'host'     => 'localhost',
     'port'     => '1433',
 );
 // 
@@ -34,10 +34,10 @@ $dbParams = array(
 $api = new vendor\OrderDeskApiClient('5012', 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU');
 
 $result = $api->get("test");
-////echo "<pre>" . print_r($result, 1) . "</pre>";
+echo "<pre>" . print_r($result, 1) . "</pre>";
 if ($result['status'] == 'success') {
     $conn = true;
-    echo 'Connected!';
+    echo 'Connected!<br>';
 }
 
 // in folder use which folder you want to sincronize.
@@ -56,7 +56,7 @@ if ($conn) {
 //get orders via api
     $result = $api->get("orders", $args);
     $records = $result['records_returned'];
-    echo 'Number of Orders' - $records;
+    echo 'Number of Orders -'.$records,'<br>';
     
 //start the connection with db.
     $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
@@ -64,9 +64,9 @@ if ($conn) {
     $entityManager->beginTransaction();
 
 //echo "<pre>" . print_r($result['orders']) . "</pre>";
-    for ($int = 0; $i < $records; $i++) {
+    for ($i = 0; $i < $records; $i++) {
         $ship = new src\Shipments($result['orders'][$i]['shipping']);
-        echo "<pre>" . print_r($ship) . "</pre>";
+//        echo "<pre>" . print_r($ship) . "</pre>";
         $data_order = $result['orders'][$i];
         unset($data_order['customer']);
         unset($data_order['return_address']);
@@ -78,18 +78,24 @@ if ($conn) {
         unset($data_order['order_items']);
         unset($data_order['order_shipments']);
         unset($data_order['shipping']);
+        $data_order['id_order'] = $data_order['id'];
         $order = new src\Order($data_order);
 
 //        echo "<pre>" . print_r($order) . "</pre>";
 //        echo "<pre>" . print_r($data_order) . "</pre>";
 
 //        persist the data on db
-        $entityManager->persist($ship);
+         $entityManager->persist($ship);
+       $entityManager->flush();
+       echo $ship->getId().' -';
+        $order->setShipping_id($ship->getId());
         $entityManager->persist($order);
+        $entityManager->flush();
+        echo $order->getId().' <br>';
     }
 
-    
+//    
 //    commit and flush all data to db.
-    $entityManager->commit();
-    $entityManager->flush();
+        $entityManager->commit();
+        $entityManager->flush();
 }

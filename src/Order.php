@@ -8,40 +8,101 @@ namespace src;
 class Order {
 
     /** @Id @Column(type="integer") @GeneratedValue * */
-    private $id;    
-                    protected $id_order; 
-                    private $email;
-                    private $shipping_method;
-                    private $quantity_total; 
-                    private $weight_total; 
-                    private $product_total;
-                    private $shipping_total;
-                    private $handling_total; 
-                    private $tax_total; 
-                    private $discount_total; 
-                    private $order_total; 
-                    private $cc_number_masked; 
-                    private $cc_exp; 
-                    private $processor_response; 
-                    private $payment_type; 
-                    private $payment_status; 
-                    private $processor_balance; 
-                    private $customer_id; 
-                    private $email_count;
-                    private $ip_address; 
-                    private $tag_color; 
-                    private $source_name; 
-                    private $source_id; 
-                    private $fulfillment_name; 
-                    private $fulfillment_id;  
-                    private $tag_name; 
-                    private $folder_id; 
-                    private $date_added; 
-                    private $date_updated; 
+    private $id;
+
+    /** @Column(type="string") * */
+    private $order_id;
+
+    /** @Column(type="string") * */
+    private $email;
+
+    /** @Column(type="string") * */
+    private $shipping_method;
+
+    /** @Column(type="string") * */
+    private $quantity_total;
+
+    /** @Column(type="string") * */
+    private $weight_total;
+
+    /** @Column(type="string") * */
+    private $product_total;
+
+    /** @Column(type="string") * */
+    private $shipping_total;
+
+    /** @Column(type="string") * */
+    private $handling_total;
+
+    /** @Column(type="string") * */
+    private $tax_total;
+
+    /** @Column(type="string") * */
+    private $discount_total;
+
+    /** @Column(type="string") * */
+    private $order_total;
+
+    /** @Column(type="string") * */
+    private $cc_number_masked;
+
+    /** @Column(type="string") * */
+    private $cc_exp;
+
+    /** @Column(type="string") * */
+    private $processor_response;
+
+    /** @Column(type="string") * */
+    private $payment_type;
+
+    /** @Column(type="string") * */
+    private $payment_status;
+
+    /** @Column(type="string") * */
+    private $processor_balance;
+
+    /** @Column(type="string") * */
+    private $customer_id;
+
+    /** @Column(type="string") * */
+    private $email_count;
+
+    /** @Column(type="string") * */
+    private $ip_address;
+
+    /** @Column(type="string") * */
+    private $tag_color;
+
+    /** @Column(type="string") * */
+    private $source_name;
+
+    /** @Column(type="string") * */
+    private $source_id;
+
+    /** @Column(type="string") * */
+    private $fulfillment_name;
+
+    /** @Column(type="string") * */
+    private $fulfillment_id;
+
+    /** @Column(type="string") * */
+    private $tag_name;
+
+    /** @Column(type="string") * */
+    private $folder_id;
+
+    /** @Column(type="string") * */
+    private $date_added;
+
+    /** @Column(type="string") * */
+    private $date_updated;
+
+    /** @Column(type="integer") * */
+    private $shipping_id;
 
     public function __construct($array = null) {
         if (is_array($array)) {
-         
+
             $fields = get_class_vars(__CLASS__);
             $this->setId_order($array['id']);
             unset($fields['id']);
@@ -49,19 +110,19 @@ class Order {
 //                echo $field ;
 //                echo "<br>";
                 if (isset($array[$field])) {
-                    
+
                     $this->{'set' . ucfirst($field)}($array[$field]);
                 }
             }
         }
     }
-    
-        function getId() {
+
+    function getId() {
         return $this->id;
     }
-           
+
     function getId_order() {
-        return $this->id_order;
+        return $this->order_id;
     }
 
     function getEmail() {
@@ -177,7 +238,7 @@ class Order {
     }
 
     function setId_order($id_order) {
-        $this->id_order = $id_order;
+        $this->order_id = $id_order;
     }
 
     function setEmail($email) {
@@ -292,6 +353,12 @@ class Order {
         $this->date_updated = $date_updated;
     }
 
+    function getShipping_id() {
+        return $this->shipping_id;
+    }
 
-    
+    function setShipping_id($shipping_id) {
+        $this->shipping_id = $shipping_id;
+    }
+
 }

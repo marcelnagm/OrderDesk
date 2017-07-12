@@ -3,7 +3,7 @@
 namespace src;
 
 /**
- * @Entity @Table(name="shippments") @Entity(repositoryClass="OrdersRepository")
+ * @Entity @Table(name="shipments") @Entity(repositoryClass="OrdersRepository")
  * */
 class Shipments {
 
@@ -12,16 +12,27 @@ class Shipments {
 
     /** @Column(type="string") * */
     private $first_name;
+        /** @Column(type="string") * */
     private $last_name;
+        /** @Column(type="string") * */
     private $company;
+        /** @Column(type="string") * */
     private $address1;
+        /** @Column(type="string") * */
     private $address2;
+        /** @Column(type="string") * */
     private $address3;
+        /** @Column(type="string") * */
     private $address4;
+        /** @Column(type="string") * */
     private $city;
-    private $state;
+        /** @Column(type="string") * */
+    private $sstate;
+        /** @Column(type="string") * */
     private $postal_code;
+        /** @Column(type="string") * */
     private $country;
+        /** @Column(type="string") * */
     private $phone;
 
     public function __construct($array = null) {
@@ -74,7 +85,7 @@ class Shipments {
     }
 
     function getState() {
-        return $this->state;
+        return $this->sstate;
     }
 
     function getPostal_code() {
@@ -122,7 +133,7 @@ class Shipments {
     }
 
     function setState($state) {
-        $this->state = $state;
+        $this->sstate = $state;
     }
 
     function setPostal_code($postal_code) {
