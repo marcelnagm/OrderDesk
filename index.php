@@ -81,6 +81,10 @@ if ($conn) {
         $data_order['id_order'] = $data_order['id'];
         $order = new src\Order($data_order);
 
+		
+		$query = $entityManager->createQuery('SELECT count(u.order_id) FROM src\Order u WHERE order_id = '.$data_order['id_order']);
+		$count = $query->getSingleScalarResult();
+		if($count ==0){
 //        echo "<pre>" . print_r($order) . "</pre>";
 //        echo "<pre>" . print_r($data_order) . "</pre>";
 
@@ -92,6 +96,7 @@ if ($conn) {
         $entityManager->persist($order);
         $entityManager->flush();
         echo $order->getId().' <br>';
+		}
     }
 
 //    
