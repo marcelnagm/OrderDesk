@@ -110,11 +110,18 @@ if ($conn) {
             $entityManager->persist($order);
             $entityManager->flush();
             echo $order->getId() . ' <br>';
-
+			}
             $result = $api->get("orders/" . $data_order['id_order'] . "/shipments");
             echo "orders/" . $data_order['id_order'] . "/shipments<br>";
             echo "<pre>" . print_r($result['shipments']) . "</pre>";
             $data_shipments = $result['shipments'];
+			
+			$num_records = $entityManager->getRepository('src\Shipment')->findBy(array('order_id' => $data_order['id_order']));
+
+
+
+			$count = count($num_records);
+			 if ($count == 0) {
             for ($j = 0; $j < count($data_shipments); $j++) {
 
                 unset($data_shipments[$j]['label_format']);
@@ -128,8 +135,9 @@ if ($conn) {
 //           echo "<pre>" . print_r($shipment) . "</pre>";  
                 $entityManager->persist($shipment);
             }
-            $entityManager->flush();
-        }
+			 }
+			$entityManager->flush();
+        
     }
 
 //    
