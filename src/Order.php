@@ -3,7 +3,7 @@
 namespace src;
 
 /**
- * @Entity @Table(name="orders") @Entity(repositoryClass="OrdersRepository")
+ * @Entity @Table(name="orders") @Entity(repositoryClass="OrderRepository")
  * */
 class Order {
 

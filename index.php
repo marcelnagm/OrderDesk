@@ -1,10 +1,8 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
-//error_reporting(E_ALL);
-//ini_set('display_errors', 1);
-
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
@@ -12,16 +10,17 @@ use Doctrine\ORM\EntityManager;
 $paths = array("/model");
 $isDevMode = true;
 //
-//require_once './src/Object.php';
-require_once './src/Order.php';
-require_once './src/Shipments.php';
-require './vendor/OrderDeskApiClient.php';
+//require_once __DIR__.'./src/Object.php';
+require_once __DIR__.'/src/Order.php';
+require_once __DIR__.'/src/OrderRepository.php';
+require_once __DIR__.'/src/Shipments.php';
+require __DIR__.'/vendor/OrderDeskApiClient.php';
 
 
 //// the connection configuration
 $dbParams = array(
     'driver'   => 'pdo_sqlsrv',
-    'user'     => 'sa',
+    'user'     => 'testando',
     'password' => '#Alessandr4',
     'dbname'   => 'OrderDesk',
     'host'     => 'localhost',
@@ -31,9 +30,16 @@ $dbParams = array(
 //
 //
 
-$api = new vendor\OrderDeskApiClient('5012', 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU');
+$od = new vendor\OrderDeskApiClient(5012, 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU');
+$result = $od->get("test");
+echo "<pre>" . print_r($result, 1) . "</pre>";
+
+
+$api = new vendor\OrderDeskApiClient('5012', 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU','application/json');
 
 $result = $api->get("test");
+var_dump($api);
+var_dump($result );
 echo "<pre>" . print_r($result, 1) . "</pre>";
 if ($result['status'] == 'success') {
     $conn = true;
@@ -65,7 +71,9 @@ if ($conn) {
 
 //echo "<pre>" . print_r($result['orders']) . "</pre>";
     for ($i = 0; $i < $records; $i++) {
-        $ship = new src\Shipments($result['orders'][$i]['shipping']);
+        $data_ship =$result['orders'][$i]['shipping'];
+        $data_ship['sstate'] =$data_ship['state'];
+        $ship = new src\Shipments();
 //        echo "<pre>" . print_r($ship) . "</pre>";
         $data_order = $result['orders'][$i];
         unset($data_order['customer']);
@@ -81,6 +89,15 @@ if ($conn) {
         $data_order['id_order'] = $data_order['id'];
         $order = new src\Order($data_order);
 
+		
+	
+$orders = $entityManager->getRepository('src\Order')->findBy(array('order_id' => $data_order['id_order'] ));
+
+
+
+$count = count($orders);
+
+		if($count ==0){
 //        echo "<pre>" . print_r($order) . "</pre>";
 //        echo "<pre>" . print_r($data_order) . "</pre>";
 
@@ -92,6 +109,7 @@ if ($conn) {
         $entityManager->persist($order);
         $entityManager->flush();
         echo $order->getId().' <br>';
+		}
     }
 
 //    
