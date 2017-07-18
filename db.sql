@@ -50,3 +50,19 @@ CREATE TABLE dbo.Shipments (
 	CONSTRAINT Pk_Shipments PRIMARY KEY ( id )
  );
 
+CREATE TABLE dbo.Shipment ( 
+	id                   int NOT NULL   IDENTITY,
+	order_id             int    ,
+	tracking_number      varchar(60)    ,
+	carrier_code         varchar(50)    ,
+	shipment_method      varchar(20)    ,
+	weight               varchar(30)    ,
+	cost                 varchar(30)    ,
+	sstatus              varchar(30)    ,
+	tracking_url         varchar(250)    ,
+	date_shipped         varchar(60)    ,
+	date_added           varchar(50)    ,
+	shipment_id          varchar(50)    ,
+	source               varchar(60)    ,
+	CONSTRAINT Pk_Shipment PRIMARY KEY ( id )
+ );

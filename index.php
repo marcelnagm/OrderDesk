@@ -6,25 +6,27 @@ ini_set('display_errors', 1);
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
+
 // 
 $paths = array("/model");
 $isDevMode = true;
 //
 //require_once __DIR__.'./src/Object.php';
-require_once __DIR__.'/src/Order.php';
-require_once __DIR__.'/src/OrderRepository.php';
-require_once __DIR__.'/src/Shipments.php';
-require __DIR__.'/vendor/OrderDeskApiClient.php';
+require_once __DIR__ . '/src/Order.php';
+require_once __DIR__ . '/src/OrderRepository.php';
+require_once __DIR__ . '/src/Shipping.php';
+require_once __DIR__ . '/src/Shipment.php';
+require __DIR__ . '/vendor/OrderDeskApiClient.php';
 
 
 //// the connection configuration
 $dbParams = array(
-    'driver'   => 'pdo_sqlsrv',
-    'user'     => 'testando',
+    'driver' => 'pdo_sqlsrv',
+    'user' => 'sa',
     'password' => '#Alessandr4',
-    'dbname'   => 'OrderDesk',
-    'host'     => 'localhost',
-    'port'     => '1433',
+    'dbname' => 'OrderDesk',
+    'host' => 'localhost',
+    'port' => '1433',
 );
 // 
 //
@@ -35,11 +37,11 @@ $result = $od->get("test");
 echo "<pre>" . print_r($result, 1) . "</pre>";
 
 
-$api = new vendor\OrderDeskApiClient('5012', 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU','application/json');
+$api = new vendor\OrderDeskApiClient('5012', 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU', 'application/json');
 
 $result = $api->get("test");
 var_dump($api);
-var_dump($result );
+var_dump($result);
 echo "<pre>" . print_r($result, 1) . "</pre>";
 if ($result['status'] == 'success') {
     $conn = true;
@@ -52,7 +54,6 @@ if ($result['status'] == 'success') {
 // [30146] => Prepared 
 // [30147] => Closed 
 // [30148] => Canceled 
-
 //if get connection estabilished retrive data
 if ($conn) {
     $args = array(
@@ -62,20 +63,20 @@ if ($conn) {
 //get orders via api
     $result = $api->get("orders", $args);
     $records = $result['records_returned'];
-    echo 'Number of Orders -'.$records,'<br>';
-    
+    echo 'Number of Orders -' . $records, '<br>';
+
 //start the connection with db.
     $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
     $entityManager = EntityManager::create($dbParams, $config);
     $entityManager->beginTransaction();
-
-//echo "<pre>" . print_r($result['orders']) . "</pre>";
+    $orders = $result['orders'];
+//echo "<pre>" . print_r($orders) . "</pre>";
     for ($i = 0; $i < $records; $i++) {
-        $data_ship =$result['orders'][$i]['shipping'];
-        $data_ship['sstate'] =$data_ship['state'];
-        $ship = new src\Shipments();
+        $data_ship = $orders[$i]['shipping'];
+        $data_ship['sstate'] = $data_ship['state'];
+        $ship = new src\Shipping();
 //        echo "<pre>" . print_r($ship) . "</pre>";
-        $data_order = $result['orders'][$i];
+        $data_order = $orders[$i];
         unset($data_order['customer']);
         unset($data_order['return_address']);
         unset($data_order['checkout_data']);
@@ -89,31 +90,50 @@ if ($conn) {
         $data_order['id_order'] = $data_order['id'];
         $order = new src\Order($data_order);
 
-		
-	
-$orders = $entityManager->getRepository('src\Order')->findBy(array('order_id' => $data_order['id_order'] ));
+
+
+        $num_records = $entityManager->getRepository('src\Order')->findBy(array('order_id' => $data_order['id_order']));
 
 
 
-$count = count($orders);
+        $count = count($num_records);
 
-		if($count ==0){
-//        echo "<pre>" . print_r($order) . "</pre>";
-//        echo "<pre>" . print_r($data_order) . "</pre>";
+        if ($count == 0) {
+            echo "<pre>" . print_r($order) . "</pre>";
+            echo "<pre>" . print_r($data_order) . "</pre>";
 
 //        persist the data on db
-         $entityManager->persist($ship);
-       $entityManager->flush();
-       echo $ship->getId().' -';
-        $order->setShipping_id($ship->getId());
-        $entityManager->persist($order);
-        $entityManager->flush();
-        echo $order->getId().' <br>';
-		}
+            $entityManager->persist($ship);
+            $entityManager->flush();
+            echo $ship->getId() . ' -';
+            $order->setShipping_id($ship->getId());
+            $entityManager->persist($order);
+            $entityManager->flush();
+            echo $order->getId() . ' <br>';
+
+            $result = $api->get("orders/" . $data_order['id_order'] . "/shipments");
+            echo "orders/" . $data_order['id_order'] . "/shipments<br>";
+            echo "<pre>" . print_r($result['shipments']) . "</pre>";
+            $data_shipments = $result['shipments'];
+            for ($j = 0; $j < count($data_shipments); $j++) {
+
+                unset($data_shipments[$j]['label_format']);
+                unset($data_shipments[$j]['label_image']);
+                unset($data_shipments[$j]['print_status']);
+                unset($data_shipments[$j]['order_items']);
+                unset($data_shipments[$j]['cart_shipment_id']);
+                unset($data_shipments[$j]['label_shipment_id']);
+//           echo "<pre>" . print_r($data_shipments[$j]) . "</pre>";  
+                $shipment = new src\Shipment($data_shipments[$j]);
+//           echo "<pre>" . print_r($shipment) . "</pre>";  
+                $entityManager->persist($shipment);
+            }
+            $entityManager->flush();
+        }
     }
 
 //    
 //    commit and flush all data to db.
-        $entityManager->commit();
-        $entityManager->flush();
+    $entityManager->commit();
+    $entityManager->flush();
 }

@@ -3,9 +3,9 @@
 namespace src;
 
 /**
- * @Entity @Table(name="shipments") @Entity(repositoryClass="OrdersRepository")
+ * @Entity @Table(name="shipping") @Entity(repositoryClass="OrdersRepository")
  * */
-class Shipments {
+class Shipping {
 
     /** @Id @Column(type="integer") @GeneratedValue * */
     private $id;
@@ -132,7 +132,7 @@ class Shipments {
         $this->city = $city;
     }
 
-    function setState($state) {
+    function setSstate($state) {
         $this->sstate = $state;
     }
 
