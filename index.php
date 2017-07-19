@@ -40,8 +40,7 @@ echo "<pre>" . print_r($result, 1) . "</pre>";
 $api = new vendor\OrderDeskApiClient('5012', 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU', 'application/json');
 
 $result = $api->get("test");
-var_dump($api);
-var_dump($result);
+
 echo "<pre>" . print_r($result, 1) . "</pre>";
 if ($result['status'] == 'success') {
     $conn = true;
@@ -110,19 +109,29 @@ if ($conn) {
             $entityManager->persist($order);
             $entityManager->flush();
             //             echo $order->getId() . ' <br>';
+			
+			$orderItems = $orders[$i]['order_items'];
+	for($j=0;$j<count($orderItems);$j++){
+		$data_orderItem = $orderItems[$j];
+		$data_orderItem['order_id'] = $data_order['id'];
+		unset($data_orderItem['id_order']);
+		$data_orderItem['item_id'] = $data_orderItem['id'];
+		$data_orderItem['metadata'] = serialize($data_orderItem['metadata'] );
+		$item = new \src\OrderItem($data_orderItem);
+		//echo "<pre>" . print_r($item) . "</pre>";	
+		$entityManager->persist($item);
+	
+		$entityManager->flush();
+	}
+			
+			
 			}
             $result = $api->get("orders/" . $data_order['id_order'] . "/shipments");
  //            echo "orders/" . $data_order['id_order'] . "/shipments<br>";
             echo "<pre>" . print_r($result['shipments']) . "</pre>";
             $data_shipments = $result['shipments'];
 			
-			$num_records = $entityManager->getRepository('src\Shipment')->findBy(array('order_id' => $data_order['id_order']));
-
-
-
-			$count = count($num_records);
-
-			 if ($count == 0) {
+			
             for ($j = 0; $j < count($data_shipments); $j++) {
 
                 unset($data_shipments[$j]['label_format']);
@@ -131,6 +140,13 @@ if ($conn) {
                 unset($data_shipments[$j]['order_items']);
                 unset($data_shipments[$j]['cart_shipment_id']);
                 unset($data_shipments[$j]['label_shipment_id']);
+				$num_records = $entityManager->getRepository('src\Shipment')->findBy(array('shipping_id' => $data_shipments['shipping_id']));
+
+
+
+			$count = count($num_records);
+
+			 if ($count == 0) {
            echo "<pre>" . print_r($data_shipments[$j]) . "</pre>";  
                 $shipment = new src\Shipment($data_shipments[$j]);
            echo "<pre>" . print_r($shipment) . "</pre>";  
