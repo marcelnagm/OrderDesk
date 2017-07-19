@@ -22,7 +22,7 @@ require __DIR__ . '/vendor/OrderDeskApiClient.php';
 //// the connection configuration
 $dbParams = array(
     'driver' => 'pdo_sqlsrv',
-    'user' => 'sa',
+    'user' => 'testando',
     'password' => '#Alessandr4',
     'dbname' => 'OrderDesk',
     'host' => 'localhost',
@@ -99,20 +99,20 @@ if ($conn) {
         $count = count($num_records);
 
         if ($count == 0) {
-            echo "<pre>" . print_r($order) . "</pre>";
-            echo "<pre>" . print_r($data_order) . "</pre>";
+ //            echo "<pre>" . print_r($order) . "</pre>";
+  //                       echo "<pre>" . print_r($data_order) . "</pre>";
 
 //        persist the data on db
             $entityManager->persist($ship);
             $entityManager->flush();
-            echo $ship->getId() . ' -';
+            //             echo $ship->getId() . ' -';
             $order->setShipping_id($ship->getId());
             $entityManager->persist($order);
             $entityManager->flush();
-            echo $order->getId() . ' <br>';
+            //             echo $order->getId() . ' <br>';
 			}
             $result = $api->get("orders/" . $data_order['id_order'] . "/shipments");
-            echo "orders/" . $data_order['id_order'] . "/shipments<br>";
+ //            echo "orders/" . $data_order['id_order'] . "/shipments<br>";
             echo "<pre>" . print_r($result['shipments']) . "</pre>";
             $data_shipments = $result['shipments'];
 			
@@ -121,6 +121,7 @@ if ($conn) {
 
 
 			$count = count($num_records);
+
 			 if ($count == 0) {
             for ($j = 0; $j < count($data_shipments); $j++) {
 
@@ -130,13 +131,14 @@ if ($conn) {
                 unset($data_shipments[$j]['order_items']);
                 unset($data_shipments[$j]['cart_shipment_id']);
                 unset($data_shipments[$j]['label_shipment_id']);
-//           echo "<pre>" . print_r($data_shipments[$j]) . "</pre>";  
+           echo "<pre>" . print_r($data_shipments[$j]) . "</pre>";  
                 $shipment = new src\Shipment($data_shipments[$j]);
-//           echo "<pre>" . print_r($shipment) . "</pre>";  
+           echo "<pre>" . print_r($shipment) . "</pre>";  
                 $entityManager->persist($shipment);
             }
+$entityManager->flush();
 			 }
-			$entityManager->flush();
+			
         
     }
 
