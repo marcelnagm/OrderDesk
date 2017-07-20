@@ -39,7 +39,6 @@ class Shipment {
 
     public function __construct($array = null) {
         if (is_array($array)) {
-            echo 'dada!!';
             $fields = get_class_vars(__CLASS__);
             $this->setShipment_id($array['id']);
             unset($fields['id']);

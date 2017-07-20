@@ -13,6 +13,7 @@ $isDevMode = true;
 //
 //require_once __DIR__.'./src/Object.php';
 require_once __DIR__ . '/src/Order.php';
+require_once __DIR__ . '/src/OrderItem.php';
 require_once __DIR__ . '/src/OrderRepository.php';
 require_once __DIR__ . '/src/Shipping.php';
 require_once __DIR__ . '/src/Shipment.php';
@@ -22,7 +23,7 @@ require __DIR__ . '/vendor/OrderDeskApiClient.php';
 //// the connection configuration
 $dbParams = array(
     'driver' => 'pdo_sqlsrv',
-    'user' => 'testando',
+    'user' => 'sa',
     'password' => '#Alessandr4',
     'dbname' => 'OrderDesk',
     'host' => 'localhost',
@@ -73,7 +74,7 @@ if ($conn) {
     for ($i = 0; $i < $records; $i++) {
         $data_ship = $orders[$i]['shipping'];
         $data_ship['sstate'] = $data_ship['state'];
-        $ship = new src\Shipping();
+        $ship = new src\Shipping($data_ship);
 //        echo "<pre>" . print_r($ship) . "</pre>";
         $data_order = $orders[$i];
         unset($data_order['customer']);
@@ -98,9 +99,8 @@ if ($conn) {
         $count = count($num_records);
 
         if ($count == 0) {
- //            echo "<pre>" . print_r($order) . "</pre>";
-  //                       echo "<pre>" . print_r($data_order) . "</pre>";
-
+            //            echo "<pre>" . print_r($order) . "</pre>";
+            //                       echo "<pre>" . print_r($data_order) . "</pre>";
 //        persist the data on db
             $entityManager->persist($ship);
             $entityManager->flush();
@@ -109,53 +109,47 @@ if ($conn) {
             $entityManager->persist($order);
             $entityManager->flush();
             //             echo $order->getId() . ' <br>';
-			
-			$orderItems = $orders[$i]['order_items'];
-	for($j=0;$j<count($orderItems);$j++){
-		$data_orderItem = $orderItems[$j];
-		$data_orderItem['order_id'] = $data_order['id'];
-		unset($data_orderItem['id_order']);
-		$data_orderItem['item_id'] = $data_orderItem['id'];
-		$data_orderItem['metadata'] = serialize($data_orderItem['metadata'] );
-		$item = new \src\OrderItem($data_orderItem);
-		//echo "<pre>" . print_r($item) . "</pre>";	
-		$entityManager->persist($item);
-	
-		$entityManager->flush();
-	}
-			
-			
-			}
-            $result = $api->get("orders/" . $data_order['id_order'] . "/shipments");
- //            echo "orders/" . $data_order['id_order'] . "/shipments<br>";
-            echo "<pre>" . print_r($result['shipments']) . "</pre>";
-            $data_shipments = $result['shipments'];
-			
-			
-            for ($j = 0; $j < count($data_shipments); $j++) {
 
-                unset($data_shipments[$j]['label_format']);
-                unset($data_shipments[$j]['label_image']);
-                unset($data_shipments[$j]['print_status']);
-                unset($data_shipments[$j]['order_items']);
-                unset($data_shipments[$j]['cart_shipment_id']);
-                unset($data_shipments[$j]['label_shipment_id']);
-				$num_records = $entityManager->getRepository('src\Shipment')->findBy(array('shipping_id' => $data_shipments['shipping_id']));
+            $orderItems = $orders[$i]['order_items'];
+            for ($j = 0; $j < count($orderItems); $j++) {
+                $data_orderItem = $orderItems[$j];
+                $data_orderItem['order_id'] = $data_order['id'];                
+                $data_orderItem['item_id'] = $data_orderItem['id'];;
+                $item = new src\OrderItem($data_orderItem);
+                echo "<pre>" . print_r($item) . "</pre>";	
+                $entityManager->persist($item);
+                $entityManager->flush();
+            }
+        }
+        $result = $api->get("orders/" . $data_order['id_order'] . "/shipments");
+        //            echo "orders/" . $data_order['id_order'] . "/shipments<br>";
+//        echo "<pre>" . print_r($result['shipments']) . "</pre>";
+        $data_shipments = $result['shipments'];
+
+
+        for ($j = 0; $j < count($data_shipments); $j++) {
+
+            unset($data_shipments[$j]['label_format']);
+            unset($data_shipments[$j]['label_image']);
+            unset($data_shipments[$j]['print_status']);
+            unset($data_shipments[$j]['order_items']);
+            unset($data_shipments[$j]['cart_shipment_id']);
+            unset($data_shipments[$j]['label_shipment_id']);
+
+            $num_records = $entityManager->getRepository('src\Shipment')->findBy(array('shipment_id' => $data_shipments[$j]['id']));
 
 
 
-			$count = count($num_records);
+            $count = count($num_records);
 
-			 if ($count == 0) {
-           echo "<pre>" . print_r($data_shipments[$j]) . "</pre>";  
+            if ($count == 0) {
+                echo "<pre>" . print_r($data_shipments[$j]) . "</pre>";
                 $shipment = new src\Shipment($data_shipments[$j]);
-           echo "<pre>" . print_r($shipment) . "</pre>";  
+                echo "<pre>" . print_r($shipment) . "</pre>";
                 $entityManager->persist($shipment);
             }
-$entityManager->flush();
-			 }
-			
-        
+            $entityManager->flush();
+        }
     }
 
 //    

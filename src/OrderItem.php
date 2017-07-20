@@ -3,7 +3,7 @@
 namespace src;
 
 /**
- * @Entity @Table(name="ordersitem") @Entity(repositoryClass="OrderRepository")
+ * @Entity @Table(name="orderitem") @Entity(repositoryClass="OrderRepository")
  * */
 class OrderItem {
 
@@ -106,7 +106,7 @@ class OrderItem {
 	}
 
 	public function setVariation_list($variation_list){
-		$this->variation_list = $variation_list;
+		$this->variation_list = json_encode($variation_list);
 	}
 
 	public function getMetadata(){
@@ -114,7 +114,7 @@ class OrderItem {
 	}
 
 	public function setMetadata($metadata){
-		$this->metadata = $metadata;
+		$this->metadata = json_encode($metadata);
 	}
 	
 
