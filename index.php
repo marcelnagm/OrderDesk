@@ -33,16 +33,10 @@ $dbParams = array(
 //
 //
 
-$od = new vendor\OrderDeskApiClient(5012, 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU');
-$result = $od->get("test");
-echo "<pre>" . print_r($result, 1) . "</pre>";
-
-
 $api = new vendor\OrderDeskApiClient('5012', 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU', 'application/json');
-
 $result = $api->get("test");
 
-echo "<pre>" . print_r($result, 1) . "</pre>";
+//echo "<pre>" . print_r($result, 1) . "</pre>";
 if ($result['status'] == 'success') {
     $conn = true;
     echo 'Connected!<br>';
