@@ -84,3 +84,175 @@ CREATE TABLE dbo.OrderItem (
  );
 
 
+
+CREATE TABLE `mybtcprices` (
+  `id` bigint(20) NOT NULL,
+  `high` varchar(60) NOT NULL,
+  `last` varchar(60) NOT NULL,
+  `timestamp` varchar(60) NOT NULL,
+  `volume` varchar(60) NOT NULL,
+  `vwap` varchar(60) NOT NULL,
+  `low` varchar(60) NOT NULL,
+  `ask` varchar(60) NOT NULL,
+  `bid` varchar(60) NOT NULL,
+  `myrate` varchar(60) NOT NULL,
+  `FiftyBlock` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `myethprices`
+--
+
+CREATE TABLE `myethprices` (
+  `id` bigint(20) NOT NULL,
+  `high` varchar(60) NOT NULL,
+  `last` varchar(60) NOT NULL,
+  `timestamp` varchar(60) NOT NULL,
+  `volume` varchar(60) NOT NULL,
+  `vwap` varchar(60) NOT NULL,
+  `low` varchar(60) NOT NULL,
+  `ask` double NOT NULL,
+  `bid` varchar(60) NOT NULL,
+  `myrate` double NOT NULL,
+  `FiftyBlock` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `skus`
+--
+
+CREATE TABLE `skus` (
+  `PRODUCT_ID` int(11) NOT NULL,
+  `TITLE` varchar(60) NOT NULL,
+  `CATEGORIES` varchar(50) NOT NULL,
+  `SKU` varchar(30) NOT NULL,
+  `PRICE` varchar(60) NOT NULL,
+  `PRODUCT_TYPE` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `skus`
+--
+
+INSERT INTO `skus` (`PRODUCT_ID`, `TITLE`, `CATEGORIES`, `SKU`, `PRICE`, `PRODUCT_TYPE`) VALUES
+(8, 'ESTABLISHED FUND - BITCOIN', 'Currency', 'EST001', '50', 'service'),
+(9, 'SEASONED FUND - BITCOIN & ETHEREUM', 'Currency', 'SEA001', '50', 'service'),
+(10, 'EXPANDED FUND - TOP 5', 'Currency', 'EXP001', '50', 'service'),
+(12, 'VISION FUND', 'Currency', 'VIS001', '50', 'service'),
+(13, 'PAPER WALLET DELIVERY', 'Services', 'PAP001', '20', 'physical'),
+(14, 'PRIVATE BITCOIN ADDRESS', 'Services', 'PRIV001', '10', 'service'),
+(15, 'SEND BITCOIN', 'Services', 'SND001', '20', 'service');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `topten`
+--
+
+CREATE TABLE `topten` (
+  `id` bigint(11) NOT NULL,
+  `id_cap` varchar(60) NOT NULL,
+  `name` varchar(60) NOT NULL,
+  `symbol` varchar(60) NOT NULL,
+  `rank` int(11) NOT NULL,
+  `price_usd` varchar(60) NOT NULL,
+  `price_btc` varchar(60) NOT NULL,
+  `h24_volume_usd` varchar(60) NOT NULL,
+  `market_cap_usd` varchar(60) NOT NULL,
+  `available_supply` varchar(60) NOT NULL,
+  `total_supply` varchar(60) NOT NULL,
+  `percent_change_1h` varchar(60) NOT NULL,
+  `percent_change_7d` varchar(60) NOT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `visionary`
+--
+
+CREATE TABLE `visionary` (
+  `id` bigint(11) NOT NULL,
+  `id_cap` varchar(60) NOT NULL,
+  `name` varchar(60) NOT NULL,
+  `symbol` varchar(60) NOT NULL,
+  `rank` int(11) NOT NULL,
+  `price_usd` varchar(60) NOT NULL,
+  `price_btc` varchar(60) NOT NULL,
+  `h24_volume_usd` varchar(60) NOT NULL,
+  `market_cap_usd` varchar(60) NOT NULL,
+  `available_supply` varchar(60) NOT NULL,
+  `total_supply` varchar(60) NOT NULL,
+  `percent_change_1h` varchar(60) NOT NULL,
+  `percent_change_7d` varchar(60) NOT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `mybtcprices`
+--
+ALTER TABLE `mybtcprices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `myethprices`
+--
+ALTER TABLE `myethprices`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `skus`
+--
+ALTER TABLE `skus`
+  ADD PRIMARY KEY (`PRODUCT_ID`);
+
+--
+-- Indexes for table `topten`
+--
+ALTER TABLE `topten`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `visionary`
+--
+ALTER TABLE `visionary`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `mybtcprices`
+--
+ALTER TABLE `mybtcprices`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `myethprices`
+--
+ALTER TABLE `myethprices`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `skus`
+--
+ALTER TABLE `skus`
+  MODIFY `PRODUCT_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+--
+-- AUTO_INCREMENT for table `topten`
+--
+ALTER TABLE `topten`
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `visionary`
+--
+ALTER TABLE `visionary`
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT;COMMIT;

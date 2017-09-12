@@ -3,7 +3,7 @@
 namespace src;
 
 /**
- * @Entity @Table(name="currency") @Entity(repositoryClass="OrderRepository")
+ * @Entity @Table(name="visionary") @Entity(repositoryClass="OrderRepository")
  * */
 class Currency{
 
@@ -48,7 +48,6 @@ class Currency{
         if (is_array($array)) {
 
             $fields = get_class_vars(__CLASS__);
-            $this->setId_order($array['id']);
             unset($fields['id']);
             foreach ($fields as $field => $value) {
 //                echo $field ;

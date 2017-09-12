@@ -32,6 +32,9 @@ class mybtcprices{
        private $ask;
        
     /** @Column(type="string") * */
+       private $bid;
+       
+    /** @Column(type="string") * */
        private $myrate;
        
     /** @Column(type="string") * */
@@ -42,8 +45,7 @@ class mybtcprices{
     public function __construct($array = null) {
         if (is_array($array)) {
 
-            $fields = get_class_vars(__CLASS__);
-            $this->setId_order($array['id']);
+            $fields = get_class_vars(__CLASS__);            
             unset($fields['id']);
             foreach ($fields as $field => $value) {
 //                echo $field ;
@@ -54,6 +56,8 @@ class mybtcprices{
                 }
             }
         }
+        $this->setMyrate();
+        $this->setFiftyBlock();
     }
 
     function getId() {
@@ -124,6 +128,15 @@ class mybtcprices{
         $this->ask = $ask;
     }
 
+    function getBid() {
+        return $this->bid;
+    }
+
+    function setBid($bid) {
+        $this->bid = $bid;
+    }
+
+        
     function setMyrate() {
         $this->myrate = $this->ask* 1.055;
     }

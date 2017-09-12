@@ -1,6 +1,7 @@
 <?php
 
 namespace src;
+require 'Currency.php';
 
 /**
  * @Entity @Table(name="topten") @Entity(repositoryClass="OrderRepository")
