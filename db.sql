@@ -256,3 +256,8 @@ ALTER TABLE `topten`
 --
 ALTER TABLE `visionary`
   MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT;COMMIT;
+
+ALTER TABLE `visionary` ADD `percent_change_24h` VARCHAR(60) NOT NULL AFTER `percent_change_1h`;
+ALTER TABLE `topten` ADD `percent_change_24h` VARCHAR(60) NOT NULL AFTER `percent_change_1h`;
+
+ALTER TABLE `myethprices` CHANGE `FiftyBlock` `FiftyBlock` VARCHAR(60) NOT NULL;

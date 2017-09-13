@@ -5,48 +5,50 @@ namespace src;
 /**
  * @Entity @Table(name="visionary") @Entity(repositoryClass="OrderRepository")
  * */
-class Currency{
+class Currency {
 
     /** @Id @Column(type="integer") @GeneratedValue * */
     private $id;
 
     /** @Column(type="string") * */
     private $id_cap;
-    
+
     /** @Column(type="string") * */
     private $name;
-    
+
     /** @Column(type="string") * */
     private $symbol;
-    
+
     /** @Column(type="integer") * */
     private $rank;
 
     /** @Column(type="string") * */
     private $price_usd;
-    
+
     /** @Column(type="string") * */
     private $price_btc;
-    
+
     /** @Column(type="string") * */
     private $h24_volume_usd;
-    
+
     /** @Column(type="string") * */
     private $market_cap_usd;
-    
+
     /** @Column(type="string") * */
     private $available_supply;
-    
+
     /** @Column(type="string") * */
     private $total_supply;
-    
+
     /** @Column(type="string") * */
     private $percent_change_1h;
-    
+
     /** @Column(type="string") * */
     private $percent_change_7d;
-    
-    
+
+    /** @Column(type="string") * */
+    private $percent_change_24h;
+
     public function __construct($array = null) {
         if (is_array($array)) {
 
@@ -153,9 +155,8 @@ class Currency{
 
     function setPercent_change_1h($percent_change_1h) {
         $this->percent_change_1h = $percent_change_1h;
-        $this->percent_change_1h = $this->percent_change_1h *100;
-        $this->percent_change_1h.='%';
-
+        $this->percent_change_1h = $this->percent_change_1h * 100;
+        $this->percent_change_1h .= '%';
     }
 
     function getPercent_change_7d() {
@@ -164,10 +165,18 @@ class Currency{
 
     function setPercent_change_7d($percent_change_7d) {
         $this->percent_change_7d = $percent_change_7d;
-        $this->percent_change_7d = $this->percent_change_7d *100;
-        $this->percent_change_7d.='%';
+        $this->percent_change_7d = $this->percent_change_7d * 100;
+        $this->percent_change_7d .= '%';
     }
 
+    function getPercent_change_24h() {
+        return $this->percent_change_24h;
+    }
 
+    function setPercent_change_24h($percent_change_24h) {
+        $this->percent_change_24h = $percent_change_24h;
+        $this->percent_change_24h= $this->percent_change_24h * 100;
+        $this->percent_change_24h .= '%';
+    }
 
 }
