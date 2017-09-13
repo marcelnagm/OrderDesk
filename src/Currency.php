@@ -43,6 +43,9 @@ class Currency{
     /** @Column(type="string") * */
     private $percent_change_1h;
     
+    /** @Column(type="string") * */
+    private $percent_change_7d;
+    
     
     public function __construct($array = null) {
         if (is_array($array)) {
@@ -150,6 +153,19 @@ class Currency{
 
     function setPercent_change_1h($percent_change_1h) {
         $this->percent_change_1h = $percent_change_1h;
+        $this->percent_change_1h = $this->percent_change_1h *100;
+        $this->percent_change_1h.='%';
+
+    }
+
+    function getPercent_change_7d() {
+        return $this->percent_change_7d;
+    }
+
+    function setPercent_change_7d($percent_change_7d) {
+        $this->percent_change_7d = $percent_change_7d;
+        $this->percent_change_7d = $this->percent_change_7d *100;
+        $this->percent_change_7d.='%';
     }
 
 
