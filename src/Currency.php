@@ -155,8 +155,6 @@ class Currency {
 
     function setPercent_change_1h($percent_change_1h) {
         $this->percent_change_1h = $percent_change_1h;
-        $this->percent_change_1h = $this->percent_change_1h * 100;
-        $this->percent_change_1h .= '%';
     }
 
     function getPercent_change_7d() {
@@ -164,9 +162,7 @@ class Currency {
     }
 
     function setPercent_change_7d($percent_change_7d) {
-        $this->percent_change_7d = $percent_change_7d;
-        $this->percent_change_7d = $this->percent_change_7d * 100;
-        $this->percent_change_7d .= '%';
+        $this->percent_change_7d = $percent_change_7d;        
     }
 
     function getPercent_change_24h() {
@@ -175,8 +171,6 @@ class Currency {
 
     function setPercent_change_24h($percent_change_24h) {
         $this->percent_change_24h = $percent_change_24h;
-        $this->percent_change_24h= $this->percent_change_24h * 100;
-        $this->percent_change_24h .= '%';
     }
 
 }
