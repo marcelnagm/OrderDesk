@@ -23,9 +23,9 @@ require_once __DIR__ . '/src/mybtcprices.php';
 $dbParams = array(
     'driver' => 'pdo_mysql',
     'user' => 'root',
-    'password' => '123',
+    'password' => 'ThisIsTheCodex123',
     'dbname' => 'orderdesk',
-    'host' => 'localhost',
+    'host' => '40.121.217.72',
 );
 // 
 //
