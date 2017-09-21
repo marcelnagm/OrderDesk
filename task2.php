@@ -56,7 +56,7 @@ foreach ($data_url_visionary as $url) {
     /**
      * Set the URL of the page or file to download.
      */
-    curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_URL, $url.'?convert=CAD');
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -66,16 +66,19 @@ foreach ($data_url_visionary as $url) {
     $data = $resp[0];
     $data['id_cap'] = $data['id'];
     $data['h24_volume_usd'] = $data['24h_volume_usd'];
+    $data['h24_volume_cad'] = $data['24h_volume_cad'];
     unset($data['id']);
     unset($data['24h_volume_usd']);
+    unset($data['24h_volume_cad']);
 
-    print_r($data);
+//    print_r($data);
     $curre = new src\Currency($data);
-    print_r($curre);
+    
+    
+    curl_close($ch);
     $entityManager->persist($curre);
     
         
-    curl_close($ch);
     unset($curre);
 }
 $entityManager->flush();
@@ -90,7 +93,7 @@ $entityManager->flush();
      * Set the URL of the page or file to download.
      */
 //     change the value limit to retrive more
-    curl_setopt($ch, CURLOPT_URL, 'https://api.coinmarketcap.com/v1/ticker/?limit=10');
+    curl_setopt($ch, CURLOPT_URL, 'https://api.coinmarketcap.com/v1/ticker/?limit=10&convert=CAD');
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -103,12 +106,14 @@ $entityManager->flush();
     $data = $data_raw;
     $data['id_cap'] = $data['id'];
     $data['h24_volume_usd'] = $data['24h_volume_usd'];
+    $data['h24_volume_cad'] = $data['24h_volume_cad'];
     unset($data['id']);
     unset($data['24h_volume_usd']);
+    unset($data['24h_volume_cad']);
 
 //    print_r($data);
     $curre = new src\TopTen($data);
-    print_r($curre);
+//    print_r($curre);
     $entityManager->persist($curre);
     }
     $entityManager->flush();            

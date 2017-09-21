@@ -36,6 +36,15 @@ class Currency {
 
     /** @Column(type="string") * */
     private $available_supply;
+    
+    /** @Column(type="string") * */
+    private $h24_volume_cad;
+
+    /** @Column(type="string") * */
+    private $market_cap_cad;
+
+    /** @Column(type="string") * */
+    private $price_cad;
 
     /** @Column(type="string") * */
     private $total_supply;
@@ -55,8 +64,20 @@ class Currency {
             $fields = get_class_vars(__CLASS__);
             unset($fields['id']);
             foreach ($fields as $field => $value) {
-//                echo $field ;
-//                echo "<br>";
+                if (isset($array[$field])) {
+
+                    $this->{'set' . ucfirst($field)}($array[$field]);
+                }
+            }
+        }
+    }
+    
+    public function setData($array = null) {
+        if (is_array($array)) {
+
+            $fields = get_class_vars(__CLASS__);
+            unset($fields['id']);
+            foreach ($fields as $field => $value) {
                 if (isset($array[$field])) {
 
                     $this->{'set' . ucfirst($field)}($array[$field]);
@@ -173,4 +194,30 @@ class Currency {
         $this->percent_change_24h = $percent_change_24h;
     }
 
+    function getH24_volume_cad() {
+        return $this->h24_volume_cad;
+    }
+
+    function getMarket_cap_cad() {
+        return $this->market_cap_cad;
+    }
+
+    function getPrice_cad() {
+        return $this->price_cad;
+    }
+
+    function setH24_volume_cad($h24_volume_cad) {
+        $this->h24_volume_cad = $h24_volume_cad;
+    }
+
+    function setMarket_cap_cad($market_cap_cad) {
+        $this->market_cap_cad = $market_cap_cad;
+    }
+
+    function setPrice_cad($price_cad) {
+        $this->price_cad = $price_cad;
+    }
+
+
+    
 }

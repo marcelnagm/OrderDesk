@@ -23,9 +23,9 @@ require_once __DIR__ . '/src/mybtcprices.php';
 $dbParams = array(
     'driver' => 'pdo_mysql',
     'user' => 'root',
-    'password' => 'ThisIsTheCodex123',
+    'password' => '123',
     'dbname' => 'orderdesk',
-    'host' => '40.121.217.72',
+    'host' => 'localhost',
 );
 // 
 //
@@ -51,7 +51,7 @@ $entityManager = EntityManager::create($dbParams, $config);
 
     $resp = curl_exec($ch);
     $resp = json_decode($resp, true);
-    print_r($resp);
+//    print_r($resp);
     
    $btc =  new src\mybtcprices($resp); 
     $entityManager->persist($btc);
@@ -75,7 +75,7 @@ $entityManager = EntityManager::create($dbParams, $config);
 
     $resp = curl_exec($ch);
     $resp = json_decode($resp, true);
-    print_r($resp);
+//    print_r($resp);
     
    $btc =  new src\myethprices($resp); 
 

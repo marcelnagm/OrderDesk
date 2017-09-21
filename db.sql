@@ -261,3 +261,11 @@ ALTER TABLE `visionary` ADD `percent_change_24h` VARCHAR(60) NOT NULL AFTER `per
 ALTER TABLE `topten` ADD `percent_change_24h` VARCHAR(60) NOT NULL AFTER `percent_change_1h`;
 
 ALTER TABLE `myethprices` CHANGE `FiftyBlock` `FiftyBlock` VARCHAR(60) NOT NULL;
+
+-- task 3
+
+ALTER TABLE `mybtcprices` ADD `utc` DATETIME NOT NULL AFTER `timestamp`;
+
+ALTER TABLE `myethprices` ADD `utc` DATETIME NOT NULL AFTER `timestamp`;
+
+

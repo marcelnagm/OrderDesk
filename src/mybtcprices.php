@@ -18,6 +18,9 @@ class mybtcprices{
     
      /** @Column(type="string") * */
     private $timestamp;
+     
+    /** @Column(type="string") * */
+    private $utc;
     
     /** @Column(type="string") * */
        private $volume;
@@ -58,6 +61,7 @@ class mybtcprices{
         }
         $this->setMyrate();
         $this->setFiftyBlock();
+        $this->setUtc();
     }
 
     function getId() {
@@ -146,7 +150,15 @@ class mybtcprices{
     }
 
 
-    
+    function getUtc() {
+        return $this->utc;
+    }
+
+    function setUtc() {
+        $this->utc = date('Y-m-d  g:i:s');
+    }
+
+
     
 }
 
