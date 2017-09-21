@@ -22,7 +22,7 @@ require __DIR__ . '/vendor/OrderDeskApiClient.php';
 
 //// the connection configuration
  
-require './config.inc.php';
+require 'config.inc';
 // 
 //
 //
