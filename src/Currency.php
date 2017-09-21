@@ -57,6 +57,9 @@ class Currency {
 
     /** @Column(type="string") * */
     private $percent_change_24h;
+    
+    /** @Column(type="string") * */
+    private $last_updated;
 
     public function __construct($array = null) {
         if (is_array($array)) {
@@ -219,5 +222,12 @@ class Currency {
     }
 
 
+    function getLast_updated() {
+        return $this->last_updated;
+    }
+
+    function setLast_updated($last_updated) {
+        $this->last_updated = $last_updated;
+    }
     
 }
