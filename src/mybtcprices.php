@@ -155,7 +155,7 @@ class mybtcprices{
     }
 
     function setUtc() {
-        $this->utc = date('Y-m-d  g:i:s');
+        $this->utc = date('Y-m-d  g:i:s', $this->getTimestamp());
     }
 
 
