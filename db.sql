@@ -269,3 +269,54 @@ ALTER TABLE `mybtcprices` ADD `utc` DATETIME NOT NULL AFTER `timestamp`;
 ALTER TABLE `myethprices` ADD `utc` DATETIME NOT NULL AFTER `timestamp`;
 
 
+CREATE TABLE `visionary` (
+  `id` bigint(11) NOT NULL,
+  `id_cap` varchar(60) NOT NULL,
+  `name` varchar(60) NOT NULL,
+  `symbol` varchar(60) NOT NULL,
+  `rank` int(11) NOT NULL,
+  `price_usd` varchar(60) NOT NULL,
+  `price_btc` varchar(60) NOT NULL,
+  `h24_volume_usd` varchar(60) NOT NULL,
+  `market_cap_usd` varchar(60) NOT NULL,
+  `price_cad` varchar(60) NOT NULL,
+  `h24_volume_cad` varchar(60) NOT NULL,
+  `market_cap_cad` varchar(60) NOT NULL,
+  `available_supply` varchar(60) NOT NULL,
+  `total_supply` varchar(60) NOT NULL,
+  `percent_change_1h` varchar(60) NOT NULL,
+  `percent_change_24h` varchar(60) NOT NULL,
+  `percent_change_7d` varchar(60) NOT NULL,
+  `last_updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `topten`
+--
+ALTER TABLE `topten`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `visionary`
+--
+ALTER TABLE `visionary`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `topten`
+--
+ALTER TABLE `topten`
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `visionary`
+--
+ALTER TABLE `visionary`
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT;COMMIT;
