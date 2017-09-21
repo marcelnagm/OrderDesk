@@ -227,7 +227,7 @@ class Currency {
     }
 
     function setLast_updated($last_updated) {
-        $this->last_updated = $last_updated;
+        $this->last_updated = gmdate('Y-m-d  G:i:s', $last_updated);
     }
     
 }
