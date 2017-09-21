@@ -21,19 +21,13 @@ require __DIR__ . '/vendor/OrderDeskApiClient.php';
 
 
 //// the connection configuration
-$dbParams = array(
-    'driver' => 'pdo_sqlsrv',
-    'user' => 'sa',
-    'password' => '#Alessandr4',
-    'dbname' => 'OrderDesk',
-    'host' => 'localhost',
-    'port' => '1433',
-);
+ 
+require './config.inc.php';
 // 
 //
 //
 
-$api = new vendor\OrderDeskApiClient('5012', 'IK7a17iQt9NpzzJ0bb7PNJaYZf2kL8J5LMo4ptrNFzuwRsH4pU', 'application/json');
+$api = new vendor\OrderDeskApiClient('5012', 'UHE52DCwbpRFhTQJSiVgrjo4yD3KcTGb0Dxja7NLYBJl5sf0Jo', 'application/json');
 $result = $api->get("test");
 
 //echo "<pre>" . print_r($result, 1) . "</pre>";
