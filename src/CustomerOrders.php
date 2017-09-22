@@ -18,6 +18,8 @@ class CustomerOrders{
     
     /** @Column(type="string") * */
     private $email;
+    /** @Column(type="string") * */
+    private $price_btc;
     
     /** @Column(type="string") * */
     private $date_added;
@@ -252,5 +254,14 @@ class CustomerOrders{
         $this->Vision6 = $Vision6;
     }
 
+    function getPrice_btc() {
+        return $this->price_btc;
+    }
 
+    function setPrice_btc($price_btc) {
+        $this->price_btc = $price_btc;
+    }
+
+
+    
 }

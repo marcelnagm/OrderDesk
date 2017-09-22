@@ -43,7 +43,7 @@ if (count($list) > 0) {
         if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
 //        echo $orderItem->getOrder_id();
 //        var_dump($order);
-            $timestamp = strtotime($order->getDate_updated());
+            $timestamp = strtotime($order->getDate_added());
 
             echo $order->getDate_updated() . '-' . $timestamp;
             $dql = $entityManager->createQueryBuilder();
@@ -62,6 +62,7 @@ if (count($list) > 0) {
             $customOrder->setSource_id($order->getSource_id());
             $customOrder->setOrder_id($order->getId_order());
             $customOrder->setEmail($order->getEmail());
+            
             $customOrder->setDate_added($order->getDate_added());
             $customOrder->setDate_updated($order->getDate_updated());
             $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
@@ -74,6 +75,7 @@ if (count($list) > 0) {
 
             $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() / 5;
             echo $price;
+            $customOrder->setPrice_btc($price);
             unset($dql);
 
             $utc = gmdate('Y-m-d  G:i:s', $timestamp);
