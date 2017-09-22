@@ -76,7 +76,7 @@ if (count($list) > 0) {
         unset($dql);
         
         $utc = gmdate('Y-m-d  G:i:s', $timestamp);
-        
+        echo '==== utc = '.$utc;
         $query = $entityManager->createQuery('SELECT u FROM src\TopTen u WHERE '
                 . 'u.last_updated<=\''.$utc.'\''
                 . 'order by u.last_updated DESC,u.rank asc'
@@ -87,7 +87,7 @@ if (count($list) > 0) {
 //                . ''.$utc.' ORDER by last_updated desc,rank asc limit 5')->execute();
 //        
 ////        $top5 = $query->getResult();
-//        var_dump($top5);
+        var_dump($top5);
     $customOrder->setTop1($price /$top5[0]->getPrice_btc());
     $customOrder->setTop2($price /$top5[1]->getPrice_btc());
     $customOrder->setTop3($price /$top5[2]->getPrice_btc());
