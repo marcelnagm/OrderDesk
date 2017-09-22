@@ -52,7 +52,8 @@ if (count($list) > 0) {
                 ->orderBy('btc.timestamp',' desc')
                 ->setMaxResults(1)->getQuery();
         $result = $query->getResult();       
-        echo count($result);
+        echo 'count--'.count($result);
+        var_dump($result);
         $mybtcprice= $result[0];        
         
         
