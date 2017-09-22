@@ -50,7 +50,7 @@ if (count($list) > 0) {
             $query = $dql->select('btc')
                             ->from('\src\mybtcprices', 'btc')->
                             where('btc.timestamp >= ' . $timestamp)
-                            ->orderBy('btc.timestamp', ' desc')
+                            ->orderBy('btc.timestamp', ' asc')
                             ->setMaxResults(1)->getQuery();
             $result = $query->getResult();
             echo 'count--' . count($result).'==== ';
