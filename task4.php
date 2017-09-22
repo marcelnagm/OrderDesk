@@ -49,8 +49,8 @@ if (count($list) > 0) {
             $dql = $entityManager->createQueryBuilder();
             $query = $dql->select('btc')
                             ->from('\src\mybtcprices', 'btc')->
-                            where('btc.timestamp >= ' . $timestamp)
-                            ->orderBy('btc.timestamp', ' asc')
+                            where('btc.timestamp <= ' . $timestamp)
+                            ->orderBy('btc.timestamp', ' desc')
                             ->setMaxResults(1)->getQuery();
             $result = $query->getResult();
             echo 'count--' . count($result).'==== ';
