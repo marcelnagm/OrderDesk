@@ -75,13 +75,13 @@ if (count($list) > 0) {
 
             $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() / 5;
             echo $price;
-            $customOrder->setPrice_btc($price);
+            $customOrder->setPrice_btc($mybtcprice->getFiftyBlock());
             unset($dql);
 
-            $utc = gmdate('Y-m-d  G:i:s', $timestamp);
-            echo '==== utc = ' . $utc;
+            
+            echo '==== utc = ' . $order->getDate_added();
             $query = $entityManager->createQuery('SELECT u FROM src\TopTen u WHERE '
-                            . 'u.last_updated<=\'' . $utc . '\''
+                            . 'u.last_updated<=\'' . $order->getDate_added(). '\''
                             . 'order by u.last_updated DESC,u.rank asc'
                             . ' ')->setMaxResults(5);
             $top5 = $query->execute();
