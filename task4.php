@@ -51,8 +51,9 @@ if (count($list) > 0) {
                 where('btc.timestamp <= '.$timestamp)
                 ->orderBy('btc.timestamp',' desc')
                 ->setMaxResults(1)->getQuery();
-        
-        $mybtcprice= $query->getResult()[0];        
+        $result = $query->getResult();       
+        echo count($result);
+        $mybtcprice= $result[0];        
         
         
         $customOrder= new src\CustomerOrders();
@@ -65,9 +66,9 @@ if (count($list) > 0) {
         $customOrder->setCode($orderItem->getCode());
         
         
-//        echo '$orderItem->getQuantity()  - '.$orderItem->getQuantity() ;
-//        echo '  / $mybtcprice->getFiftyBlock()  - '.$mybtcprice->getFiftyBlock() ;
-//        echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = '.$orderItem->getQuantity() * $mybtcprice->getFiftyBlock().' /';
+        echo '$orderItem->getQuantity()  - '.$orderItem->getQuantity() ;
+        echo '  / $mybtcprice->getFiftyBlock()  - '.$mybtcprice->getFiftyBlock() ;
+        echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = '.$orderItem->getQuantity() * $mybtcprice->getFiftyBlock().' /';
         
         $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock()/5;
         echo $price;
