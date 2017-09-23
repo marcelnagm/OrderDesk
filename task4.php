@@ -43,14 +43,13 @@ if (count($list) > 0) {
         if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
 //        echo $orderItem->getOrder_id();
 //        var_dump($order);
-            $timestamp = strtotime($order->getDate_added());
+            $timestamp = $order->getDate_added();
 
-            echo $order->getDate_updated() . '-' . $timestamp;
             $dql = $entityManager->createQueryBuilder();
             $query = $dql->select('btc')
                             ->from('\src\mybtcprices', 'btc')->
-                            where('btc.timestamp <= ' . $timestamp)
-                            ->orderBy('btc.timestamp', ' desc')
+                            where('btc.utc<= ' . $timestamp)
+                            ->orderBy('btc.utc', ' desc')
                             ->setMaxResults(1)->getQuery();
             $result = $query->getResult();
             echo 'count--' . count($result).'==== ';
