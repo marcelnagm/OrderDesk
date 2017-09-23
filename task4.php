@@ -84,7 +84,7 @@ if (count($list) > 0) {
             for($i=1;$i<6;$i++){
             $query = $entityManager->createQuery('SELECT u FROM src\TopTen u WHERE '
                             . 'u.last_updated<=\'' . $order->getDate_added(). '\''
-                            .' and rank ='.$i
+                            .' and u.rank ='.$i
                             . ' order by u.last_updated DESC,u.rank asc'
                             . ' ')->setMaxResults(1);
             $top = $query->execute();
