@@ -80,22 +80,23 @@ if (count($list) > 0) {
 
             
             echo '==== utc = ' . $order->getDate_added();
+            $data =  array();
+            for($i=1;$i<6;$i++){
             $query = $entityManager->createQuery('SELECT u FROM src\TopTen u WHERE '
                             . 'u.last_updated<=\'' . $order->getDate_added(). '\''
+                            .'and rank ='.$i
                             . 'order by u.last_updated DESC,u.rank asc'
-                            . ' ')->setMaxResults(5);
-            $top5 = $query->execute();
-
+                            . ' ')->setMaxResults(1);
+            $top = $query->execute();
+            $data['top'.$i] = $top[0]->getPrice_btc();
+            
+            
+            }
 //        $top5 = $entityManager->createQuery('SELECT * FROM src\TopTen WHERE `last_updated` <= '
 //                . ''.$utc.' ORDER by last_updated desc,rank asc limit 5')->execute();
 //        
 ////        $top5 = $query->getResult();
-            var_dump($top5);
-            $customOrder->setTop1($price / $top5[0]->getPrice_btc());
-            $customOrder->setTop2($price / $top5[1]->getPrice_btc());
-            $customOrder->setTop3($price / $top5[2]->getPrice_btc());
-            $customOrder->setTop4($price / $top5[3]->getPrice_btc());
-            $customOrder->setTop5($price / $top5[4]->getPrice_btc());
+            $customOrder->setData($data);
             $entityManager->persist($customOrder);
             $entityManager->flush();
         }
