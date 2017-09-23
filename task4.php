@@ -93,12 +93,12 @@ if (count($list) > 0) {
             
             
             }
-//        $top5 = $entityManager->createQuery('SELECT * FROM src\TopTen WHERE `last_updated` <= '
-//                . ''.$utc.' ORDER by last_updated desc,rank asc limit 5')->execute();
-//        
-////        $top5 = $query->getResult();
-            var_dump($data);
-            $customOrder->setData($data);
+            
+            $customOrder->setTop1($data['top1']);
+            $customOrder->setTop2($data['top2']);
+            $customOrder->setTop3($data['top3']);
+            $customOrder->setTop4($data['top4']);
+            $customOrder->setTop5($data['top5']);
             $entityManager->persist($customOrder);
             $entityManager->flush();
         }
