@@ -97,6 +97,7 @@ if (count($list) > 0) {
 //                . ''.$utc.' ORDER by last_updated desc,rank asc limit 5')->execute();
 //        
 ////        $top5 = $query->getResult();
+            var_dump($data);
             $customOrder->setData($data);
             $entityManager->persist($customOrder);
             $entityManager->flush();
