@@ -88,6 +88,7 @@ if (count($list) > 0) {
                             . 'order by u.last_updated DESC,u.rank asc'
                             . ' ')->setMaxResults(1);
             $top = $query->execute();
+            var_dump($top);
             $data['top'.$i] = $top[0]->getPrice_btc();
             
             
