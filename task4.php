@@ -89,7 +89,7 @@ if (count($list) > 0) {
                             . ' ')->setMaxResults(1);
             $top = $query->execute();
             var_dump($top);
-            $data['top'.$i] = $top[0]->getPrice_btc();
+            $data['top'.$i] = $price / $top[0]->getPrice_btc();
             
             
             }
