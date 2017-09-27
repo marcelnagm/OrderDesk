@@ -31,87 +31,91 @@ require './config.inc';
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
 $entityManager = EntityManager::create($dbParams, $config);
 
-//$list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'EXP001'));
-////var_dump($list);
-//echo 'NUmber ocourrences - ' . count($list);
-//if (count($list) > 0) {
-//
-//    $orderItem = new src\OrderItem;
-//    $order = new src\Order;
-//    foreach ($list as $orderItem) {
-//        $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
-//        if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
-////        echo $orderItem->getOrder_id();
-////        var_dump($order);
-//            $timestamp = $order->getDate_added();
-//
-//            $dql = $entityManager->createQueryBuilder();
-//            $query = $dql->select('btc')
-//                            ->from('\src\mybtcprices', 'btc')->
-//                            where('btc.utc<= \'' . $timestamp.'\'')
-//                            ->orderBy('btc.utc', ' desc')
-//                            ->setMaxResults(1)->getQuery();
-//            $result = $query->getResult();
-//            echo 'count--' . count($result).'==== ';
-//            var_dump($result);
-//            $mybtcprice = $result[0];
-//
-//
-//            $customOrder = new src\CustomerOrders();
-//            $customOrder->setSource_id($order->getSource_id());
-//            $customOrder->setOrder_id($order->getId_order());
-//            $customOrder->setEmail($order->getEmail());
-//            
-//            $customOrder->setDate_added($order->getDate_added());
-//            $customOrder->setDatePurchased($order->getDate_added());
-//            $customOrder->setDate_updated($order->getDate_updated());
-//            
-//            $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
-//            $customOrder->setCode($orderItem->getCode());
-//
-//
-//            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
-//            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
-//            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
-//
-//            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() / 5;
-//            echo $price;
-//            $customOrder->setPrice_btc($mybtcprice->getFiftyBlock());
-//            unset($dql);
-//
-//            
-//            echo '==== utc = ' . $order->getDate_added();
-//            $data =  array();
-//            for($i=1;$i<6;$i++){
-//            $query = $entityManager->createQuery('SELECT u FROM src\TopTen u WHERE '
-//                            . 'u.last_updated<=\'' . $order->getDate_added(). '\''
-//                            .' and u.rank ='.$i
-//                            . ' order by u.last_updated DESC,u.rank asc'
-//                            . ' ')->setMaxResults(1);
-//            $top = $query->execute();
-//            var_dump($top);
-//            $data['top'.$i] = $price / $top[0]->getPrice_btc();
-//            $data['top'.$i.'_name'] = $top[0]->getName();
-//            
-//            }
-//            
-//            $customOrder->setTop1($data['top1']);
-//            $customOrder->setTop1Description($data['top1_name']);
-//            $customOrder->setTop2($data['top2']);
-//            $customOrder->setTop2Description($data['top2_name']);
-//            $customOrder->setTop3($data['top3']);
-//            $customOrder->setTop3Description($data['top3_name']);
-//            $customOrder->setTop4($data['top4']);
-//            $customOrder->setTop4Description($data['top4_name']);
-//            $customOrder->setTop5($data['top5']);
-//            $customOrder->setTop5Description5($data['top5_name']);
-//            $entityManager->persist($customOrder);
-//            $entityManager->flush();
-//        }
-//    }
-//    
-//    
-//}
+// ------------------------EXP001------------------
+
+$list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'EXP001'));
+//var_dump($list);
+echo 'NUmber ocourrences - ' . count($list);
+if (count($list) > 0) {
+
+    $orderItem = new src\OrderItem;
+    $order = new src\Order;
+    foreach ($list as $orderItem) {
+        $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+        if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
+//        echo $orderItem->getOrder_id();
+//        var_dump($order);
+            $timestamp = $order->getDate_added();
+
+            $dql = $entityManager->createQueryBuilder();
+            $query = $dql->select('btc')
+                            ->from('\src\mybtcprices', 'btc')->
+                            where('btc.utc<= \'' . $timestamp.'\'')
+                            ->orderBy('btc.utc', ' desc')
+                            ->setMaxResults(1)->getQuery();
+            $result = $query->getResult();
+            echo 'count--' . count($result).'==== ';
+            var_dump($result);
+            $mybtcprice = $result[0];
+
+
+            $customOrder = new src\CustomerOrders();
+            $customOrder->setSource_id($order->getSource_id());
+            $customOrder->setOrder_id($order->getId_order());
+            $customOrder->setEmail($order->getEmail());
+            
+            $customOrder->setDate_added($order->getDate_added());
+            $customOrder->setDatePurchased($order->getDate_added());
+            $customOrder->setDate_updated($order->getDate_updated());
+            
+            $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
+            $customOrder->setCode($orderItem->getCode());
+
+
+            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
+            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
+            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
+
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() / 5;
+            echo $price;
+            $customOrder->setPrice_btc($mybtcprice->getFiftyBlock());
+            unset($dql);
+
+            
+            echo '==== utc = ' . $order->getDate_added();
+            $data =  array();
+            for($i=1;$i<6;$i++){
+            $query = $entityManager->createQuery('SELECT u FROM src\TopTen u WHERE '
+                            . 'u.last_updated<=\'' . $order->getDate_added(). '\''
+                            .' and u.rank ='.$i
+                            . ' order by u.last_updated DESC,u.rank asc'
+                            . ' ')->setMaxResults(1);
+            $top = $query->execute();
+            var_dump($top);
+            $data['top'.$i] = $price / $top[0]->getPrice_btc();
+            $data['top'.$i.'_name'] = $top[0]->getName();
+            
+            }
+            
+            $customOrder->setTop1($data['top1']);
+            $customOrder->setTop1Description($data['top1_name']);
+            $customOrder->setTop2($data['top2']);
+            $customOrder->setTop2Description($data['top2_name']);
+            $customOrder->setTop3($data['top3']);
+            $customOrder->setTop3Description($data['top3_name']);
+            $customOrder->setTop4($data['top4']);
+            $customOrder->setTop4Description($data['top4_name']);
+            $customOrder->setTop5($data['top5']);
+            $customOrder->setTop5Description5($data['top5_name']);
+            $entityManager->persist($customOrder);
+            $entityManager->flush();
+        }
+    }
+    
+    
+}
+
+// ------------------------VIS001------------------
 
 $list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'VIS001'));
 //var_dump($list);
@@ -184,7 +188,7 @@ if (count($list) > 0) {
             }
             
             
-            var_dump($data);
+//            var_dump($data);
             $customOrder->setVision1($data['vision1']);
             $customOrder->setVision1Description($data['vision1_name']);
             $customOrder->setVision2($data['vision2']);
@@ -202,6 +206,134 @@ if (count($list) > 0) {
             $entityManager->flush();
         }
     }
-    
-    
 }
+
+//---------------------EST001-------------------
+
+$list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'EST001'));
+//var_dump($list);
+echo 'NUmber ocourrences - ' . count($list);
+if (count($list) > 0) {
+
+    $orderItem = new src\OrderItem;
+    $order = new src\Order;
+    foreach ($list as $orderItem) {
+        $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+        if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
+//        echo $orderItem->getOrder_id();
+//        var_dump($order);
+            $timestamp = $order->getDate_added();
+
+            $dql = $entityManager->createQueryBuilder();
+            $query = $dql->select('btc')
+                            ->from('\src\mybtcprices', 'btc')->
+                            where('btc.utc<= \'' . $timestamp . '\'')
+                            ->orderBy('btc.utc', ' desc')
+                            ->setMaxResults(1)->getQuery();
+            $result = $query->getResult();
+//            echo 'count--' . count($result).'==== ';
+//            var_dump($result);
+            $mybtcprice = $result[0];
+
+
+            $customOrder = new src\CustomerOrders();
+            $customOrder->setSource_id($order->getSource_id());
+            $customOrder->setOrder_id($order->getId_order());
+            $customOrder->setEmail($order->getEmail());
+
+            $customOrder->setDate_added($order->getDate_added());
+            $customOrder->setDatePurchased($order->getDate_added());
+            $customOrder->setDate_updated($order->getDate_updated());
+
+            $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
+            $customOrder->setCode($orderItem->getCode());
+
+
+//            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
+//            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
+//            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
+
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
+//            echo $price;
+            $customOrder->setBTCValue($price);
+            unset($dql);
+
+
+            $entityManager->persist($customOrder);
+            $entityManager->flush();
+        }
+    }
+}
+
+//---------------------SEA001-------------------
+
+$list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'SEA001'));
+//var_dump($list);
+echo 'NUmber ocourrences - ' . count($list);
+if (count($list) > 0) {
+
+    $orderItem = new src\OrderItem;
+    $order = new src\Order;
+    foreach ($list as $orderItem) {
+        $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+        if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
+//        echo $orderItem->getOrder_id();
+//        var_dump($order);
+            $timestamp = $order->getDate_added();
+
+            $dql = $entityManager->createQueryBuilder();
+            $query = $dql->select('btc')
+                            ->from('\src\mybtcprices', 'btc')->
+                            where('btc.utc<= \'' . $timestamp . '\'')
+                            ->orderBy('btc.utc', ' desc')
+                            ->setMaxResults(1)->getQuery();
+            $result = $query->getResult();
+//            echo 'count--' . count($result).'==== ';
+//            var_dump($result);
+            $mybtcprice = $result[0];
+
+
+            $customOrder = new src\CustomerOrders();
+            $customOrder->setSource_id($order->getSource_id());
+            $customOrder->setOrder_id($order->getId_order());
+            $customOrder->setEmail($order->getEmail());
+
+            $customOrder->setDate_added($order->getDate_added());
+            $customOrder->setDatePurchased($order->getDate_added());
+            $customOrder->setDate_updated($order->getDate_updated());
+
+            $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
+            $customOrder->setCode($orderItem->getCode());
+
+
+//            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
+//            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
+//            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
+
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
+//            echo $price;
+            $customOrder->setBTCValue($price);
+            unset($dql);
+            unset($query);
+            unset($result);
+            
+            $dql = $entityManager->createQueryBuilder();
+            $query = $dql->select('btc')
+                            ->from('\src\myethprices', 'btc')->
+                            where('btc.utc<= \'' . $timestamp . '\'')
+                            ->orderBy('btc.utc', ' desc')
+                            ->setMaxResults(1)->getQuery();
+            $result = $query->getResult();
+//            echo 'count--' . count($result).'==== ';
+//            var_dump($result);
+            $mybtcprice = $result[0];
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
+//            echo $price;
+            $customOrder->setETHValue($price);
+
+            $entityManager->persist($customOrder);
+            $entityManager->flush();
+        }
+    }
+}
+

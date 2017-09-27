@@ -82,6 +82,8 @@ class CustomerOrders{
     /** @Column(type="string") * */
     private $Vision5Description;
     /** @Column(type="string") * */
+    private $Vision6Description;
+    /** @Column(type="string") * */
     private $DatePurchased;
     
     
@@ -366,6 +368,16 @@ class CustomerOrders{
         $this->Vision5Description = $Vision5Description;
     }
 
+    
+    function getVision6Description() {
+        return $this->Vision6Description;
+    }
+
+    function setVision6Description($Vision6Description) {
+        $this->Vision6Description = $Vision6Description;
+    }
+
+        
     function getDatePurchased() {
         return $this->DatePurchased;
     }
@@ -374,6 +386,7 @@ class CustomerOrders{
         $this->DatePurchased = $DatePurchased;
 //        $this->DatePurchased = date_format($DatePurchased, 'Y-m-d');
     }
+
 
 
     
