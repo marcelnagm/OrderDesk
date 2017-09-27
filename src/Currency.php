@@ -60,6 +60,9 @@ class Currency {
     
     /** @Column(type="string") * */
     private $last_updated;
+    
+    /** @Column(type="string") * */
+    private $date_added;
 
     public function __construct($array = null) {
         if (is_array($array)) {
@@ -228,6 +231,17 @@ class Currency {
 
     function setLast_updated($last_updated) {
         $this->last_updated = gmdate('Y-m-d  G:i:s', $last_updated);
+        $this->setDate_added($last_updated);
     }
+
+    function getDate_added() {
+        return $this->date_added;
+    }
+
+    function setDate_added($date_added) {
+        $this->date_added = gmdate('Y-m-d', $date_added);
+    }
+
+
     
 }

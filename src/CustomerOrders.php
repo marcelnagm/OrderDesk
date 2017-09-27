@@ -58,10 +58,34 @@ class CustomerOrders{
     /** @Column(type="string") * */
     private $Vision4;
     /** @Column(type="string") * */
-    private $Vision5;
+    private $Vision5;    
     /** @Column(type="string") * */
     private $Vision6;
 
+    private $Top1Description;
+    /** @Column(type="string") * */
+    private $Top2Description;
+    /** @Column(type="string") * */
+    private $Top3Description;
+    /** @Column(type="string") * */
+    private $Top4Description;
+    /** @Column(type="string") * */
+    private $Top5Description;
+    /** @Column(type="string") * */
+    private $Vision1Description;
+    /** @Column(type="string") * */
+    private $Vision2Description;
+    /** @Column(type="string") * */
+    private $Vision3Description;
+    /** @Column(type="string") * */
+    private $Vision4Description;
+    /** @Column(type="string") * */
+    private $Vision5Description;
+    /** @Column(type="string") * */
+    private $DatePurchased;
+    
+    
+    
     public function __construct($array = null) {
         if (is_array($array)) {
 
@@ -260,6 +284,95 @@ class CustomerOrders{
 
     function setPrice_btc($price_btc) {
         $this->price_btc = $price_btc;
+    }
+
+    function getTop1Description() {
+        return $this->Top1Description;
+    }
+
+    function getTop2Description() {
+        return $this->Top2Description;
+    }
+
+    function getTop3Description() {
+        return $this->Top3Description;
+    }
+
+    function getTop4Description() {
+        return $this->Top4Description;
+    }
+
+    function getTop5Description5() {
+        return $this->Top5Description;
+    }
+
+    function getVision1Description() {
+        return $this->Vision1Description;
+    }
+
+    function getVision2Description() {
+        return $this->Vision2Description;
+    }
+
+    function getVision3Description() {
+        return $this->Vision3Description;
+    }
+
+    function getVision4Description() {
+        return $this->Vision4Description;
+    }
+
+    function getVision5Description() {
+        return $this->Vision5Description;
+    }
+
+    function setTop1Description($Top1Description) {
+        $this->Top1Description = $Top1Description;
+    }
+
+    function setTop2Description($Top2Description) {
+        $this->Top2Description = $Top2Description;
+    }
+
+    function setTop3Description($Top3Description) {
+        $this->Top3Description = $Top3Description;
+    }
+
+    function setTop4Description($Top4Description) {
+        $this->Top4Description = $Top4Description;
+    }
+
+    function setTop5Description5($Top5Description5) {
+        $this->Top5Description = $Top5Description5;
+    }
+
+    function setVision1Description($Vision1Description) {
+        $this->Vision1Description = $Vision1Description;
+    }
+
+    function setVision2Description($Vision2Description) {
+        $this->Vision2Description = $Vision2Description;
+    }
+
+    function setVision3Description($Vision3Description) {
+        $this->Vision3Description = $Vision3Description;
+    }
+
+    function setVision4Description($Vision4Description) {
+        $this->Vision4Description = $Vision4Description;
+    }
+
+    function setVision5Description($Vision5Description) {
+        $this->Vision5Description = $Vision5Description;
+    }
+
+    function getDatePurchased() {
+        return $this->DatePurchased;
+    }
+
+    function setDatePurchased($DatePurchased) {
+        $this->DatePurchased = $DatePurchased;
+//        $this->DatePurchased = date_format($DatePurchased, 'Y-m-d');
     }
 
 

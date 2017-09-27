@@ -63,7 +63,9 @@ if (count($list) > 0) {
             $customOrder->setEmail($order->getEmail());
             
             $customOrder->setDate_added($order->getDate_added());
+            $customOrder->setDatePurchased($order->getDate_added());
             $customOrder->setDate_updated($order->getDate_updated());
+            
             $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
             $customOrder->setCode($orderItem->getCode());
 
@@ -89,15 +91,20 @@ if (count($list) > 0) {
             $top = $query->execute();
             var_dump($top);
             $data['top'.$i] = $price / $top[0]->getPrice_btc();
-            
+            $data['top'.$i.'_name'] = $top[0]->getName();
             
             }
             
             $customOrder->setTop1($data['top1']);
+            $customOrder->setTop1Description($data['top1_name']);
             $customOrder->setTop2($data['top2']);
+            $customOrder->setTop2Description($data['top2_name']);
             $customOrder->setTop3($data['top3']);
+            $customOrder->setTop3Description($data['top3_name']);
             $customOrder->setTop4($data['top4']);
+            $customOrder->setTop4Description($data['top4_name']);
             $customOrder->setTop5($data['top5']);
+            $customOrder->setTop5Description5($data['top5_name']);
             $entityManager->persist($customOrder);
             $entityManager->flush();
         }

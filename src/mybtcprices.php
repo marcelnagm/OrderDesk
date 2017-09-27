@@ -42,7 +42,9 @@ class mybtcprices{
        
     /** @Column(type="string") * */
        private $FiftyBlock;
-       
+
+    /** @Column(type="string") * */
+    private $date_added;       
     
     
     public function __construct($array = null) {
@@ -156,9 +158,19 @@ class mybtcprices{
 
     function setUtc() {
         $this->utc = gmdate('Y-m-d  G:i:s', $this->getTimestamp());
+        $this->setDate_added($this->getTimestamp());
+    }
+
+    function getDate_added() {
+        return $this->date_added;
+    }
+
+    function setDate_added($date_added) {
+        $this->date_added = gmdate('Y-m-d', $date_added);
     }
 
 
+    
     
 }
 
