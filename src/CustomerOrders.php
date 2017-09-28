@@ -62,6 +62,7 @@ class CustomerOrders{
     /** @Column(type="string") * */
     private $Vision6;
 
+    /** @Column(type="string") * */
     private $Top1Description;
     /** @Column(type="string") * */
     private $Top2Description;
@@ -329,7 +330,7 @@ class CustomerOrders{
     }
 
     function setTop1Description($Top1Description) {
-        $this->Top1Description = $Top1Description;
+        $this->Top1Description = $Top1Description;                
     }
 
     function setTop2Description($Top2Description) {
@@ -344,7 +345,7 @@ class CustomerOrders{
         $this->Top4Description = $Top4Description;
     }
 
-    function setTop5Description5($Top5Description5) {
+    function setTop5Description($Top5Description5) {
         $this->Top5Description = $Top5Description5;
     }
 
