@@ -45,7 +45,13 @@ class mybtcprices{
 
     /** @Column(type="string") * */
     private $date_added;       
+   
+    /** @Column(type="string") * */
+    private $AVGMyRate;       
+    /** @Column(type="string") * */
+    private $AVGFiftyBlock;       
     
+    private $tablename = 'mybtcprices';
     
     public function __construct($array = null) {
         if (is_array($array)) {
@@ -169,6 +175,26 @@ class mybtcprices{
         $this->date_added = gmdate('Y-m-d', $date_added);
     }
 
+    function getAVGMyRate() {
+        return $this->AVGMyRate;
+    }
+
+    function getAVGFiftyBlock() {
+        return $this->AVGFiftyBlock;
+    }
+
+    function setAVGMyRate($AVGMyRate) {
+        $this->AVGMyRate = $AVGMyRate;
+    }
+
+    function setAVGFiftyBlock($AVGFiftyBlock) {
+        $this->AVGFiftyBlock = $AVGFiftyBlock;
+    }
+
+
+    function getTablename() {
+        return $this->tablename;
+    }
 
     
     

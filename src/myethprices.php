@@ -6,50 +6,61 @@ namespace src;
  * @Entity @Table(name="myethprices") @Entity(repositoryClass="OrderRepository")
  * */
 class myethprices {
-    
+
     /** @Id @Column(type="integer") @GeneratedValue * */
     private $id;
 
-     /** @Column(type="string") * */
+    /** @Column(type="string") * */
     private $high;
-    
-     /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $last;
-    
-     /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $timestamp;
-     
+
     /** @Column(type="string") * */
     private $utc;
+
+    /** @Column(type="string") * */
+    private $volume;
+
+    /** @Column(type="string") * */
+    private $vwap;
+
+    /** @Column(type="string") * */
+    private $low;
+
+    /** @Column(type="string") * */
+    private $ask;
+
+    /** @Column(type="string") * */
+    private $bid;
+
+    /** @Column(type="string") * */
+    private $myrate;
+
+    /** @Column(type="string") * */
+    private $FiftyBlock;
+
+    /** @Column(type="string") * */
+    private $date_added;
+
+    /** @Column(type="string") * */
+    private $AVGMyRate;
+
+    /** @Column(type="string") * */
+    private $AVGFiftyBlock;
+
     
-    /** @Column(type="string") * */
-       private $volume;
-       
-    /** @Column(type="string") * */
-       private $vwap;
-       
-    /** @Column(type="string") * */
-       private $low;
-       
-    /** @Column(type="string") * */
-       private $ask;
-       
-    /** @Column(type="string") * */
-       private $bid;
-       
-    /** @Column(type="string") * */
-       private $myrate;
-       
-    /** @Column(type="string") * */
-       private $FiftyBlock;   
-    /** @Column(type="string") * */
-    private $date_added;   
+    private $tablename = 'myethprices';
+    
     
     
     public function __construct($array = null) {
         if (is_array($array)) {
 
-            $fields = get_class_vars(__CLASS__);            
+            $fields = get_class_vars(__CLASS__);
             unset($fields['id']);
             foreach ($fields as $field => $value) {
 //                echo $field ;
@@ -141,15 +152,13 @@ class myethprices {
         $this->bid = $bid;
     }
 
-        
     function setMyrate() {
-        $this->myrate = $this->ask* 1.055;
+        $this->myrate = $this->ask * 1.055;
     }
 
     function setFiftyBlock() {
-        $this->FiftyBlock =  50 / $this->getMyrate() ;
+        $this->FiftyBlock = 50 / $this->getMyrate();
     }
-
 
     function getUtc() {
         return $this->utc;
@@ -167,7 +176,27 @@ class myethprices {
     function setDate_added($date_added) {
         $this->date_added = gmdate('Y-m-d', $date_added);
     }
+
+    function getAVGMyRate() {
+        return $this->AVGMyRate;
+    }
+
+    function getAVGFiftyBlock() {
+        return $this->AVGFiftyBlock;
+    }
+
+    function setAVGMyRate($AVGMyRate) {
+        $this->AVGMyRate = $AVGMyRate;
+    }
+
+    function setAVGFiftyBlock($AVGFiftyBlock) {
+        $this->AVGFiftyBlock = $AVGFiftyBlock;
+    }
+
+    function getTablename() {
+        return $this->tablename;
+    }
+
+
     
 }
-
-

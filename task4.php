@@ -55,7 +55,7 @@ if (count($list) > 0) {
                             ->setMaxResults(1)->getQuery();
             $result = $query->getResult();
             echo 'count--' . count($result).'==== ';
-            var_dump($result);
+//            var_dump($result);
             $mybtcprice = $result[0];
 
 
@@ -96,7 +96,7 @@ if (count($list) > 0) {
             $data['top'.$i.'_name'] = $top[0]->getName();
             
             }
-            echo var_dump($data);
+//            echo var_dump($data);
             $customOrder->setTop1($data['top1']);
             $customOrder->setTop1Description($data['top1_name']);
             $customOrder->setTop2($data['top2']);

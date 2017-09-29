@@ -17,6 +17,7 @@ require_once __DIR__ . '/src/TopTen.php';
 require_once __DIR__ . '/src/Currency.php';
 require_once __DIR__ . '/src/MyETHPrices.php';
 require_once __DIR__ . '/src/mybtcprices.php';
+require_once __DIR__ . '/vendor/CalculatorAVG.php';
 
 
 //// the connection configuration
@@ -48,9 +49,13 @@ $entityManager = EntityManager::create($dbParams, $config);
 //    print_r($resp);
     
    $btc =  new src\mybtcprices($resp); 
+   $btc = CalculatorAVG::calculateBtcAndEth($entityManager,$btc);
+   
     $entityManager->persist($btc);
-//    
-    $entityManager->flush();            
+    
+    $entityManager->flush();         
+    
+    
     curl_close($ch);
 
 //retrive data from ethprices
@@ -72,7 +77,8 @@ $entityManager = EntityManager::create($dbParams, $config);
 //    print_r($resp);
     
    $btc =  new src\myethprices($resp); 
-
+   $btc = CalculatorAVG::calculateBtcAndEth($entityManager,$btc);
+    
     $entityManager->persist($btc);
 //    
     $entityManager->flush();            

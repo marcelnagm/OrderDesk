@@ -17,6 +17,7 @@ require_once __DIR__ . '/src/TopTen.php';
 require_once __DIR__ . '/src/Currency.php';
 require_once __DIR__ . '/src/MyETHPrices.php';
 require_once __DIR__ . '/src/mybtcprices.php';
+require_once __DIR__ . '/vendor/CalculatorAVG.php';
 
 
 //// the connection configuration
@@ -67,7 +68,7 @@ foreach ($data_url_visionary as $url) {
 
 //    print_r($data);
     $curre = new src\Currency($data);
-    
+    $curre =CalculatorAVG::calculateVisAndTop($entityManager, $curre);
     
     curl_close($ch);
     $entityManager->persist($curre);
@@ -107,6 +108,7 @@ $entityManager->flush();
 
 //    print_r($data);
     $curre = new src\TopTen($data);
+    $curre =CalculatorAVG::calculateVisAndTop($entityManager, $curre);
 //    print_r($curre);
     $entityManager->persist($curre);
     }

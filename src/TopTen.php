@@ -1,6 +1,7 @@
 <?php
 
 namespace src;
+
 require 'Currency.php';
 
 /**
@@ -8,7 +9,7 @@ require 'Currency.php';
  * */
 class TopTen {
 
-        /** @Id @Column(type="integer") @GeneratedValue * */
+    /** @Id @Column(type="integer") @GeneratedValue * */
     private $id;
 
     /** @Column(type="string") * */
@@ -37,7 +38,7 @@ class TopTen {
 
     /** @Column(type="string") * */
     private $available_supply;
-    
+
     /** @Column(type="string") * */
     private $h24_volume_cad;
 
@@ -58,13 +59,22 @@ class TopTen {
 
     /** @Column(type="string") * */
     private $percent_change_24h;
-    
+
     /** @Column(type="string") * */
     private $last_updated;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $date_added;
 
-    
+    /** @Column(type="string") * */
+    private $AVGCADPrice;
+
+    /** @Column(type="string") * */
+    private $AVGUSDPrice;
+
+    /** @Column(type="string") * */
+    private $AVGBTCPrice;
+    private $tablename = 'topten';
 
     public function __construct($array = null) {
         if (is_array($array)) {
@@ -79,7 +89,7 @@ class TopTen {
             }
         }
     }
-    
+
     public function setData($array = null) {
         if (is_array($array)) {
 
@@ -191,7 +201,7 @@ class TopTen {
     }
 
     function setPercent_change_7d($percent_change_7d) {
-        $this->percent_change_7d = $percent_change_7d;        
+        $this->percent_change_7d = $percent_change_7d;
     }
 
     function getPercent_change_24h() {
@@ -243,5 +253,32 @@ class TopTen {
         $this->date_added = gmdate('Y-m-d', $date_added);
     }
 
-    
+    function getTablename() {
+        return $this->tablename;
+    }
+
+    function getAVGCADPrice() {
+        return $this->AVGCADPrice;
+    }
+
+    function getAVGUSDPrice() {
+        return $this->AVGUSDPrice;
+    }
+
+    function getAVGBTCPrice() {
+        return $this->AVGBTCPrice;
+    }
+
+    function setAVGCADPrice($AVGCADPrice) {
+        $this->AVGCADPrice = $AVGCADPrice;
+    }
+
+    function setAVGUSDPrice($AVGUSDPrice) {
+        $this->AVGUSDPrice = $AVGUSDPrice;
+    }
+
+    function setAVGBTCPrice($AVGBTCPrice) {
+        $this->AVGBTCPrice = $AVGBTCPrice;
+    }
+
 }

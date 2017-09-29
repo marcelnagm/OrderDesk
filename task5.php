@@ -46,7 +46,7 @@ if (count($list) > 0) {
 //        echo $orderItem->getOrder_id();
 //        var_dump($order);
             $timestamp = $order->getDate_added();
-
+//            echo $timestamp;
             $dql = $entityManager->createQueryBuilder();
             $query = $dql->select('btc')
                             ->from('\src\mybtcprices', 'btc')->
@@ -54,8 +54,8 @@ if (count($list) > 0) {
                             ->orderBy('btc.utc', ' desc')
                             ->setMaxResults(1)->getQuery();
             $result = $query->getResult();
-//            echo 'count--' . count($result).'==== ';
-//            var_dump($result);
+            echo 'count--' . count($result).'==== ';
+            var_dump($result);
             $mybtcprice = $result[0];
 
 
