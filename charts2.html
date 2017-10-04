@@ -7,8 +7,12 @@
 
             function drawChart() {
 
+
+var order = document.getElementById("Order_id").value;
+var email = document.getElementById("email").value;
+
                 var request = new XMLHttpRequest();
-                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9139020&email=pkakouros@gmail.com", false);
+                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id="+order+"&email="+email+"", false);
                 request.send();
                 var json = request.responseText;
 
@@ -39,6 +43,12 @@
         </script>
     </head>
     <body>
+   <label for="Order_id">Order_id</label>
+            <input id="Order_id">
+            <label for="email">email</label>
+            <input id="email">
+            <input type="submit" value="Show!" onclick="drawChart();">
+   
         <div id="curve_chart" style="width: 900px; height: 500px"></div>
     </body>
 </html>
