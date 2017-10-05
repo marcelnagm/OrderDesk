@@ -24,7 +24,7 @@ require_once __DIR__ . '/src/openqcxorders.php';
 
 
 //// the connection configuration
-require './config.inc';
+require 'config.inc';
 // 
 //
 //
