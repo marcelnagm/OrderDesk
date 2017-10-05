@@ -320,3 +320,7 @@ ALTER TABLE `topten`
 --
 ALTER TABLE `visionary`
   MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT;COMMIT;
+
+ALTER TABLE `openqcxorders` ADD `orderdesek_id` BIGINT NOT NULL AFTER `id`, ADD INDEX (`orderdesek_id`);
+ALTER TABLE `openqcxorders` CHANGE `orderdesek_id` `orderdesek_id` VARCHAR(60) NOT NULL;
+

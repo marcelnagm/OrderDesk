@@ -13,22 +13,22 @@ class openqcxorders{
     private $id;
 
      /** @Column(type="string") * */
-    private $Amount;
+    private $amount;
     
      /** @Column(type="string") * */
-    private $DateTime_Added;
+    private $datetime_added;
     
      /** @Column(type="string") * */
     private $ID_Value;
      
     /** @Column(type="string") * */
-    private $Price;
+    private $price;
     
     /** @Column(type="string") * */
-       private $Status;
+       private $status;
        
     /** @Column(type="string") * */
-       private $Type;
+       private $type;
        
     
     public function __construct($array = null) {
@@ -49,12 +49,13 @@ class openqcxorders{
         return $this->id;
     }
 
+
     function getAmount() {
-        return $this->Amount;
+        return $this->amount;
     }
 
-    function getDateTime_Added() {
-        return $this->DateTime_Added;
+    function getDatetime_added() {
+        return $this->datetime_added;
     }
 
     function getID_Value() {
@@ -62,39 +63,39 @@ class openqcxorders{
     }
 
     function getPrice() {
-        return $this->Price;
+        return $this->price;
     }
 
     function getStatus() {
-        return $this->Status;
+        return $this->status;
     }
 
     function getType() {
-        return $this->Type;
+        return $this->type;
     }
 
-    function setAmount() {
-        return $this->Amount;
+    function setAmount($amount) {
+        $this->amount = $amount;
     }
 
-    function setDateTime_Added() {
-        return $this->DateTime_Added;
+    function setDatetime_added($datetime_added) {
+        $this->datetime_added = $datetime_added;
     }
 
-    function setID_Value() {
-        return $this->ID_Value;
+    function setID_Value($ID_Value) {
+        $this->ID_Value = $ID_Value;
     }
 
-    function setPrice() {
-        return $this->Price;
+    function setPrice($price) {
+        $this->price = $price;
     }
 
-    function setStatus() {
-        return $this->Status;
+    function setStatus($status) {
+        $this->status = $status;
     }
 
-    function setType() {
-        return $this->Type;
+    function setType($type) {
+        $this->type = $type;
     }
 
 

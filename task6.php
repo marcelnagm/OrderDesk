@@ -14,27 +14,25 @@ $isDevMode = true;
 //require_once __DIR__.'./src/Object.php';
 require_once __DIR__ . '/src/OrderRepository.php';
 require_once __DIR__ . '/src/TopTen.php';
+require_once __DIR__ . '/src/OrderItem.php';
+require_once __DIR__ . '/src/Order.php';
 require_once __DIR__ . '/src/Currency.php';
+require_once __DIR__ . '/src/CustomerOrders.php';
 require_once __DIR__ . '/src/MyETHPrices.php';
 require_once __DIR__ . '/src/mybtcprices.php';
 require_once __DIR__ . '/src/openqcxorders.php';
 
 
 //// the connection configuration
-$dbParams = array(
-    'driver' => 'pdo_mysql',
-    'user' => 'root',
-    'password' => 'ThisIsTheCodex123',
-    'dbname' => 'orderdesk',
-    'host' => 'localhost',
-);
+require './config.inc';
 // 
 //
 //
 //start the connection with db.
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
 $entityManager = EntityManager::create($dbParams, $config);
-    
+
+//----
 
 
 
@@ -55,18 +53,24 @@ $data_string = json_encode($data);
 $ch = curl_init('https://api.quadrigacx.com/v2/open_orders');
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+ curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Type: application/json; charset=utf-8',
     'Content-Length: ' . strlen($data_string))
 );
 $result = curl_exec($ch);
-echo ($result);
+ $result = json_decode($result, true);
+ var_dump($result);
+ $data = $result[0];
+var_dump($data);
 
+$data['ID_Value'] =$data['id'] ;
+$data['datetime_added'] =$data['datetime'] ;
 
-$btc =  new src\openqcxorders($result); 
+$btc =  new src\openqcxorders($data); 
+var_dump($btc);
     $entityManager->persist($btc);
 //    
     $entityManager->flush();            
     curl_close($ch);
-?>
