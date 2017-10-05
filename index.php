@@ -58,6 +58,7 @@ if ($conn) {
     $entityManager = EntityManager::create($dbParams, $config);
     $entityManager->beginTransaction();
     $orders = $result['orders'];
+var_dump($orders);
 //echo "<pre>" . print_r($orders) . "</pre>";
     for ($i = 0; $i < $records; $i++) {
         $data_ship = $orders[$i]['shipping'];
