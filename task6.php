@@ -63,14 +63,19 @@ $result = curl_exec($ch);
  $result = json_decode($result, true);
  var_dump($result);
  $data = $result[0];
-var_dump($data);
+//var_dump($data);
 
 $data['ID_Value'] =$data['id'] ;
 $data['datetime_added'] =$data['datetime'] ;
 
+$list = $entityManager->getRepository('\src\openqcxorders')->findBy(array('ID_Value' => $data['ID_Value']));
+//var_dump($list);
+echo 'NUmber ocourrences - ' . count($list);
+if (count($list) == 0) {
 $btc =  new src\openqcxorders($data); 
-var_dump($btc);
+
     $entityManager->persist($btc);
-//    
-    $entityManager->flush();            
+    
+    $entityManager->flush();   
+}//             
     curl_close($ch);
