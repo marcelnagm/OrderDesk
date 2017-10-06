@@ -34,6 +34,8 @@ class Shipping {
     private $country;
         /** @Column(type="string") * */
     private $phone;
+        /** @Column(type="string") * */
+    private $order_id;
 
     public function __construct($array = null) {
         if (is_array($array)) {         
@@ -146,6 +148,15 @@ class Shipping {
 
     function setPhone($phone) {
         $this->phone = $phone;
+    }
+
+
+    function getOrder_id() {
+        return $this->order_id;
+    }
+
+    function setOrder_id($order_id) {
+        $this->order_id = $order_id;
     }
 
 

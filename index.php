@@ -61,11 +61,14 @@ if ($conn) {
 var_dump($orders);
 //echo "<pre>" . print_r($orders) . "</pre>";
     for ($i = 0; $i < $records; $i++) {
+        $data_order = $orders[$i];
         $data_ship = $orders[$i]['shipping'];
+        
         $data_ship['sstate'] = $data_ship['state'];
+        $data_ship['order_id'] = $data_order['id'];;
         $ship = new src\Shipping($data_ship);
 //        echo "<pre>" . print_r($ship) . "</pre>";
-        $data_order = $orders[$i];
+        
         unset($data_order['customer']);
         unset($data_order['return_address']);
         unset($data_order['checkout_data']);
