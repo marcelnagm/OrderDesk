@@ -63,6 +63,7 @@ if (count($list) > 0) {
             $customOrder->setSource_id($order->getSource_id());
             $customOrder->setOrder_id($order->getId_order());
             $customOrder->setEmail($order->getEmail());
+            $customOrder->setQuantity($orderItem->getQuantity());
 
             $customOrder->setDate_added($order->getDate_added());
             $customOrder->setDatePurchased($order->getDate_added());

@@ -36,12 +36,12 @@ $entityManager = EntityManager::create($dbParams, $config);
 
 
 $url_contries = array(
-    'CA' => 'CAD',
-    'US' => 'USD'
+    'CA' ,
+    'US' 
 );
 
 //----
-foreach ($url_contries as $contry => $value) {
+foreach ($url_contries as $contry ) {
 //    echo 'countr -- ' . $contry;
     $list = $entityManager->getConnection()->fetchAll("select order_id from shipping where country='$contry'");
     if (count($list) > 0) {
@@ -59,7 +59,7 @@ foreach ($url_contries as $contry => $value) {
         $customOrder = new src\CustomerOrders();
 //        var_dump($users);
         foreach ($users as $customOrder) {
-            $customOrder = CalculatorAVG::updateBtcAndEth($entityManager, $customOrder, $value);
+            $customOrder = CalculatorAVG::updateBtcAndEth($entityManager, $customOrde);
             $entityManager->persist($customOrder);
         }
     }

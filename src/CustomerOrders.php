@@ -36,6 +36,8 @@ class CustomerOrders {
 
     /** @Column(type="string") * */
     private $code;
+    /** @Column(type="string") * */
+    private $quantity;
 
     /** @Column(type="string") * */
     private $BTCValue;
@@ -594,6 +596,14 @@ class CustomerOrders {
 
     function setCheckAmountAvailable($CheckAmountAvailable) {
         $this->CheckAmountAvailable = $CheckAmountAvailable;
+    }
+
+    function getQuantity() {
+        return $this->quantity;
+    }
+
+    function setQuantity($quantity) {
+        $this->quantity = $quantity;
     }
 
 

@@ -29,34 +29,36 @@ class CalculatorAVG {
         return $prices;
     }
 
-    public static function updateBtcAndEth($entityManager, \src\CustomerOrders $customOrder, $coin) {
+    public static function updateBtcAndEth($entityManager, \src\CustomerOrders $customOrder) {
 
 //        brc
         $topten = new src\TopTen();
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
                 array('symbol' => 'BTC'
+            , 'date_added' => gmdate('Y-m-d', time())
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
-        echo $topten->getId() . ' -- '.$customOrder->getId();
-        $customOrder->setCurrentBTCValue($customOrder->getBTCValue() * $topten->{'getAVG' . $coin . 'Price'}());
+        echo $topten->getId() . ' -- ' . $customOrder->getId();
+        $customOrder->setCurrentBTCValue($customOrder->getQuantity() * $topten->getAVGBTCPrice());
 
 //        eth
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
-                array('symbol' => 'ETH',
+                array('symbol' => 'ETH', 'date_added' => gmdate('Y-m-d', time())
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
 
-        $customOrder->setCurrentETHValue($customOrder->getETHValue() * $topten->{'getAVG' . $coin . 'Price'}());
+        $customOrder->setCurrentETHValue($customOrder->getETHValue() * $topten->getAVGBTCPrice());
         echo var_dump($customOrder->getId());
 // top 1-5
         if ($customOrder->{'getTop1Description'}() != NULL) {
             for ($i = 1; $i < 6; $i++) {
                 $topten = $entityManager->getRepository('\src\TopTen')->findBy(
                         array('name' => $customOrder->{'getTop' . $i . 'Description'}()
+                        , 'date_added' => gmdate('Y-m-d', time())
                         ), array('id' => 'DESC'), 1);
                 $topten = $topten[0];
 
-                $customOrder->{'setCurrentTop' . $i}($customOrder->{'getTop' . $i}() * $topten->{'getAVG' . $coin . 'Price'}());
+                $customOrder->{'setCurrentTop' . $i}($customOrder->{'getTop' . $i}() * $topten->getAVGBTCPrice());
             }
         }
         unset($i);
@@ -66,11 +68,12 @@ class CalculatorAVG {
             for ($i = 1; $i < 7; $i++) {
                 $topten = $entityManager->getRepository('\src\Currency')->findBy(
                         array('name' => $customOrder->{'getVision' . $i . 'Description'}()
+                        , 'date_added' => gmdate('Y-m-d', time())
                         ), array('id' => 'DESC'), 1);
 //                var_dump($topten);
                 $topten = $topten[0];
 
-                $customOrder->{'setCurrentVision' . $i}($customOrder->{'getVision' . $i}() * $topten->{'getAVG' . $coin . 'Price'}());
+                $customOrder->{'setCurrentVision' . $i}($customOrder->{'getVision' . $i}() * $topten->getAVGBTCPrice());
             }
         }
 
