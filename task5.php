@@ -72,10 +72,10 @@ if (count($list) > 0) {
             $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
             $customOrder->setCode($orderItem->getCode());
 
-
-//            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
-//            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
-//            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
+            echo '  / order_id  - ' . $orderItem->getOrder_id();;
+            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
+            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
+            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
 
             $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
 //            echo $price;
@@ -128,6 +128,7 @@ if (count($list) > 0) {
 
             $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
             $customOrder->setCode($orderItem->getCode());
+            $customOrder->setQuantity($orderItem->getQuantity());
 
 
 //            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
