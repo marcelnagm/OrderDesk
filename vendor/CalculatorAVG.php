@@ -29,7 +29,7 @@ class CalculatorAVG {
         return $prices;
     }
 
-    public static function updateBtcAndEth($entityManager, \src\CustomerOrders $customOrder,$coin) {
+    public static function updateBtcAndEth($entityManager, \src\CustomerOrders $customOrder, $coin) {
 
 //        brc
         $topten = new src\TopTen();
@@ -39,7 +39,7 @@ class CalculatorAVG {
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
 
-        $customOrder->setCurrentBTCValue($customOrder->getBTCValue() * $topten->{'getAVG'.$coin.'Price'}());
+        $customOrder->setCurrentBTCValue($customOrder->getBTCValue() * $topten->{'getAVG' . $coin . 'Price'}());
 
 //        eth
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
@@ -48,29 +48,34 @@ class CalculatorAVG {
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
 
-        $customOrder->setCurrentETHValue($customOrder->getETHValue() * $topten->{'getAVG'.$coin.'Price'}());
-
+        $customOrder->setCurrentETHValue($customOrder->getETHValue() * $topten->{'getAVG' . $coin . 'Price'}());
+        echo var_dump($customOrder->getId());
 // top 1-5
-        for ($i = 1; $i < 6; $i++) {
-            $topten = $entityManager->getRepository('\src\TopTen')->findBy(
-                    
-                    array('name' => $customOrder->{'getTop' . $i . 'Description'}(),
-                'date_added' => gmdate('Y-m-d', time())
-                    ), array('id' => 'DESC'), 1);
-            $topten = $topten[0];
+        if ($customOrder->{'getTop1Description'}() != NULL) {
+            for ($i = 1; $i < 6; $i++) {
+                $topten = $entityManager->getRepository('\src\TopTen')->findBy(
+                        array('name' => $customOrder->{'getTop' . $i . 'Description'}(),
+                    'date_added' => gmdate('Y-m-d', time())
+                        ), array('id' => 'DESC'), 1);
+                $topten = $topten[0];
 
-            $customOrder->{'setCurrentTop' . $i}($customOrder->{'getTop'.$i}() * $topten->{'getAVG'.$coin.'Price'}());
+                $customOrder->{'setCurrentTop' . $i}($customOrder->{'getTop' . $i}() * $topten->{'getAVG' . $coin . 'Price'}());
+            }
         }
-        
+        unset($i);
 //        vision 1-6
-        for ($i = 1; $i < 7; $i++) {
-            $topten = $entityManager->getRepository('\src\Currency')->findBy(                    
-                    array('name' => $customOrder->{'getVision' . $i . 'Description'}(),
-                'date_added' => gmdate('Y-m-d', time())
-                    ), array('id' => 'DESC'), 1);
-            $topten = $topten[0];
+        if ($customOrder->{'getVision1Description'}() != NULL) {
+            echo 'bingo';
+            for ($i = 1; $i < 7; $i++) {
+                $topten = $entityManager->getRepository('\src\Currency')->findBy(
+                        array('name' => $customOrder->{'getVision' . $i . 'Description'}(),
+                    'date_added' => gmdate('Y-m-d', time())
+                        ), array('id' => 'DESC'), 1);
+                var_dump($topten);
+                $topten = $topten[0];
 
-            $customOrder->{'setCurrentVision' . $i}($customOrder->{'getVision'.$i}() * $topten->{'getAVG'.$coin.'Price'}());
+                $customOrder->{'setCurrentVision' . $i}($customOrder->{'getVision' . $i}() * $topten->{'getAVG' . $coin . 'Price'}());
+            }
         }
 
         return $customOrder;
