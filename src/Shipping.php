@@ -3,7 +3,7 @@
 namespace src;
 
 /**
- * @Entity @Table(name="shipping") @Entity(repositoryClass="OrdersRepository")
+ * @Entity @Table(name="shipping") @Entity(repositoryClass="OrderRepository")
  * */
 class Shipping {
 
@@ -12,33 +12,45 @@ class Shipping {
 
     /** @Column(type="string") * */
     private $first_name;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $last_name;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $company;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $address1;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $address2;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $address3;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $address4;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $city;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $sstate;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $postal_code;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $country;
-        /** @Column(type="string") * */
+
+    /** @Column(type="string") * */
     private $phone;
-        /** @Column(type="string") * */
+
+    /** @Column(type="integer") @OneToOne(targetEntity="\src\Order") @JoinColumn(name="order_id", referencedColumnName="order_id")      */
     private $order_id;
 
     public function __construct($array = null) {
-        if (is_array($array)) {         
+        if (is_array($array)) {
             $fields = get_class_vars(__CLASS__);
             unset($fields['id']);
             foreach ($fields as $field => $value) {
@@ -150,7 +162,6 @@ class Shipping {
         $this->phone = $phone;
     }
 
-
     function getOrder_id() {
         return $this->order_id;
     }
@@ -159,6 +170,4 @@ class Shipping {
         $this->order_id = $order_id;
     }
 
-
-    
 }

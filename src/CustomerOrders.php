@@ -5,90 +5,164 @@ namespace src;
 /**
  * @Entity @Table(name="customerorders") @Entity(repositoryClass="OrderRepository")
  * */
-class CustomerOrders{
+class CustomerOrders {
 
     /** @Id @Column(type="integer") @GeneratedValue * */
-    private $id;    
-    
+    private $id;
+
     /** @Column(type="string") * */
     private $source_id;
-    
-    /** @Column(type="string") * */
+
+    /** @Column(type="integer")
+     * @OneToOne(targetEntity="\src\Order")
+     * @JoinColumn(name="order_id", referencedColumnName="order_id")     
+      * * */
     private $order_id;
-    
+
     /** @Column(type="string") * */
     private $email;
+
     /** @Column(type="string") * */
     private $price_btc;
-    
+
     /** @Column(type="string") * */
     private $date_added;
-    
+
     /** @Column(type="string") * */
     private $date_updated;
-    
+
     /** @Column(type="string") * */
     private $order_total;
-    
+
     /** @Column(type="string") * */
     private $code;
-    
+
     /** @Column(type="string") * */
     private $BTCValue;
-    
+
     /** @Column(type="string") * */
     private $ETHValue;
-    
+
     /** @Column(type="string") * */
     private $Top1;
+
     /** @Column(type="string") * */
     private $Top2;
+
     /** @Column(type="string") * */
     private $Top3;
+
     /** @Column(type="string") * */
     private $Top4;
+
     /** @Column(type="string") * */
     private $Top5;
+
     /** @Column(type="string") * */
     private $Vision1;
+
     /** @Column(type="string") * */
     private $Vision2;
+
     /** @Column(type="string") * */
     private $Vision3;
+
     /** @Column(type="string") * */
     private $Vision4;
+
     /** @Column(type="string") * */
-    private $Vision5;    
+    private $Vision5;
+
     /** @Column(type="string") * */
     private $Vision6;
 
     /** @Column(type="string") * */
     private $Top1Description;
+
     /** @Column(type="string") * */
     private $Top2Description;
+
     /** @Column(type="string") * */
     private $Top3Description;
+
     /** @Column(type="string") * */
     private $Top4Description;
+
     /** @Column(type="string") * */
     private $Top5Description;
+
     /** @Column(type="string") * */
     private $Vision1Description;
+
     /** @Column(type="string") * */
     private $Vision2Description;
+
     /** @Column(type="string") * */
     private $Vision3Description;
+
     /** @Column(type="string") * */
     private $Vision4Description;
+
     /** @Column(type="string") * */
     private $Vision5Description;
+
     /** @Column(type="string") * */
     private $Vision6Description;
+
     /** @Column(type="string") * */
     private $DatePurchased;
-    
-    
-    
+
+    /** @Column(type="string") * */
+    private $CurrentBTCValue;
+
+    /** @Column(type="string") * */
+    private $CurrentETHValue;
+
+    /** @Column(type="string") * */
+    private $CurrentTop1;
+
+    /** @Column(type="string") * */
+    private $CurrentTop2;
+
+    /** @Column(type="string") * */
+    private $CurrentTop3;
+
+    /** @Column(type="string") * */
+    private $CurrentTop4;
+
+    /** @Column(type="string") * */
+    private $CurrentTop5;
+
+    /** @Column(type="string") * */
+    private $CurrentVision1;
+
+    /** @Column(type="string") * */
+    private $CurrentVision2;
+
+    /** @Column(type="string") * */
+    private $CurrentVision3;
+
+    /** @Column(type="string") * */
+    private $CurrentVision4;
+
+    /** @Column(type="string") * */
+    private $CurrentVision5;
+
+    /** @Column(type="string") * */
+    private $CurrentVision6;
+
+    /** @Column(type="string") * */
+    private $Exchange;
+
+    /** @Column(type="string") * */
+    private $Traded;
+
+    /** @Column(type="string") * */
+    private $ExternalOrderID;
+
+    /** @Column(type="string") * */
+    private $CheckAmountAvailable;
+
     public function __construct($array = null) {
         if (is_array($array)) {
 
@@ -102,7 +176,7 @@ class CustomerOrders{
             }
         }
     }
-    
+
     public function setData($array = null) {
         if (is_array($array)) {
 
@@ -305,7 +379,7 @@ class CustomerOrders{
         return $this->Top4Description;
     }
 
-    function getTop5Description5() {
+    function getTop5Description() {
         return $this->Top5Description;
     }
 
@@ -330,7 +404,7 @@ class CustomerOrders{
     }
 
     function setTop1Description($Top1Description) {
-        $this->Top1Description = $Top1Description;                
+        $this->Top1Description = $Top1Description;
     }
 
     function setTop2Description($Top2Description) {
@@ -369,7 +443,6 @@ class CustomerOrders{
         $this->Vision5Description = $Vision5Description;
     }
 
-    
     function getVision6Description() {
         return $this->Vision6Description;
     }
@@ -378,7 +451,6 @@ class CustomerOrders{
         $this->Vision6Description = $Vision6Description;
     }
 
-        
     function getDatePurchased() {
         return $this->DatePurchased;
     }
@@ -388,6 +460,141 @@ class CustomerOrders{
 //        $this->DatePurchased = date_format($DatePurchased, 'Y-m-d');
     }
 
+    function getCurrentBTCValue() {
+        return $this->CurrentBTCValue;
+    }
+
+    function getCurrentETHValue() {
+        return $this->CurrentETHValue;
+    }
+
+    function getCurrentTop1() {
+        return $this->CurrentTop1;
+    }
+
+    function getCurrentTop2() {
+        return $this->CurrentTop2;
+    }
+
+    function getCurrentTop3() {
+        return $this->CurrentTop3;
+    }
+
+    function getCurrentTop4() {
+        return $this->CurrentTop4;
+    }
+
+    function getCurrentTop5() {
+        return $this->CurrentTop5;
+    }
+
+    function getCurrentVision1() {
+        return $this->CurrentVision1;
+    }
+
+    function getCurrentVision2() {
+        return $this->CurrentVision2;
+    }
+
+    function getCurrentVision3() {
+        return $this->CurrentVision3;
+    }
+
+    function getCurrentVision4() {
+        return $this->CurrentVision4;
+    }
+
+    function getCurrentVision5() {
+        return $this->CurrentVision5;
+    }
+
+    function getCurrentVision6() {
+        return $this->CurrentVision6;
+    }
+
+    function getExchange() {
+        return $this->Exchange;
+    }
+
+    function getTraded() {
+        return $this->Traded;
+    }
+
+    function getExternalOrderID() {
+        return $this->ExternalOrderID;
+    }
+
+    function getCheckAmountAvailable() {
+        return $this->CheckAmountAvailable;
+    }
+
+    function setCurrentBTCValue($CurrentBTCValue) {
+        $this->CurrentBTCValue = $CurrentBTCValue;
+    }
+
+    function setCurrentETHValue($CurrentETHValue) {
+        $this->CurrentETHValue = $CurrentETHValue;
+    }
+
+    function setCurrentTop1($CurrentTop1) {
+        $this->CurrentTop1 = $CurrentTop1;
+    }
+
+    function setCurrentTop2($CurrentTop2) {
+        $this->CurrentTop2 = $CurrentTop2;
+    }
+
+    function setCurrentTop3($CurrentTop3) {
+        $this->CurrentTop3 = $CurrentTop3;
+    }
+
+    function setCurrentTop4($CurrentTop4) {
+        $this->CurrentTop4 = $CurrentTop4;
+    }
+
+    function setCurrentTop5($CurrentTop5) {
+        $this->CurrentTop5 = $CurrentTop5;
+    }
+
+    function setCurrentVision1($CurrentVision1) {
+        $this->CurrentVision1 = $CurrentVision1;
+    }
+
+    function setCurrentVision2($CurrentVision2) {
+        $this->CurrentVision2 = $CurrentVision2;
+    }
+
+    function setCurrentVision3($CurrentVision3) {
+        $this->CurrentVision3 = $CurrentVision3;
+    }
+
+    function setCurrentVision4($CurrentVision4) {
+        $this->CurrentVision4 = $CurrentVision4;
+    }
+
+    function setCurrentVision5($CurrentVision5) {
+        $this->CurrentVision5 = $CurrentVision5;
+    }
+
+    function setCurrentVision6($CurrentVision6) {
+        $this->CurrentVision6 = $CurrentVision6;
+    }
+
+    function setExchange($Exchange) {
+        $this->Exchange = $Exchange;
+    }
+
+    function setTraded($Traded) {
+        $this->Traded = $Traded;
+    }
+
+    function setExternalOrderID($ExternalOrderID) {
+        $this->ExternalOrderID = $ExternalOrderID;
+    }
+
+    function setCheckAmountAvailable($CheckAmountAvailable) {
+        $this->CheckAmountAvailable = $CheckAmountAvailable;
+    }
 
 
     

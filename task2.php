@@ -3,7 +3,7 @@
 require_once __DIR__ . '/vendor/autoload.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
+set_time_limit(360);
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
@@ -106,7 +106,7 @@ $entityManager->flush();
     unset($data['24h_volume_usd']);
     unset($data['24h_volume_cad']);
 
-//    print_r($data);
+    print_r($data);
     $curre = new src\TopTen($data);
     $curre =CalculatorAVG::calculateVisAndTop($entityManager, $curre);
 //    print_r($curre);

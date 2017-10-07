@@ -10,7 +10,7 @@ class Order {
     /** @Id @Column(type="integer") @GeneratedValue * */
     private $id;
 
-    /** @Column(type="string") * */
+    /** @Column(type="integer") * */
     private $order_id;
 
     /** @Column(type="string") * */
@@ -97,7 +97,11 @@ class Order {
     /** @Column(type="string") * */
     private $date_updated;
 
-    /** @Column(type="integer") * */
+    /** @Column(type="integer")      
+     * @OneToOne(targetEntity="\src\Shipping")
+     * @JoinColumn(name="shipping_id", referencedColumnName="id")           
+     * 
+     * * */
     private $shipping_id;
 
     public function __construct($array = null) {
