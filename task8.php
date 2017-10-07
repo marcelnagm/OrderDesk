@@ -22,6 +22,7 @@ require_once __DIR__ . '/src/CustomerOrders.php';
 require_once __DIR__ . '/src/MyETHPrices.php';
 require_once __DIR__ . '/src/mybtcprices.php';
 require_once __DIR__ . '/src/openqcxorders.php';
+require_once __DIR__ . '/src/qcxtransactions.php';
 require_once __DIR__ . '/src/OrderRepository.php';
 require_once __DIR__ . '/vendor/CalculatorAVG.php';
 
@@ -35,33 +36,34 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), 
 $entityManager = EntityManager::create($dbParams, $config);
 
 
-$url_contries = array(
-    'CA' => 'CAD',
-    'US' => 'USD'
-);
 
 //----
-foreach ($url_contries as $contry => $value) {
-//    echo 'countr -- ' . $contry;
-    $list = $entityManager->getConnection()->fetchAll("select order_id from shipping where country='$contry'");
-    if (count($list) > 0) {
-        $order_id = array();
-        foreach ($list as $row) {
-            $order_id[] = $row["order_id"];
-        }
+$list = $entityManager->getConnection()->fetchAll("select order_id from orderitem where code='EST001'");
+if (count($list) > 0) {
+    $order_id = array();
+    foreach ($list as $row) {
+        $order_id[] = $row["order_id"];
+    }
 ////    
-        $dql = $entityManager->createQueryBuilder();
-        $query = $dql->select('cu')->from('\src\CustomerOrders', 'cu')
-                        ->add('where', $dql->expr()->in('cu.order_id', $order_id))
-                        ->andWhere('cu.Traded = 1');
+    $dql = $entityManager->createQueryBuilder();
+    $query = $dql->select('cu')->from('\src\CustomerOrders', 'cu')
+            ->add('where', $dql->expr()->in('cu.order_id', $order_id))
+            ->andWhere('cu.Traded = 0')
+            ->andWhere('cu.CheckAmountAvailable  = 0');
 ////
-        $users = $query->getQuery()->getResult(); // arr
-        $customOrder = new src\CustomerOrders();
+    $users = $query->getQuery()->getResult(); // arr
+    $customOrder = new src\CustomerOrders();
 //        var_dump($users);
-        foreach ($users as $customOrder) {
-            $customOrder = CalculatorAVG::updateBtcAndEth($entityManager, $customOrder, $value);
-            $entityManager->persist($customOrder);
-        }
+    $qcxtransactions = new \src\qcxtransactions();
+    foreach ($users as $customOrder) {
+
+        $qcxtransactions  = $entityManager->getRepository('\src\qcxtransactions')->findBy(
+                array(), array('id' => 'DESC'), 1);
+        $qcxtransactions  = $qcxtransactions [0];
+        $customOrder->setCheckAmountAvailable($customOrder->getBTCValue()+$qcxtransactions->getBtc_available());
+        
+        $entityManager->persist($customOrder);
     }
 }
+
 $entityManager->flush();

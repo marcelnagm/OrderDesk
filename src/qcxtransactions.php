@@ -3,7 +3,7 @@
 namespace src;
 
 /**
- * @Entity @Table(name="openqcxorders") @Entity(repositoryClass="OrderRepository")
+ * @Entity @Table(name="qcxtransactions") @Entity(repositoryClass="OrderRepository")
  * */
 class qcxtransactions{
 
