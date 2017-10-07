@@ -70,7 +70,7 @@ class CalculatorAVG {
                         array('name' => $customOrder->{'getVision' . $i . 'Description'}()
                         , 'date_added' => gmdate('Y-m-d', time())
                         ), array('id' => 'DESC'), 1);
-//                var_dump($topten);
+                var_dump($topten);
                 $topten = $topten[0];
 
                 $customOrder->{'setCurrentVision' . $i}($customOrder->{'getVision' . $i}() * $topten->getAVGBTCPrice());

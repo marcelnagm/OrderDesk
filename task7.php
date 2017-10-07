@@ -35,33 +35,34 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), 
 $entityManager = EntityManager::create($dbParams, $config);
 
 
-$url_contries = array(
-    'CA' ,
-    'US' 
-);
+//$url_contries = array(
+//    'CA' ,
+//    'US' 
+//);
 
 //----
-foreach ($url_contries as $contry ) {
+//foreach ($url_contries as $contry ) {
 //    echo 'countr -- ' . $contry;
-    $list = $entityManager->getConnection()->fetchAll("select order_id from shipping where country='$contry'");
-    if (count($list) > 0) {
-        $order_id = array();
-        foreach ($list as $row) {
-            $order_id[] = $row["order_id"];
-        }
+//    $list = $entityManager->getConnection()->fetchAll("select order_id from shipping where country='$contry'");
+//    if (count($list) > 0) {
+//        $order_id = array();
+//        foreach ($list as $row) {
+//            $order_id[] = $row["order_id"];
+//        }
 ////    
         $dql = $entityManager->createQueryBuilder();
         $query = $dql->select('cu')->from('\src\CustomerOrders', 'cu')
-                        ->add('where', $dql->expr()->in('cu.order_id', $order_id))
-                        ->andWhere('cu.Traded = 1');
+//                        ->add('where', $dql->expr()->in('cu.order_id', $order_id))
+                        ->Where('cu.Traded = 1');
+//                        ->andWhere('cu.Traded = 1');
 ////
         $users = $query->getQuery()->getResult(); // arr
         $customOrder = new src\CustomerOrders();
-//        var_dump($users);
+        var_dump($users);
         foreach ($users as $customOrder) {
-            $customOrder = CalculatorAVG::updateBtcAndEth($entityManager, $customOrde);
+            $customOrder = CalculatorAVG::updateBtcAndEth($entityManager, $customOrder);
             $entityManager->persist($customOrder);
         }
-    }
-}
+//    }
+//}
 $entityManager->flush();
