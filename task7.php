@@ -57,7 +57,7 @@ foreach ($url_contries as $contry => $value) {
 ////
         $users = $query->getQuery()->getResult(); // arr
         $customOrder = new src\CustomerOrders();
-        var_dump($users);
+//        var_dump($users);
         foreach ($users as $customOrder) {
             $customOrder = CalculatorAVG::updateBtcAndEth($entityManager, $customOrder, $value);
             $entityManager->persist($customOrder);

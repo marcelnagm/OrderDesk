@@ -34,17 +34,15 @@ class CalculatorAVG {
 //        brc
         $topten = new src\TopTen();
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
-                array('symbol' => 'BTC',
-            'date_added' => gmdate('Y-m-d', time())
+                array('symbol' => 'BTC'
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
-
+        echo $topten->getId() . ' -- '.$customOrder->getId();
         $customOrder->setCurrentBTCValue($customOrder->getBTCValue() * $topten->{'getAVG' . $coin . 'Price'}());
 
 //        eth
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
                 array('symbol' => 'ETH',
-            'date_added' => gmdate('Y-m-d', time())
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
 
@@ -54,8 +52,7 @@ class CalculatorAVG {
         if ($customOrder->{'getTop1Description'}() != NULL) {
             for ($i = 1; $i < 6; $i++) {
                 $topten = $entityManager->getRepository('\src\TopTen')->findBy(
-                        array('name' => $customOrder->{'getTop' . $i . 'Description'}(),
-                    'date_added' => gmdate('Y-m-d', time())
+                        array('name' => $customOrder->{'getTop' . $i . 'Description'}()
                         ), array('id' => 'DESC'), 1);
                 $topten = $topten[0];
 
@@ -65,13 +62,12 @@ class CalculatorAVG {
         unset($i);
 //        vision 1-6
         if ($customOrder->{'getVision1Description'}() != NULL) {
-            echo 'bingo';
+//            echo 'bingo';
             for ($i = 1; $i < 7; $i++) {
                 $topten = $entityManager->getRepository('\src\Currency')->findBy(
-                        array('name' => $customOrder->{'getVision' . $i . 'Description'}(),
-                    'date_added' => gmdate('Y-m-d', time())
+                        array('name' => $customOrder->{'getVision' . $i . 'Description'}()
                         ), array('id' => 'DESC'), 1);
-                var_dump($topten);
+//                var_dump($topten);
                 $topten = $topten[0];
 
                 $customOrder->{'setCurrentVision' . $i}($customOrder->{'getVision' . $i}() * $topten->{'getAVG' . $coin . 'Price'}());
