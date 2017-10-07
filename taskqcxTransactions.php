@@ -21,7 +21,8 @@ require_once __DIR__ . '/src/CustomerOrders.php';
 require_once __DIR__ . '/src/MyETHPrices.php';
 require_once __DIR__ . '/src/mybtcprices.php';
 require_once __DIR__ . '/src/openqcxorders.php';
-require_once __DIR__ . '/src/qcxTransactions.php';
+//require_once __DIR__ . '/src/qcxTransactions.php';
+require_once __DIR__ . '/src/qcxtransactions.php';
 
 
 //// the connection configuration
@@ -62,12 +63,12 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 $result = curl_exec($ch);
  $result = json_decode($result, true);
  var_dump($result);
- $data = $result[0];
-var_dump($data);
+ $data = $result;
+//var_dump($data);
 
 
-$list = $entityManager->getRepository('\src\qcxTransactions')->
-$btc =  new src\qcxTransactions($data); 
+
+    $btc =  new src\qcxTransactions($data); 
 
     $entityManager->persist($btc);
     
