@@ -26,7 +26,7 @@ class CustomerOrders {
     private $price_btc;
 
     /** @Column(type="string") * */
-    private $date_added;
+    private $date_added= 0;
 
     /** @Column(type="string") * */
     private $date_updated;
