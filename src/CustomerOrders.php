@@ -79,7 +79,7 @@ class CustomerOrders {
     private $Vision6= 0;
 
     /** @Column(type="string") * */
-    private $Top1Description;
+    private $Top1Description= "";
 
     /** @Column(type="string") * */
     private $Top2Description= "";
