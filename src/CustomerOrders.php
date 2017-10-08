@@ -82,34 +82,34 @@ class CustomerOrders {
     private $Top1Description;
 
     /** @Column(type="string") * */
-    private $Top2Description;
+    private $Top2Description= "";
 
     /** @Column(type="string") * */
-    private $Top3Description;
+    private $Top3Description= "";
 
     /** @Column(type="string") * */
-    private $Top4Description;
+    private $Top4Description= "";
 
     /** @Column(type="string") * */
-    private $Top5Description;
+    private $Top5Description= "";
 
     /** @Column(type="string") * */
-    private $Vision1Description;
+    private $Vision1Description= "";
 
     /** @Column(type="string") * */
-    private $Vision2Description;
+    private $Vision2Description= "";
 
     /** @Column(type="string") * */
-    private $Vision3Description;
+    private $Vision3Description= "";
 
     /** @Column(type="string") * */
-    private $Vision4Description;
+    private $Vision4Description= "";
 
     /** @Column(type="string") * */
-    private $Vision5Description;
+    private $Vision5Description= "";
 
     /** @Column(type="string") * */
-    private $Vision6Description;
+    private $Vision6Description= "";
 
     /** @Column(type="string") * */
     private $DatePurchased;
@@ -160,7 +160,7 @@ class CustomerOrders {
     private $Traded= 0;
 
     /** @Column(type="string") * */
-    private $ExternalOrderID;
+    private $ExternalOrderID= "";
 
     /** @Column(type="string") * */
     private $CheckAmountAvailable= 0;
