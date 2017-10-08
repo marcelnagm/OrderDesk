@@ -40,43 +40,43 @@ class CustomerOrders {
     private $quantity;
 
     /** @Column(type="string") * */
-    private $BTCValue;
+    private $BTCValue = 0;
 
     /** @Column(type="string") * */
-    private $ETHValue;
+    private $ETHValue = 0;
 
     /** @Column(type="string") * */
-    private $Top1;
+    private $Top1 = 0;
 
     /** @Column(type="string") * */
-    private $Top2;
+    private $Top2= 0;
 
     /** @Column(type="string") * */
-    private $Top3;
+    private $Top3= 0;
 
     /** @Column(type="string") * */
-    private $Top4;
+    private $Top4= 0;
 
     /** @Column(type="string") * */
-    private $Top5;
+    private $Top5= 0;
 
     /** @Column(type="string") * */
-    private $Vision1;
+    private $Vision1= 0;
 
     /** @Column(type="string") * */
-    private $Vision2;
+    private $Vision2= 0;
 
     /** @Column(type="string") * */
-    private $Vision3;
+    private $Vision3= 0;
 
     /** @Column(type="string") * */
-    private $Vision4;
+    private $Vision4= 0;
 
     /** @Column(type="string") * */
-    private $Vision5;
+    private $Vision5= 0;
 
     /** @Column(type="string") * */
-    private $Vision6;
+    private $Vision6= 0;
 
     /** @Column(type="string") * */
     private $Top1Description;
@@ -115,55 +115,55 @@ class CustomerOrders {
     private $DatePurchased;
 
     /** @Column(type="string") * */
-    private $CurrentBTCValue;
+    private $CurrentBTCValue= 0;
 
     /** @Column(type="string") * */
-    private $CurrentETHValue;
+    private $CurrentETHValue= 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop1;
+    private $CurrentTop1= 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop2;
+    private $CurrentTop2= 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop3;
+    private $CurrentTop3= 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop4;
+    private $CurrentTop4= 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop5;
+    private $CurrentTop5= 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision1;
+    private $CurrentVision1= 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision2;
+    private $CurrentVision2= 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision3;
+    private $CurrentVision3= 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision4;
+    private $CurrentVision4= 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision5;
+    private $CurrentVision5= 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision6;
+    private $CurrentVision6= 0;
 
     /** @Column(type="string") * */
-    private $Exchange;
+    private $Exchange= 0;
 
     /** @Column(type="string") * */
-    private $Traded;
+    private $Traded= 0;
 
     /** @Column(type="string") * */
     private $ExternalOrderID;
 
     /** @Column(type="string") * */
-    private $CheckAmountAvailable;
+    private $CheckAmountAvailable= 0;
 
     public function __construct($array = null) {
         if (is_array($array)) {
