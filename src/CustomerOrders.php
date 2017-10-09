@@ -23,7 +23,7 @@ class CustomerOrders {
     private $email;
 
     /** @Column(type="string") * */
-    private $price_btc= 0;
+    private $price_btc;
 
     /** @Column(type="string") * */
     private $date_added;

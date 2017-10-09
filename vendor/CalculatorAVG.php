@@ -32,7 +32,7 @@ class CalculatorAVG {
     public static function updateBtcAndEth($entityManager, \src\CustomerOrders $customOrder) {
 
 //        brc
-        $topten = new src\TopTen();
+//        $topten = new src\TopTen();
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
                 array('symbol' => 'BTC'
             , 'date_added' => gmdate('Y-m-d', time())
@@ -48,7 +48,7 @@ class CalculatorAVG {
         $topten = $topten[0];
 
         $customOrder->setCurrentETHValue($customOrder->getETHValue() * $topten->getAVGBTCPrice());
-        echo var_dump($customOrder->getId());
+//        echo var_dump($customOrder->getId());
 // top 1-5
         if ($customOrder->{'getTop1Description'}() != NULL) {
             for ($i = 1; $i < 6; $i++) {
