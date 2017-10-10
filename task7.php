@@ -50,6 +50,13 @@ $entityManager = EntityManager::create($dbParams, $config);
 //            $order_id[] = $row["order_id"];
 //        }
 ////    
+  $list = $entityManager->getConnection()->fetchAll("select oi.order_id,oi.quantity from customerorders cu, orderitem oi where cu.order_id = oi.order_id and cu.quantity <> oi.quantity");
+  foreach ($list as $row){
+     $sql = 'update customerorders set quantity ='.$row['quantity'].' where order_id = '.$row['order_id'].' ;';
+  $entityManager->getConnection()->exec($sql);
+  }
+  
+
         $dql = $entityManager->createQueryBuilder();
         $query = $dql->select('cu')->from('\src\CustomerOrders', 'cu')
 //                        ->add('where', $dql->expr()->in('cu.order_id', $order_id))
