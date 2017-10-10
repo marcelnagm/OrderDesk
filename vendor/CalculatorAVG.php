@@ -35,15 +35,14 @@ class CalculatorAVG {
 //        $topten = new src\TopTen();
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
                 array('symbol' => 'BTC'
-            , 'date_added' => gmdate('Y-m-d', time())
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
         echo $topten->getId() . ' -- ' . $customOrder->getId();
-        $customOrder->setCurrentBTCValue($customOrder->getQuantity() * $topten->getAVGBTCPrice());
+        $customOrder->setCurrentBTCValue($customOrder->getBTCValue() * $topten->getAVGBTCPrice() * $customOrder->getQuantity());
 
 //        eth
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
-                array('symbol' => 'ETH', 'date_added' => gmdate('Y-m-d', time())
+                array('symbol' => 'ETH',
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
 

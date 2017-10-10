@@ -51,15 +51,17 @@ if (count($list) > 0) {
             ->andWhere('cu.Traded = 0')
             ->andWhere('cu.CheckAmountAvailable  = 0');
 ////
+//    var_dump($order_id);
     $users = $query->getQuery()->getResult(); // arr
     $customOrder = new src\CustomerOrders();
 //        var_dump($users);
-    $qcxtransactions = new \src\qcxtransactions();
+//    $qcxtransactions = new \src\qcxtransactions();
     foreach ($users as $customOrder) {
 
         $qcxtransactions  = $entityManager->getRepository('\src\qcxtransactions')->findBy(
                 array(), array('id' => 'DESC'), 1);
         $qcxtransactions  = $qcxtransactions [0];
+//        var_dump($qcxtransactions);
         $customOrder->setCheckAmountAvailable($customOrder->getBTCValue()+$qcxtransactions->getBtc_available());
         
         $entityManager->persist($customOrder);
