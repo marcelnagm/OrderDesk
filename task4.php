@@ -31,6 +31,150 @@ require './config.inc';
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
 $entityManager = EntityManager::create($dbParams, $config);
 
+//---------------------EST001-------------------
+
+$list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'EST001'));
+//var_dump($list);
+echo 'NUmber ocourrences - ' . count($list);
+if (count($list) > 0) {
+
+    $orderItem = new src\OrderItem;
+    $order = new src\Order;
+    foreach ($list as $orderItem) {
+        $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+        if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
+//        echo $orderItem->getOrder_id();
+//        var_dump($order);
+            $timestamp = $order->getDate_added();
+//            echo $timestamp;
+            $dql = $entityManager->createQueryBuilder();
+            $query = $dql->select('btc')
+                            ->from('\src\mybtcprices', 'btc')->
+                            where('btc.utc<= \'' . $timestamp . '\'')
+                            ->orderBy('btc.utc', ' desc')
+                            ->setMaxResults(1)->getQuery();
+            $result = $query->getResult();
+            echo 'count--' . count($result).'==== ';
+            var_dump($result);
+            $mybtcprice = $result[0];
+
+
+            $customOrder = new src\CustomerOrders();
+            $customOrder->setSource_id($order->getSource_id());
+            $customOrder->setOrder_id($order->getId_order());
+            $customOrder->setEmail($order->getEmail());
+            $customOrder->setQuantity($orderItem->getQuantity());
+
+            $customOrder->setDate_added($order->getDate_added());
+            $customOrder->setDatePurchased($order->getDate_added());
+            $customOrder->setDate_updated($order->getDate_updated());
+
+            $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
+            $customOrder->setCode($orderItem->getCode());
+            $customOrder->setCountry($shipping->getCountry());
+            $customOrder->setTrackingNumber($shipment->getTracking_number());
+            $customOrder->setCurrentDate(null);
+
+            echo '  / order_id  - ' . $orderItem->getOrder_id();;
+            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
+            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
+            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
+
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
+//            echo $price;
+            $customOrder->setBTCValue($price);
+            unset($dql);
+
+
+            $entityManager->persist($customOrder);
+            $entityManager->flush();
+        }
+    }
+}
+
+//---------------------SEA001-------------------
+
+$list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'SEA001'));
+//var_dump($list);
+echo 'NUmber ocourrences - ' . count($list);
+if (count($list) > 0) {
+
+    $orderItem = new src\OrderItem;
+//    $order = new src\Order;
+    foreach ($list as $orderItem) {
+//        $order = new src\Order;
+        $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+        if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
+//        echo $orderItem->getOrder_id();
+//        var_dump($order);
+            $timestamp = $order->getDate_added();
+
+            $dql = $entityManager->createQueryBuilder();
+            $query = $dql->select('btc')
+                            ->from('\src\mybtcprices', 'btc')->
+                            where('btc.utc<= \'' . $timestamp . '\'')
+                            ->orderBy('btc.utc', ' desc')
+                            ->setMaxResults(1)->getQuery();
+            $result = $query->getResult();
+//            echo 'count--' . count($result).'==== ';
+//            var_dump($result);
+            $mybtcprice = $result[0];
+            
+            
+            $shipping = new \src\Shipping;
+            $shipment = new \src\Shipment();
+//            $shipping = $entityManager->getRepository('\src\Shipping')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+//            $shipment= $entityManager->getRepository('\src\Shipment')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+
+            $customOrder = new src\CustomerOrders();
+            $customOrder->setSource_id($order->getSource_id());
+            $customOrder->setOrder_id($order->getId_order());
+            $customOrder->setEmail($order->getEmail());
+
+            $customOrder->setDate_added($order->getDate_added());
+            $customOrder->setDatePurchased($order->getDate_added());
+            $customOrder->setDate_updated($order->getDate_updated());
+
+            $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
+            $customOrder->setCode($orderItem->getCode());
+            $customOrder->setQuantity($orderItem->getQuantity());
+            $customOrder->setCountry($shipping->getCountry());
+            $customOrder->setTrackingNumber($shipment->getTracking_number());
+            $customOrder->setCurrentDate(null);
+
+
+//            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
+//            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
+//            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
+
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
+//            echo $price;
+            $customOrder->setBTCValue($price);
+            unset($dql);
+            unset($query);
+            unset($result);
+            
+            $dql = $entityManager->createQueryBuilder();
+            $query = $dql->select('btc')
+                            ->from('\src\myethprices', 'btc')->
+                            where('btc.utc<= \'' . $timestamp . '\'')
+                            ->orderBy('btc.utc', ' desc')
+                            ->setMaxResults(1)->getQuery();
+            $result = $query->getResult();
+//            echo 'count--' . count($result).'==== ';
+//            var_dump($result);
+            $mybtcprice = $result[0];
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
+//            echo $price;
+            $customOrder->setETHValue($price);
+
+            $entityManager->persist($customOrder);
+            $entityManager->flush();
+        }
+    }
+}
+
+
 // ------------------------EXP001------------------
 
 $list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'EXP001'));
@@ -69,8 +213,12 @@ if (count($list) > 0) {
             $customOrder->setDate_updated($order->getDate_updated());
             
             $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
+                      
             $customOrder->setCode($orderItem->getCode());
-
+            $customOrder->setQuantity($orderItem->getQuantity());
+            $customOrder->setCountry($shipping->getCountry());
+            $customOrder->setTrackingNumber($shipment->getTracking_number());
+            $customOrder->setCurrentDate(null);
 
             echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
             echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
@@ -154,7 +302,10 @@ if (count($list) > 0) {
             
             $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
             $customOrder->setCode($orderItem->getCode());
-
+            $customOrder->setQuantity($orderItem->getQuantity());
+            $customOrder->setCountry($shipping->getCountry());
+            $customOrder->setTrackingNumber($shipment->getTracking_number());
+            $customOrder->setCurrentDate(null);
 
 //            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
 //            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
@@ -207,3 +358,5 @@ if (count($list) > 0) {
         }
     }
 }
+
+

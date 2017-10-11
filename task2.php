@@ -4,6 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 set_time_limit(360);
+
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
@@ -29,8 +30,6 @@ require './config.inc';
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
 $entityManager = EntityManager::create($dbParams, $config);
 //https://api.coinmarketcap.com/v1/ticker/syscoin/
-
-
 //to add more visionary,just folow the example
 $data_url_visionary = array(
     'https://api.coinmarketcap.com/v1/ticker/syscoin/',
@@ -42,7 +41,7 @@ $data_url_visionary = array(
 );
 
 
-    
+
 foreach ($data_url_visionary as $url) {
     $ch = curl_init();
     /**
@@ -51,7 +50,7 @@ foreach ($data_url_visionary as $url) {
     /**
      * Set the URL of the page or file to download.
      */
-      curl_setopt($ch, CURLOPT_URL, $url.'?convert=CAD');
+    curl_setopt($ch, CURLOPT_URL, $url . '?convert=CAD');
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -68,36 +67,36 @@ foreach ($data_url_visionary as $url) {
 
 //    print_r($data);
     $curre = new src\Currency($data);
-    $curre =CalculatorAVG::calculateVisAndTop($entityManager, $curre);
-    
+    $curre = CalculatorAVG::calculateVisAndTop($entityManager, $curre);
+
     curl_close($ch);
     $entityManager->persist($curre);
-    
-        
+
+
     unset($curre);
 }
 $entityManager->flush();
 
 
 //session to retrive data from top ten
-    $ch = curl_init();
-    /**
-     * Initialize the cURL session
-     */
-    /**
-     * Set the URL of the page or file to download.
-     */
+$ch = curl_init();
+/**
+ * Initialize the cURL session
+ */
+/**
+ * Set the URL of the page or file to download.
+ */
 //     change the value limit to retrive more
-    curl_setopt($ch, CURLOPT_URL, 'https://api.coinmarketcap.com/v1/ticker/?limit=10&convert=CAD');
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_HEADER, 0);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_URL, 'https://api.coinmarketcap.com/v1/ticker/?limit=10&convert=CAD');
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_HEADER, 0);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    $resp = curl_exec($ch);
-    $resp = json_decode($resp, true);
+$resp = curl_exec($ch);
+$resp = json_decode($resp, true);
 //    print_r($resp);
-    echo count($resp);
-    foreach ($resp as $data_raw){
+echo count($resp);
+foreach ($resp as $data_raw) {
     $data = $data_raw;
     $data['id_cap'] = $data['id'];
     $data['h24_volume_usd'] = $data['24h_volume_usd'];
@@ -106,13 +105,19 @@ $entityManager->flush();
     unset($data['24h_volume_usd']);
     unset($data['24h_volume_cad']);
 
+
     print_r($data);
     $curre = new src\TopTen($data);
-    $curre =CalculatorAVG::calculateVisAndTop($entityManager, $curre);
+    $curre = CalculatorAVG::calculateVisAndTop($entityManager, $curre);
+    if ($data['symbol'] == 'BTC') {
+        $entityManager->getConnection()->exec('update topten set avgUSDPrice_upd = '.$curre->getAVGUSDPrice().' where symbol ="BTC" ');
+        $entityManager->getConnection()->exec('update topten set avgCADPrice_upd = '.$curre->getAVGCADPrice().' where symbol ="BTC" ');
+        
+    }
 //    print_r($curre);
     $entityManager->persist($curre);
-    }
-    $entityManager->flush();            
-    curl_close($ch);
-    
-    
+}
+$entityManager->flush();
+curl_close($ch);
+
+

@@ -16,7 +16,7 @@ class CustomerOrders {
     /** @Column(type="integer")
      * @OneToOne(targetEntity="\src\Order")
      * @JoinColumn(name="order_id", referencedColumnName="order_id")     
-      * * */
+     * * */
     private $order_id;
 
     /** @Column(type="string") * */
@@ -36,6 +36,7 @@ class CustomerOrders {
 
     /** @Column(type="string") * */
     private $code;
+
     /** @Column(type="string") * */
     private $quantity;
 
@@ -49,121 +50,130 @@ class CustomerOrders {
     private $Top1 = 0;
 
     /** @Column(type="string") * */
-    private $Top2= 0;
+    private $Top2 = 0;
 
     /** @Column(type="string") * */
-    private $Top3= 0;
+    private $Top3 = 0;
 
     /** @Column(type="string") * */
-    private $Top4= 0;
+    private $Top4 = 0;
 
     /** @Column(type="string") * */
-    private $Top5= 0;
+    private $Top5 = 0;
 
     /** @Column(type="string") * */
-    private $Vision1= 0;
+    private $Vision1 = 0;
 
     /** @Column(type="string") * */
-    private $Vision2= 0;
+    private $Vision2 = 0;
 
     /** @Column(type="string") * */
-    private $Vision3= 0;
+    private $Vision3 = 0;
 
     /** @Column(type="string") * */
-    private $Vision4= 0;
+    private $Vision4 = 0;
 
     /** @Column(type="string") * */
-    private $Vision5= 0;
+    private $Vision5 = 0;
 
     /** @Column(type="string") * */
-    private $Vision6= 0;
+    private $Vision6 = 0;
 
     /** @Column(type="string") * */
-    private $Top1Description= "";
+    private $Top1Description = "";
 
     /** @Column(type="string") * */
-    private $Top2Description= "";
+    private $Top2Description = "";
 
     /** @Column(type="string") * */
-    private $Top3Description= "";
+    private $Top3Description = "";
 
     /** @Column(type="string") * */
-    private $Top4Description= "";
+    private $Top4Description = "";
 
     /** @Column(type="string") * */
-    private $Top5Description= "";
+    private $Top5Description = "";
 
     /** @Column(type="string") * */
-    private $Vision1Description= "";
+    private $Vision1Description = "";
 
     /** @Column(type="string") * */
-    private $Vision2Description= "";
+    private $Vision2Description = "";
 
     /** @Column(type="string") * */
-    private $Vision3Description= "";
+    private $Vision3Description = "";
 
     /** @Column(type="string") * */
-    private $Vision4Description= "";
+    private $Vision4Description = "";
 
     /** @Column(type="string") * */
-    private $Vision5Description= "";
+    private $Vision5Description = "";
 
     /** @Column(type="string") * */
-    private $Vision6Description= "";
+    private $Vision6Description = "";
 
     /** @Column(type="string") * */
     private $DatePurchased;
 
     /** @Column(type="string") * */
-    private $CurrentBTCValue= 0;
+    private $CurrentBTCValue = 0;
 
     /** @Column(type="string") * */
-    private $CurrentETHValue= 0;
+    private $CurrentETHValue = 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop1= 0;
+    private $CurrentTop1 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop2= 0;
+    private $CurrentTop2 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop3= 0;
+    private $CurrentTop3 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop4= 0;
+    private $CurrentTop4 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentTop5= 0;
+    private $CurrentTop5 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision1= 0;
+    private $CurrentVision1 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision2= 0;
+    private $CurrentVision2 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision3= 0;
+    private $CurrentVision3 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision4= 0;
+    private $CurrentVision4 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision5= 0;
+    private $CurrentVision5 = 0;
 
     /** @Column(type="string") * */
-    private $CurrentVision6= 0;
+    private $CurrentVision6 = 0;
 
     /** @Column(type="string") * */
-    private $Exchange= 0;
+    private $Exchange = 0;
 
     /** @Column(type="string") * */
-    private $Traded= 0;
+    private $Traded = 0;
 
     /** @Column(type="string") * */
-    private $ExternalOrderID= "";
+    private $ExternalOrderID = "";
 
     /** @Column(type="string") * */
-    private $CheckAmountAvailable= 0;
+    private $CheckAmountAvailable = 0;
+
+    /** @Column(type="string") * */
+    private $CurrentDate;
+
+    /** @Column(type="string") * */
+    private $TrackingNumber;
+
+    /** @Column(type="string") * */
+    private $Country;
 
     public function __construct($array = null) {
         if (is_array($array)) {
@@ -177,6 +187,7 @@ class CustomerOrders {
                 }
             }
         }
+        $this->setCurrentDate($CurrentDate);
     }
 
     public function setData($array = null) {
@@ -191,6 +202,7 @@ class CustomerOrders {
                 }
             }
         }
+        $this->setCurrentDate($CurrentDate);
     }
 
     function getId() {
@@ -606,6 +618,28 @@ class CustomerOrders {
         $this->quantity = $quantity;
     }
 
+    function getCurrentDate() {
+        return $this->CurrentDate;
+    }
 
-    
+    function getTrackingNumber() {
+        return $this->TrackingNumber;
+    }
+
+    function getCountry() {
+        return $this->Country;
+    }
+
+    function setCurrentDate($CurrentDate) {
+        $this->CurrentDate = gmdate('Y-m-d', time());
+    }
+
+    function setTrackingNumber($TrackingNumber) {
+        $this->TrackingNumber = $TrackingNumber;
+    }
+
+    function setCountry($Country) {
+        $this->Country = $Country;
+    }
+
 }

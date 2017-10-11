@@ -324,3 +324,8 @@ ALTER TABLE `visionary`
 ALTER TABLE `openqcxorders` ADD `orderdesek_id` BIGINT NOT NULL AFTER `id`, ADD INDEX (`orderdesek_id`);
 ALTER TABLE `openqcxorders` CHANGE `orderdesek_id` `orderdesek_id` VARCHAR(60) NOT NULL;
 
+-- request 7
+
+ALTER TABLE `customerorders` ADD `CurrentDate` DATE NULL AFTER `CheckAmountAvailable`, ADD `TrackingNumber` VARCHAR(60) NULL AFTER `CurrentDate`, ADD `Country` VARCHAR(20) NULL AFTER `TrackingNumber`;
+ALTER TABLE `topten` ADD `avgEURPrice` FLOAT NOT NULL DEFAULT '0' AFTER `AVGBTCPrice`;
+ALTER TABLE `topten` ADD `avgUSDPrice_upd` FLOAT NULL AFTER `AVGEURPrice`, ADD `avgCADPrice_upd` FLOAT NULL AFTER `avgUSDPrice_upd`;

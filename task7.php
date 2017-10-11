@@ -35,21 +35,9 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), 
 $entityManager = EntityManager::create($dbParams, $config);
 
 
-//$url_contries = array(
-//    'CA' ,
-//    'US' 
-//);
+$entityManager->getConnection()->exec("update customerorders set CurrentDate ='".gmdate('Y-m-d', time())."' ");
 
-//----
-//foreach ($url_contries as $contry ) {
-//    echo 'countr -- ' . $contry;
-//    $list = $entityManager->getConnection()->fetchAll("select order_id from shipping where country='$contry'");
-//    if (count($list) > 0) {
-//        $order_id = array();
-//        foreach ($list as $row) {
-//            $order_id[] = $row["order_id"];
-//        }
-////    
+
   $list = $entityManager->getConnection()->fetchAll("select oi.order_id,oi.quantity from customerorders cu, orderitem oi where cu.order_id = oi.order_id and cu.quantity <> oi.quantity");
   foreach ($list as $row){
      $sql = 'update customerorders set quantity ='.$row['quantity'].' where order_id = '.$row['order_id'].' ;';
