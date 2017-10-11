@@ -193,7 +193,7 @@ class CustomerOrders {
                 }
             }
         }
-        $this->setCurrentDate($CurrentDate);
+        $this->setCurrentDate(null);
     }
 
     public function setData($array = null) {

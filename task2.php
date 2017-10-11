@@ -106,12 +106,15 @@ foreach ($resp as $data_raw) {
     unset($data['24h_volume_cad']);
 
 
-    print_r($data);
+//    print_r($data);
     $curre = new src\TopTen($data);
     $curre = CalculatorAVG::calculateVisAndTop($entityManager, $curre);
     if ($data['symbol'] == 'BTC') {
-        $entityManager->getConnection()->exec('update topten set avgUSDPrice_upd = '.$curre->getAVGUSDPrice().' where symbol ="BTC" ');
-        $entityManager->getConnection()->exec('update topten set avgCADPrice_upd = '.$curre->getAVGCADPrice().' where symbol ="BTC" ');
+//        echo 'FEito';
+//        echo '-------'.$curre->getAVGUSDPrice();
+//        echo 'update topten set avgUSDPrice_upd = '.$curre->getAVGUSDPrice().' where symbol ="BTC" ';
+        echo '-------'.$entityManager->getConnection()->exec('update topten set avgUSDPrice_upd = '.$curre->getAVGUSDPrice().' where symbol ="BTC" ');
+        echo '-------'. $entityManager->getConnection()->exec('update topten set avgCADPrice_upd = '.$curre->getAVGCADPrice().' where symbol ="BTC" ');
         
     }
 //    print_r($curre);
