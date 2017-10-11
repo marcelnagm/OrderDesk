@@ -402,7 +402,7 @@ if (count($list) > 0) {
                 ), array('id' => 'DESC'), 1);
         $curre= $curre[0];
 
-        $entityManager->getConnection()->exec('update customerorders set avgUSDPrice= '.$curre->getAVGUSDPrice().' ');
-        $entityManager->getConnection()->exec('update customerorders set avgCADPrice= '.$curre->getAVGCADPrice().'  ');
+        $entityManager->getConnection()->exec('update customerorders set avgUSDPrice='.$curre->getAVGUSDPrice().' ');
+        $entityManager->getConnection()->exec('update customerorders set avgCADPrice='.$curre->getAVGCADPrice().'  ');
         
     
