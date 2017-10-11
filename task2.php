@@ -113,8 +113,8 @@ foreach ($resp as $data_raw) {
 //        echo 'FEito';
 //        echo '-------'.$curre->getAVGUSDPrice();
 //        echo 'update topten set avgUSDPrice_upd = '.$curre->getAVGUSDPrice().' where symbol ="BTC" ';
-        $entityManager->getConnection()->exec('update customerorders set avgUSDPrice= '.$curre->getAVGUSDPrice().' where symbol ="BTC" ');
-        $entityManager->getConnection()->exec('update customerorders set avgCADPrice= '.$curre->getAVGCADPrice().' where symbol ="BTC" ');
+        $entityManager->getConnection()->exec('update customerorders set avgUSDPrice= '.$curre->getAVGUSDPrice().' ');
+        $entityManager->getConnection()->exec('update customerorders set avgCADPrice= '.$curre->getAVGCADPrice().'  ');
         
     }
 //    print_r($curre);
