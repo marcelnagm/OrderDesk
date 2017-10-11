@@ -327,5 +327,5 @@ ALTER TABLE `openqcxorders` CHANGE `orderdesek_id` `orderdesek_id` VARCHAR(60) N
 -- request 7
 
 ALTER TABLE `customerorders` ADD `CurrentDate` DATE NULL AFTER `CheckAmountAvailable`, ADD `TrackingNumber` VARCHAR(60) NULL AFTER `CurrentDate`, ADD `Country` VARCHAR(20) NULL AFTER `TrackingNumber`;
-ALTER TABLE `customerorders` ADD `avgEURPrice` FLOAT NOT NULL DEFAULT '0' AFTER `AVGBTCPrice`;
-ALTER TABLE `customerorders` ADD `avgUSDPrice` FLOAT NULL AFTER `AVGEURPrice`, ADD `avgCADPrice_upd` FLOAT NULL AFTER `avgUSDPrice_upd`;
+ALTER TABLE `customerorders` ADD `avgEURPrice` FLOAT NOT NULL DEFAULT '0' AFTER `SKUDescription`;
+ALTER TABLE `customerorders` ADD `avgUSDPrice` FLOAT NULL AFTER `AVGEURPrice`, ADD `avgCADPrice` FLOAT NULL AFTER `avgUSDPrice`;

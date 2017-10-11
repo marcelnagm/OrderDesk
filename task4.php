@@ -397,4 +397,12 @@ if (count($list) > 0) {
     }
 }
 
+  $curre = $entityManager->getRepository('\src\TopTen')->findBy(
+                array('symbol' => 'BTC'
+                ), array('id' => 'DESC'), 1);
+        $curre= $curre[0];
 
+        $entityManager->getConnection()->exec('update customerorders set avgUSDPrice= '.$curre->getAVGUSDPrice().' ');
+        $entityManager->getConnection()->exec('update customerorders set avgCADPrice= '.$curre->getAVGCADPrice().'  ');
+        
+    

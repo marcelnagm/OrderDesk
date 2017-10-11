@@ -109,14 +109,7 @@ foreach ($resp as $data_raw) {
 //    print_r($data);
     $curre = new src\TopTen($data);
     $curre = CalculatorAVG::calculateVisAndTop($entityManager, $curre);
-    if ($data['symbol'] == 'BTC') {
-//        echo 'FEito';
-//        echo '-------'.$curre->getAVGUSDPrice();
-//        echo 'update topten set avgUSDPrice_upd = '.$curre->getAVGUSDPrice().' where symbol ="BTC" ';
-        $entityManager->getConnection()->exec('update customerorders set avgUSDPrice= '.$curre->getAVGUSDPrice().' ');
-        $entityManager->getConnection()->exec('update customerorders set avgCADPrice= '.$curre->getAVGCADPrice().'  ');
-        
-    }
+    
 //    print_r($curre);
     $entityManager->persist($curre);
 }
