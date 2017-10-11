@@ -71,18 +71,9 @@ class TopTen {
 
     /** @Column(type="string") * */
     private $AVGUSDPrice;
-    /** @Column(type="string") * */
-    private $AVGCADPrice_upd;
-
-    /** @Column(type="string") * */
-    private $AVGUSDPrice_upd;
 
     /** @Column(type="string") * */
     private $AVGBTCPrice;
-    /** @Column(type="string") * */
-    private $AVGEURPrice = 0;
-    
-    
     private $tablename = 'topten';
 
     public function __construct($array = null) {
@@ -290,30 +281,4 @@ class TopTen {
         $this->AVGBTCPrice = $AVGBTCPrice;
     }
 
-    function getAVGCADPrice_upd() {
-        return $this->AVGCADPrice_upd;
-    }
-
-    function getAVGUSDPrice_upd() {
-        return $this->AVGUSDPrice_upd;
-    }
-
-    function getAVGEURPrice() {
-        return $this->AVGEURPrice;
-    }
-
-    function setAVGCADPrice_upd($AVGCADPrice_upd) {
-        $this->AVGCADPrice_upd = $AVGCADPrice_upd;
-    }
-
-    function setAVGUSDPrice_upd($AVGUSDPrice_upd) {
-        $this->AVGUSDPrice_upd = $AVGUSDPrice_upd;
-    }
-
-    function setAVGEURPrice($AVGEURPrice) {
-        $this->AVGEURPrice = $AVGEURPrice;
-    }
-
-
-    
 }

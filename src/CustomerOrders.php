@@ -180,6 +180,12 @@ class CustomerOrders {
 
     /** @Column(type="string") * */
     private $SKUDescription;
+    /** @Column(type="string") * */
+    private $avgEURPrice = 0;
+    /** @Column(type="string") * */
+    private $avgUSDPrice =0;
+    /** @Column(type="string") * */
+    private $avgCADPrice =0;
 
     public function __construct($array = null) {
         if (is_array($array)) {
@@ -664,4 +670,31 @@ class CustomerOrders {
         $this->SKUDescription = $SKUDescription;
     }
 
+    function getAvgEURPrice() {
+        return $this->avgEURPrice;
+    }
+
+    function getAvgUSDPrice() {
+        return $this->avgUSDPrice;
+    }
+
+    function getAvgCADPrice() {
+        return $this->avgCADPrice;
+    }
+
+    function setAvgEURPrice($avgEURPrice) {
+        $this->avgEURPrice = $avgEURPrice;
+    }
+
+    function setAvgUSDPrice($avgUSDPrice) {
+        $this->avgUSDPrice = $avgUSDPrice;
+    }
+
+    function setAvgCADPrice($avgCADPrice) {
+        $this->avgCADPrice = $avgCADPrice;
+    }
+
+ 
+    
+    
 }
