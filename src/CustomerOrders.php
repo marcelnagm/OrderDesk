@@ -175,6 +175,12 @@ class CustomerOrders {
     /** @Column(type="string") * */
     private $Country;
 
+    /** @Column(type="string") * */
+    private $Title;
+
+    /** @Column(type="string") * */
+    private $SKUDescription;
+
     public function __construct($array = null) {
         if (is_array($array)) {
 
@@ -640,6 +646,22 @@ class CustomerOrders {
 
     function setCountry($Country) {
         $this->Country = $Country;
+    }
+
+    function getTitle() {
+        return $this->Title;
+    }
+
+    function getSKUDescription() {
+        return $this->SKUDescription;
+    }
+
+    function setTitle($Title) {
+        $this->Title = $Title;
+    }
+
+    function setSKUDescription($SKUDescription) {
+        $this->SKUDescription = $SKUDescription;
     }
 
 }
