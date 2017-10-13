@@ -36,7 +36,7 @@ $entityManager = EntityManager::create($dbParams, $config);
 
 //----
 
-$list = $entityManager->getRepository('\src\CustomerOrders')->findBy(array('code' => 'EST001', 'ExternalOrderID' => NULL));
+$list = $entityManager->getRepository('\src\CustomerOrders')->findBy(array('code' => 'EST001', 'ExternalOrderID' => ''));
 //var_dump($list);
 //$customOrder = new src\CustomerOrders;
 
@@ -45,7 +45,7 @@ $btc = $entityManager->getRepository('\src\mybtcprices')->findBy(
         array(), array('id' => 'DESC'), 1);
 $btc = $btc[0];
 
-echo count($list);
+echo 'How many orders i get - '.count($list);
 foreach ($list as $customOrder) {
 
     $nonce = time(); // Unix timestamp
@@ -76,6 +76,7 @@ foreach ($list as $customOrder) {
         'Content-Length: ' . strlen($data_string))
     );
     $result = curl_exec($ch);
+//    $result = NULL;
 //$result = '{"amount":"0.00344351","book":"btc_cad","datetime":"2017-10-12 00:41:59","id":"e8gsh6e3yz9unntg6y1v5xjuywwy9xwb2hzwt5c6upz3st5b6nnd6u5vb0m2ayxw","price":"6089.99","status":"0","type":"0"}';
 //    echo ($result);
     $result = json_decode($result, true);
@@ -84,6 +85,8 @@ foreach ($list as $customOrder) {
         $customOrder->setExternalOrderID($result['id']);
         $entityManager->persist($customOrder);
         $entityManager->flush();
+    }else{
+        echo 'Error ocourred with -'.$customOrder->getOrder_id().' --';
     }
 }
 ?>
