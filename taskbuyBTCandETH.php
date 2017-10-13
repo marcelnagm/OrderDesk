@@ -34,13 +34,14 @@ require 'config.inc';
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
 $entityManager = EntityManager::create($dbParams, $config);
 
-
+//retrive the list by the code SEA001 and externalorderid = empty string
 $list = $entityManager->getRepository('\src\CustomerOrders')->findBy(array('code' => 'SEA001', 'ExternalOrderID' => ''));
 
+//get the last btc
 $btc = $entityManager->getRepository('\src\mybtcprices')->findBy(
         array(), array('id' => 'DESC'), 1);
 $btc = $btc[0];
-
+//get the last eth
 $eth = $entityManager->getRepository('\src\myethprices')->findBy(
         array(), array('id' => 'DESC'), 1);
 $eth = $eth[0];
@@ -54,7 +55,9 @@ foreach ($list as $customOrder) {
     $nonce = time(); // Unix timestamp
     $key = 'hmNgRNnDNC'; // My API Key
     $client = 47301; // My Client ID
+//    set up the values that he get from customer order
     $amount = $customOrder->getBTCValue();
+//    set ip the value that he get from btc
     $price = $btc->getAsk();
     $book = 'btc_cad'; //specify the currency
     $secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
@@ -81,10 +84,12 @@ foreach ($list as $customOrder) {
         'Content-Length: ' . strlen($data_string))
     );
     $result = curl_exec($ch);
+//    send the request
     echo ($result);
+//    decode the answer
     $result = json_decode($result, true);
 
-
+//these are flags if he get a right answer and if the answer exist
     if (isset($result['id']) && $result != NULL) {
         $customOrder->setExternalOrderID($result['id']);
         $entityManager->persist($customOrder);
@@ -99,7 +104,9 @@ foreach ($list as $customOrder) {
     $nonce = time(); // Unix timestamp
     $key = 'hmNgRNnDNC'; // My API Key
     $client = 47301; // My Client ID
+    //    set up the values that he get from customer order
     $amount = $customOrder->getETHValue();
+    //    set ip the value that he get from eth
     $price = $eth->getAsk();
     $book = 'eth_cad'; //specify the currency
     $secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret

@@ -60,16 +60,19 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Length: ' . strlen($data_string))
 );
 $result = curl_exec($ch);
+//fetch all data and decode the json
  $result = json_decode($result, true);
- var_dump($result);
+// var_dump($result);
+ 
  $data = $result[0];
 //var_dump($data);
-
+//adjust to the way objects its mapped openqcx....
 $data['ID_Value'] =$data['id'] ;
 $data['datetime_added'] =$data['datetime'] ;
 
 $list = $entityManager->getRepository('\src\openqcxorders')->findBy(array('ID_Value' => $data['ID_Value']));
 //var_dump($list);
+//search if its present on the db , if not go on
 echo 'NUmber ocourrences - ' . count($list);
 if (count($list) == 0) {
 $btc =  new src\openqcxorders($data); 

@@ -49,6 +49,7 @@ $entityManager = EntityManager::create($dbParams, $config);
 //    print_r($resp);
     
    $btc =  new src\mybtcprices($resp); 
+//   calculate the AVG for btc and eth
    $btc = CalculatorAVG::calculateBtcAndEth($entityManager,$btc);
    
     $entityManager->persist($btc);
@@ -77,6 +78,8 @@ $entityManager = EntityManager::create($dbParams, $config);
 //    print_r($resp);
     
    $btc =  new src\myethprices($resp); 
+   
+//   calculate the AVG for btc and eth
    $btc = CalculatorAVG::calculateBtcAndEth($entityManager,$btc);
     
     $entityManager->persist($btc);

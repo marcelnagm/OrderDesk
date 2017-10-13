@@ -35,6 +35,7 @@ $entityManager = EntityManager::create($dbParams, $config);
 
 //---------------------EST001-------------------
 
+//get all the orderitem by the code
 $list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'EST001'));
 //var_dump($list);
 echo 'NUmber ocourrences - ' . count($list);
@@ -43,28 +44,32 @@ if (count($list) > 0) {
     $orderItem = new src\OrderItem;
     $order = new src\Order;
     foreach ($list as $orderItem) {
+//        get the full order information
         $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
-
+//        check if its on the customer order, if not go on
         if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
             echo $orderItem->getOrder_id();
+//            get the timestamp
             $timestamp = $order->getDate_added();
 //            echo $timestamp;
             $dql = $entityManager->createQueryBuilder();
+//            search for the last btc on the date informed
             $query = $dql->select('btc')
                             ->from('\src\mybtcprices', 'btc')->
                             where('btc.utc<= \'' . $timestamp . '\'')
                             ->orderBy('btc.utc', ' desc')
                             ->setMaxResults(1)->getQuery();
             $result = $query->getResult();
-//            echo 'count--' . count($result) . '==== ';
-//            var_dump($result);
             $mybtcprice = $result[0];
-
+            
+//            get the info about shipping
             $shipping = $entityManager->getRepository('\src\Shipping')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
 //        $shipment =new src\Shipment;
+//            get the info about shipment
             $shipment = $entityManager->getRepository('\src\Shipment')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
 //             var_dump($shipment);
-
+            
+//            set up all the data
             $customOrder = new src\CustomerOrders();
             $customOrder->setSource_id($order->getSource_id());
             $customOrder->setOrder_id($order->getId_order());
@@ -74,13 +79,15 @@ if (count($list) > 0) {
             $customOrder->setDate_added($order->getDate_added());
             $customOrder->setDatePurchased($order->getDate_added());
             $customOrder->setDate_updated($order->getDate_updated());
-
+            
+//            calculate order total
             $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
             $customOrder->setCode($orderItem->getCode());
             $customOrder->setCountry($shipping->getCountry());
             $customOrder->setTrackingNumber($shipment->getTracking_number());
             $customOrder->setCurrentDate(null);
 
+//            fetch sku data to the customer order
             $shull_data = $entityManager->getConnection()->fetchAll('select TITLE,SKUDescription from skus where SKU="' . $customOrder->getCode() . '"')[0];
 //            var_dump($shull_data);
             $customOrder->setTitle($shull_data['TITLE']);
@@ -92,7 +99,7 @@ if (count($list) > 0) {
 //            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
 //            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
 //            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
-
+//            calcultate the price given by the formula
             $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
 //            echo $price;
             $customOrder->setBTCValue($price);
@@ -116,13 +123,16 @@ if (count($list) > 0) {
 //    $order = new src\Order;
     foreach ($list as $orderItem) {
 //        $order = new src\Order;
+//           get the full order information
         $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+//           check if its on the customer order, if not go on
         if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
 //        echo $orderItem->getOrder_id();
 //        var_dump($order);
             $timestamp = $order->getDate_added();
 
             $dql = $entityManager->createQueryBuilder();
+//                search for the last btc on the date informed
             $query = $dql->select('btc')
                             ->from('\src\mybtcprices', 'btc')->
                             where('btc.utc<= \'' . $timestamp . '\'')
@@ -155,7 +165,7 @@ if (count($list) > 0) {
             $customOrder->setTrackingNumber($shipment->getTracking_number());
             $customOrder->setCurrentDate(null);
 
-
+//            fetch sku data to the customer order
             $shull_data = $entityManager->getConnection()->fetchAll('select TITLE,SKUDescription from skus where SKU="' . $customOrder->getCode() . '"')[0];
 //            var_dump($shull_data);
             $customOrder->setTitle($shull_data['TITLE']);
@@ -164,7 +174,7 @@ if (count($list) > 0) {
 //            echo '$orderItem->getQuantity()  - ' . $orderItem->getQuantity();
 //            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
 //            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
-
+///            calcultate the price given by the formula
             $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
 //            echo $price;
             $customOrder->setBTCValue($price);
@@ -173,6 +183,7 @@ if (count($list) > 0) {
             unset($result);
 
             $dql = $entityManager->createQueryBuilder();
+//                search for the last btc on the date informed
             $query = $dql->select('btc')
                             ->from('\src\myethprices', 'btc')->
                             where('btc.utc<= \'' . $timestamp . '\'')
@@ -182,8 +193,10 @@ if (count($list) > 0) {
 //            echo 'count--' . count($result).'==== ';
 //            var_dump($result);
             $mybtcprice = $result[0];
+//            /            calcultate the price given by the formula
             $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
 //            echo $price;
+//            setting ETH VALUE
             $customOrder->setETHValue($price);
 
             $entityManager->persist($customOrder);
@@ -203,6 +216,7 @@ if (count($list) > 0) {
     $orderItem = new src\OrderItem;
     $order = new src\Order;
     foreach ($list as $orderItem) {
+//           get the full order information
         $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
         if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
 //        echo 'id ---'.$orderItem->getOrder_id();
@@ -210,6 +224,7 @@ if (count($list) > 0) {
             $timestamp = $order->getDate_added();
 
             $dql = $entityManager->createQueryBuilder();
+//                search for the last btc on the date informed
             $query = $dql->select('btc')
                             ->from('\src\mybtcprices', 'btc')->
                             where('btc.utc<= \'' . $timestamp . '\'')
@@ -244,6 +259,7 @@ if (count($list) > 0) {
             $customOrder->setTrackingNumber($shipment->getTracking_number());
             $customOrder->setCurrentDate(null);
 
+            //            fetch sku data to the customer order
             $shull_data = $entityManager->getConnection()->fetchAll('select TITLE,SKUDescription from skus where SKU="' . $customOrder->getCode() . '"')[0];
 //            var_dump($shull_data);
             $customOrder->setTitle($shull_data['TITLE']);
@@ -254,6 +270,8 @@ if (count($list) > 0) {
             echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
             echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
 
+//            rpice given by formula
+            
             $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() / 5;
             echo $price;
             $customOrder->setPrice_btc($mybtcprice->getFiftyBlock());
@@ -262,6 +280,7 @@ if (count($list) > 0) {
 
             echo '==== utc = ' . $order->getDate_added();
             $data = array();
+//            get all the top1 - 5 data to set up on the customerorders
             for ($i = 1; $i < 6; $i++) {
                 $query = $entityManager->createQuery('SELECT u FROM src\TopTen u WHERE '
                                 . 'u.last_updated<=\'' . $order->getDate_added() . '\''
@@ -300,13 +319,16 @@ if (count($list) > 0) {
     $orderItem = new src\OrderItem;
     $order = new src\Order;
     foreach ($list as $orderItem) {
+//           get the full order information
         $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
+//        check if its on the customer order, if not go on
         if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
         echo 'id ---'.$orderItem->getOrder_id();
 //        var_dump($order);
             $timestamp = $order->getDate_added();
 
             $dql = $entityManager->createQueryBuilder();
+//                search for the last btc on the date informed
             $query = $dql->select('btc')
                             ->from('\src\mybtcprices', 'btc')->
                             where('btc.utc<= \'' . $timestamp . '\'')
@@ -339,7 +361,7 @@ if (count($list) > 0) {
             $customOrder->setCountry($shipping->getCountry());
             $customOrder->setTrackingNumber($shipment->getTracking_number());
             $customOrder->setCurrentDate(null);
-
+//            fetch sku data to the customer order
             $shull_data = $entityManager->getConnection()->fetchAll('select TITLE,SKUDescription from skus where SKU="' . $customOrder->getCode() . '"')[0];
 //            var_dump($shull_data);
             $customOrder->setTitle($shull_data['TITLE']);
@@ -357,11 +379,13 @@ if (count($list) > 0) {
 
             $data = array();
             $i = 1;
+//            example SYMBOLCOIN => %
             $fetch = array('BTC' => 0.05, 'XMR' => 0.1, 'DASH' => 0.1
                 , 'SC' => 0.2,
                 'STRAT' => 0.2,
                 'SYS' => 0.35
             );
+//            fetch all vision given by the array
             foreach ($fetch as $key => $value) {
                 $query = $entityManager->createQuery('SELECT u FROM src\Currency u WHERE '
                                 . 'u.last_updated<=\'' . $order->getDate_added() . '\''
@@ -370,7 +394,7 @@ if (count($list) > 0) {
                                 . ' ')->setMaxResults(1);
 
                 $top = $query->execute();
-
+//                calculate each by his top data
                 $data['vision' . $i] = $price * $value / $top[0]->getPrice_btc();
                 $data['vision' . $i . '_name'] = $top[0]->getName();
                 $i++;
@@ -378,6 +402,7 @@ if (count($list) > 0) {
 
 
 //            var_dump($data);
+//            set up all the data
             $customOrder->setVision1($data['vision1']);
             $customOrder->setVision1Description($data['vision1_name']);
             $customOrder->setVision2($data['vision2']);

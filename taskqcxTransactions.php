@@ -67,7 +67,7 @@ $result = curl_exec($ch);
 //var_dump($data);
 
 
-
+//retrive the data decode ans store on the db
     $btc =  new src\qcxTransactions($data); 
 
     $entityManager->persist($btc);

@@ -35,12 +35,12 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), 
 $entityManager = EntityManager::create($dbParams, $config);
 
 //----
-
+//get all the customerorder by code = EST001 and externalorderid = empty string
 $list = $entityManager->getRepository('\src\CustomerOrders')->findBy(array('code' => 'EST001', 'ExternalOrderID' => ''));
 //var_dump($list);
 //$customOrder = new src\CustomerOrders;
 
-
+//get the last btc
 $btc = $entityManager->getRepository('\src\mybtcprices')->findBy(
         array(), array('id' => 'DESC'), 1);
 $btc = $btc[0];
@@ -81,6 +81,7 @@ foreach ($list as $customOrder) {
 //    echo ($result);
     $result = json_decode($result, true);
 //    var_dump($result);
+    //these are flags if he get a right answer and if the answer exist
     if (isset($result['id']) && $result !=NULL) {
         $customOrder->setExternalOrderID($result['id']);
         $entityManager->persist($customOrder);

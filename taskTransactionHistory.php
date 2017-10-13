@@ -65,14 +65,17 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Length: ' . strlen($data_string))
 );
 $result = curl_exec($ch);
+//request all the result
 //echo ($result);
+//decode the json to get the data
 $result = json_decode($result, true);
 
 
-
+//foreach row data he persist on the db
 foreach ($result as $row_data) {
+//    test if the history are on db
     $test = $entityManager->getConnection()->fetchAll('select count(id) as cont from qcxTransactionHistory where order_id ="' . $row_data['order_id'] . '" and datetime = "'.$row_data['datetime'].'"');
-//    var_dump($test);
+//    if isnt he persist on the db
     if ($test[0]['cont'] == 0) {
         $cxhistory = new src\qcxTransactionHistory($row_data);
         $entityManager->persist($cxhistory);
@@ -116,10 +119,9 @@ $result = json_decode($result, true);
 var_dump($result);
 foreach ($result as $row_data) {
     var_dump($row_data);
-//    if (isset($row_data['order_id'])) {
+    //    test if the history are on db
         $test = $entityManager->getConnection()->fetchAll('select count(id) as cont from qcxTransactionHistory where order_id ="' . $row_data['order_id'] . '" and datetime = "'.$row_data['datetime'].'"');
-//    var_dump($row_data['order_id'] );
-//    var_dump($test);
+//    if isnt he persist on the db go on
         if ($test[0]['cont'] == 0) {
             $cxhistory = new src\qcxTransactionHistory($row_data);
             $entityManager->persist($cxhistory);
@@ -128,7 +130,7 @@ foreach ($result as $row_data) {
         }
 //    }
 }
-
+//update the Traded =1 where cxgisory are present
 $entityManager->getConnection()->exec('UPDATE customerorders set Traded = 1 WHERE ExternalOrderID in (select order_id from  qcxtransactionhistory) and ExternalOrderID != ""');
 
 
