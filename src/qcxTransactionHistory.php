@@ -23,11 +23,11 @@ class qcxTransactionHistory{
      /** @Column(type="string") * */
     private $eth_cad=0;
      /** @Column(type="string") * */
-    private $order_id;
+    private $order_id = '';
      /** @Column(type="string") * */
     private $fee;
      /** @Column(type="string") * */
-    private $rate;
+    private $rate ='';
      /** @Column(type="string") * */
     private $type;
      /** @Column(type="string") * */

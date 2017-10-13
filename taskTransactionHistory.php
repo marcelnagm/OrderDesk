@@ -116,7 +116,7 @@ $result = json_decode($result, true);
 var_dump($result);
 foreach ($result as $row_data) {
     var_dump($row_data);
-    if (isset($row_data['order_id'])) {
+//    if (isset($row_data['order_id'])) {
         $test = $entityManager->getConnection()->fetchAll('select count(id) as cont from qcxTransactionHistory where order_id ="' . $row_data['order_id'] . '" and datetime = "'.$row_data['datetime'].'"');
 //    var_dump($row_data['order_id'] );
 //    var_dump($test);
@@ -126,6 +126,6 @@ foreach ($result as $row_data) {
 
             $entityManager->flush();
         }
-    }
+//    }
 }
 ?>
