@@ -41,8 +41,14 @@ $btc = $entityManager->getRepository('\src\mybtcprices')->findBy(
         array(), array('id' => 'DESC'), 1);
 $btc = $btc[0];
 
-//----
+$eth = $entityManager->getRepository('\src\myethprices')->findBy(
+        array(), array('id' => 'DESC'), 1);
+$eth = $eth[0];
 
+
+
+//----
+$customOrder = new src\CustomerOrders;
 echo 'How many orders i get - ' . count($list);
 foreach ($list as $customOrder) {
     $nonce = time(); // Unix timestamp
@@ -81,14 +87,15 @@ foreach ($list as $customOrder) {
     } else {
         echo 'Error ocourred with -' . $customOrder->getOrder_id() . ' --';
     }
-}
 
+
+    
 
 $nonce = time(); // Unix timestamp
 $key = 'hmNgRNnDNC'; // My API Key
 $client = 47301; // My Client ID
-$amount = 0.11964999;
-$price = 396.1;
+$amount = $customOrder->getETHValue();
+    $price = $eth->getAsk();
 $book = 'eth_cad'; //specify the currency
 $secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
 $signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
@@ -113,4 +120,5 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 $result = curl_exec($ch);
 echo ($result);
+}
 ?>
