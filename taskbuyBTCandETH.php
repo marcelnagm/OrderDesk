@@ -69,17 +69,20 @@ foreach ($list as $customOrder) {
         'book' => $book,
     );
 
+    var_dump($data);
     $data_string = json_encode($data);
     $ch = curl_init('https://api.quadrigacx.com/v2/buy');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json; charset=utf-8',
         'Content-Length: ' . strlen($data_string))
     );
     $result = curl_exec($ch);
     echo ($result);
+    var_dump($result);
     if (isset($result['id']) && $result != NULL) {
         $customOrder->setExternalOrderID($result['id']);
         $entityManager->persist($customOrder);
@@ -89,36 +92,37 @@ foreach ($list as $customOrder) {
     }
 
 
-    
 
-$nonce = time(); // Unix timestamp
-$key = 'hmNgRNnDNC'; // My API Key
-$client = 47301; // My Client ID
-$amount = $customOrder->getETHValue();
+
+    $nonce = time(); // Unix timestamp
+    $key = 'hmNgRNnDNC'; // My API Key
+    $client = 47301; // My Client ID
+    $amount = $customOrder->getETHValue();
     $price = $eth->getAsk();
-$book = 'eth_cad'; //specify the currency
-$secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
-$signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
+    $book = 'eth_cad'; //specify the currency
+    $secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
+    $signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
 
-$data = array(
-    'key' => $key,
-    'nonce' => $nonce,
-    'signature' => $signature,
-    'amount' => $amount,
-    'price' => $price,
-    'book' => $book
-);
+    $data = array(
+        'key' => $key,
+        'nonce' => $nonce,
+        'signature' => $signature,
+        'amount' => $amount,
+        'price' => $price,
+        'book' => $book
+    );
 
-$data_string = json_encode($data);
-$ch = curl_init('https://api.quadrigacx.com/v2/buy');
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Type: application/json; charset=utf-8',
-    'Content-Length: ' . strlen($data_string))
-);
-$result = curl_exec($ch);
-echo ($result);
+    $data_string = json_encode($data);
+    $ch = curl_init('https://api.quadrigacx.com/v2/buy');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json; charset=utf-8',
+        'Content-Length: ' . strlen($data_string))
+    );
+    $result = curl_exec($ch);
+    echo ($result);
 }
 ?>
