@@ -36,13 +36,11 @@ $entityManager = EntityManager::create($dbParams, $config);
 
 //----
 
-
-
-
 $nonce     = time(); // Unix timestamp
 $key       = 'hmNgRNnDNC'; // My API Key
 $client    = 47301; // My Client ID
 $sort      = 'desc';
+$limit     = 10;
 $book		= 'btc_cad'; //specify the currency
 $secret    = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
 $signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
@@ -52,6 +50,39 @@ $data = array(
     'nonce'     => $nonce,
     'signature' => $signature,
     'sort'    => $sort,
+    'limit'   => $limit,
+    'book'     => $book
+);
+
+$data_string = json_encode($data);
+$ch = curl_init('https://api.quadrigacx.com/v2/user_transactions');
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json; charset=utf-8',
+    'Content-Length: ' . strlen($data_string))
+);
+$result = curl_exec($ch);
+echo ($result);
+
+
+
+$nonce     = time(); // Unix timestamp
+$key       = 'hmNgRNnDNC'; // My API Key
+$client    = 47301; // My Client ID
+$sort      = 'desc';
+$limit     = 10;
+$book		= 'eth_cad'; //specify the currency
+$secret    = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
+$signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
+
+$data = array(
+    'key'       => $key,
+    'nonce'     => $nonce,
+    'signature' => $signature,
+    'sort'    => $sort,
+ 'limit'   => $limit,
     'book'     => $book
 );
 
