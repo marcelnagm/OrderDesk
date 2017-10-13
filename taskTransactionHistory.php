@@ -23,6 +23,7 @@ require_once __DIR__ . '/src/mybtcprices.php';
 require_once __DIR__ . '/src/openqcxorders.php';
 //require_once __DIR__ . '/src/qcxTransactions.php';
 require_once __DIR__ . '/src/qcxtransactions.php';
+require_once __DIR__ . '/src/qcxTransactionHistory.php';
 
 
 //// the connection configuration
@@ -35,23 +36,22 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), 
 $entityManager = EntityManager::create($dbParams, $config);
 
 //----
-
-$nonce     = time(); // Unix timestamp
-$key       = 'hmNgRNnDNC'; // My API Key
-$client    = 47301; // My Client ID
-$sort      = 'desc';
-$limit     = 10;
-$book		= 'btc_cad'; //specify the currency
-$secret    = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
+$nonce = time(); // Unix timestamp
+$key = 'hmNgRNnDNC'; // My API Key
+$client = 47301; // My Client ID
+$sort = 'desc';
+$limit = 10;
+$book = 'btc_cad'; //specify the currency
+$secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
 $signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
 
 $data = array(
-    'key'       => $key,
-    'nonce'     => $nonce,
+    'key' => $key,
+    'nonce' => $nonce,
     'signature' => $signature,
-    'sort'    => $sort,
-    'limit'   => $limit,
-    'book'     => $book
+    'sort' => $sort,
+    'limit' => $limit,
+    'book' => $book
 );
 
 $data_string = json_encode($data);
@@ -59,42 +59,73 @@ $ch = curl_init('https://api.quadrigacx.com/v2/user_transactions');
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Type: application/json; charset=utf-8',
     'Content-Length: ' . strlen($data_string))
 );
 $result = curl_exec($ch);
-echo ($result);
+//echo ($result);
+$result = json_decode($result, true);
 
 
 
-$nonce     = time(); // Unix timestamp
-$key       = 'hmNgRNnDNC'; // My API Key
-$client    = 47301; // My Client ID
-$sort      = 'desc';
-$limit     = 10;
-$book		= 'eth_cad'; //specify the currency
-$secret    = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
+foreach ($result as $row_data) {
+    $test = $entityManager->getConnection()->fetchAll('select count(id) as cont from qcxTransactionHistory where order_id ="' . $row_data['order_id'] . '"');
+//    var_dump($test);
+    if ($test[0]['cont'] == 0) {
+        $cxhistory = new src\qcxTransactionHistory($row_data);
+        $entityManager->persist($cxhistory);
+    }
+}
+
+$entityManager->flush();
+
+
+$nonce = time(); // Unix timestamp
+$key = 'hmNgRNnDNC'; // My API Key
+$client = 47301; // My Client ID
+$sort = 'desc';
+$limit = 10;
+$book = 'eth_cad'; //specify the currency
+$secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
 $signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
 
 $data = array(
-    'key'       => $key,
-    'nonce'     => $nonce,
+    'key' => $key,
+    'nonce' => $nonce,
     'signature' => $signature,
-    'sort'    => $sort,
- 'limit'   => $limit,
-    'book'     => $book
+    'sort' => $sort,
+    'limit' => $limit,
+    'book' => $book
 );
 
 $data_string = json_encode($data);
 $ch = curl_init('https://api.quadrigacx.com/v2/user_transactions');
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Type: application/json; charset=utf-8',
     'Content-Length: ' . strlen($data_string))
 );
 $result = curl_exec($ch);
-echo ($result);
+//echo ($result);
+$result = json_decode($result, true);
+var_dump($result);
+foreach ($result as $row_data) {
+    var_dump($row_data);
+    if (isset($row_data['order_id'])) {
+        $test = $entityManager->getConnection()->fetchAll('select count(id) as cont from qcxTransactionHistory where order_id ="' . $row_data['order_id'] . '"');
+//    var_dump($row_data['order_id'] );
+//    var_dump($test);
+        if ($test[0]['cont'] == 0) {
+            $cxhistory = new src\qcxTransactionHistory($row_data);
+            $entityManager->persist($cxhistory);
+
+            $entityManager->flush();
+        }
+    }
+}
 ?>
