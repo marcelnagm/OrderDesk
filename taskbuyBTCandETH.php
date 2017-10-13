@@ -34,26 +34,72 @@ require 'config.inc';
 $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
 $entityManager = EntityManager::create($dbParams, $config);
 
+
+$list = $entityManager->getRepository('\src\CustomerOrders')->findBy(array('code' => 'SEA001', 'ExternalOrderID' => ''));
+
+$btc = $entityManager->getRepository('\src\mybtcprices')->findBy(
+        array(), array('id' => 'DESC'), 1);
+$btc = $btc[0];
+
 //----
 
+echo 'How many orders i get - ' . count($list);
+foreach ($list as $customOrder) {
+    $nonce = time(); // Unix timestamp
+    $key = 'hmNgRNnDNC'; // My API Key
+    $client = 47301; // My Client ID
+    $amount = $customOrder->getBTCValue();
+    $price = $btc->getAsk();
+    $book = 'btc_cad'; //specify the currency
+    $secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
+    $signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
 
-$nonce     = time(); // Unix timestamp
-$key       = 'hmNgRNnDNC'; // My API Key
-$client    = 47301; // My Client ID
-$amount    = 0.00849343;
-$price 	= 5580.00;
-$book		= 'btc_cad'; //specify the currency
-$secret    = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
+    $data = array(
+        'key' => $key,
+        'nonce' => $nonce,
+        'signature' => $signature,
+        'amount' => $amount,
+        'price' => $price,
+        'book' => $book,
+    );
+
+    $data_string = json_encode($data);
+    $ch = curl_init('https://api.quadrigacx.com/v2/buy');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json; charset=utf-8',
+        'Content-Length: ' . strlen($data_string))
+    );
+    $result = curl_exec($ch);
+    echo ($result);
+    if (isset($result['id']) && $result != NULL) {
+        $customOrder->setExternalOrderID($result['id']);
+        $entityManager->persist($customOrder);
+        $entityManager->flush();
+    } else {
+        echo 'Error ocourred with -' . $customOrder->getOrder_id() . ' --';
+    }
+}
+
+
+$nonce = time(); // Unix timestamp
+$key = 'hmNgRNnDNC'; // My API Key
+$client = 47301; // My Client ID
+$amount = 0.11964999;
+$price = 396.1;
+$book = 'eth_cad'; //specify the currency
+$secret = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
 $signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
 
 $data = array(
-    'key'       => $key,
-    'nonce'     => $nonce,
+    'key' => $key,
+    'nonce' => $nonce,
     'signature' => $signature,
-    'amount'    => $amount,
-    'price'     => $price,
-    'book' 	 => $book,
-
+    'amount' => $amount,
+    'price' => $price,
+    'book' => $book
 );
 
 $data_string = json_encode($data);
@@ -67,40 +113,4 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 $result = curl_exec($ch);
 echo ($result);
-
-
-
-$nonce     = time(); // Unix timestamp
-$key       = 'hmNgRNnDNC'; // My API Key
-$client    = 47301; // My Client ID
-$amount    = 0.11964999;
-$price 	= 396.1;
-$book		= 'eth_cad'; //specify the currency
-$secret    = '99c933d1cedd7799b88215e9f201b3ad'; // My secret
-$signature = hash_hmac('sha256', $nonce . $client . $key, $secret); // Hashing it
-
-$data = array(
-    'key'       => $key,
-    'nonce'     => $nonce,
-    'signature' => $signature,
-    'amount'    => $amount,
-    'price'     => $price,
-    'book'     => $book
-
-);
-
-$data_string = json_encode($data);
-$ch = curl_init('https://api.quadrigacx.com/v2/buy');
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Type: application/json; charset=utf-8',
-    'Content-Length: ' . strlen($data_string))
-);
-$result = curl_exec($ch);
-echo ($result);
-
-
-
 ?>

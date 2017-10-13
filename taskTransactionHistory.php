@@ -128,4 +128,8 @@ foreach ($result as $row_data) {
         }
 //    }
 }
+
+$entityManager->getConnection()->exec('UPDATE customerorders set Traded = 1 WHERE ExternalOrderID in (select order_id from  qcxtransactionhistory) and ExternalOrderID != ""');
+
+
 ?>
