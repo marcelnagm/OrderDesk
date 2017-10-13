@@ -69,7 +69,7 @@ foreach ($list as $customOrder) {
         'book' => $book,
     );
 
-    var_dump($data);
+//    var_dump($data);
     $data_string = json_encode($data);
     $ch = curl_init('https://api.quadrigacx.com/v2/buy');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -82,7 +82,9 @@ foreach ($list as $customOrder) {
     );
     $result = curl_exec($ch);
     echo ($result);
-    var_dump($result);
+    $result = json_decode($result, true);
+
+
     if (isset($result['id']) && $result != NULL) {
         $customOrder->setExternalOrderID($result['id']);
         $entityManager->persist($customOrder);
@@ -124,5 +126,8 @@ foreach ($list as $customOrder) {
     );
     $result = curl_exec($ch);
     echo ($result);
+    $result = json_decode($result, true);
+
+
 }
 ?>
