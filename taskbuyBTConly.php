@@ -50,7 +50,7 @@ foreach ($list as $customOrder) {
 
     $nonce = time(); // Unix timestamp
     $key = 'hmNgRNnDNC'; // My API Key
-    $client = 473014; // My Client ID
+    $client = 47301; // My Client ID
     $amount = $customOrder->getBTCValue();
     $price = $btc->getAsk();
     $book = 'btc_cad'; //specify the currency
