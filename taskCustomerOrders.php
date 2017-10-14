@@ -34,7 +34,6 @@ $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), 
 $entityManager = EntityManager::create($dbParams, $config);
 
 //---------------------EST001-------------------
-
 //get all the orderitem by the code
 $list = $entityManager->getRepository('\src\OrderItem')->findBy(array('code' => 'EST001'));
 //var_dump($list);
@@ -61,14 +60,13 @@ if (count($list) > 0) {
                             ->setMaxResults(1)->getQuery();
             $result = $query->getResult();
             $mybtcprice = $result[0];
-            
+
 //            get the info about shipping
             $shipping = $entityManager->getRepository('\src\Shipping')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
 //        $shipment =new src\Shipment;
 //            get the info about shipment
             $shipment = $entityManager->getRepository('\src\Shipment')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
 //             var_dump($shipment);
-            
 //            set up all the data
             $customOrder = new src\CustomerOrders();
             $customOrder->setSource_id($order->getSource_id());
@@ -79,12 +77,14 @@ if (count($list) > 0) {
             $customOrder->setDate_added($order->getDate_added());
             $customOrder->setDatePurchased($order->getDate_added());
             $customOrder->setDate_updated($order->getDate_updated());
-            
+
 //            calculate order total
             $customOrder->setOrder_total($order->getOrder_total() * $order->getQuantity_total());
             $customOrder->setCode($orderItem->getCode());
             $customOrder->setCountry($shipping->getCountry());
-            $customOrder->setTrackingNumber($shipment->getTracking_number());
+            if ($shipment != NULL) {
+                $customOrder->setTrackingNumber($shipment->getTracking_number());
+            }
             $customOrder->setCurrentDate(null);
 
 //            fetch sku data to the customer order
@@ -162,7 +162,9 @@ if (count($list) > 0) {
             $customOrder->setCode($orderItem->getCode());
             $customOrder->setQuantity($orderItem->getQuantity());
             $customOrder->setCountry($shipping->getCountry());
-            $customOrder->setTrackingNumber($shipment->getTracking_number());
+            if ($shipment != NULL) {
+                $customOrder->setTrackingNumber($shipment->getTracking_number());
+            }
             $customOrder->setCurrentDate(null);
 
 //            fetch sku data to the customer order
@@ -256,7 +258,9 @@ if (count($list) > 0) {
             $customOrder->setCode($orderItem->getCode());
             $customOrder->setQuantity($orderItem->getQuantity());
             $customOrder->setCountry($shipping->getCountry());
-            $customOrder->setTrackingNumber($shipment->getTracking_number());
+            if ($shipment != NULL) {
+                $customOrder->setTrackingNumber($shipment->getTracking_number());
+            }
             $customOrder->setCurrentDate(null);
 
             //            fetch sku data to the customer order
@@ -271,7 +275,7 @@ if (count($list) > 0) {
             echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
 
 //            rpice given by formula
-            
+
             $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() / 5;
             echo $price;
             $customOrder->setPrice_btc($mybtcprice->getFiftyBlock());
@@ -323,7 +327,7 @@ if (count($list) > 0) {
         $order = $entityManager->getRepository('\src\Order')->findOneBy(array('order_id' => $orderItem->getOrder_id()));
 //        check if its on the customer order, if not go on
         if (count($entityManager->getRepository('\src\CustomerOrders')->findBy(array('order_id' => $orderItem->getOrder_id()))) == 0) {
-        echo 'id ---'.$orderItem->getOrder_id();
+            echo 'id ---' . $orderItem->getOrder_id();
 //        var_dump($order);
             $timestamp = $order->getDate_added();
 
@@ -359,7 +363,9 @@ if (count($list) > 0) {
             $customOrder->setCode($orderItem->getCode());
             $customOrder->setQuantity($orderItem->getQuantity());
             $customOrder->setCountry($shipping->getCountry());
-            $customOrder->setTrackingNumber($shipment->getTracking_number());
+            if ($shipment != NULL) {
+                $customOrder->setTrackingNumber($shipment->getTracking_number());
+            }
             $customOrder->setCurrentDate(null);
 //            fetch sku data to the customer order
             $shull_data = $entityManager->getConnection()->fetchAll('select TITLE,SKUDescription from skus where SKU="' . $customOrder->getCode() . '"')[0];
@@ -422,12 +428,11 @@ if (count($list) > 0) {
     }
 }
 
-  $curre = $entityManager->getRepository('\src\TopTen')->findBy(
-                array('symbol' => 'BTC'
-                ), array('id' => 'DESC'), 1);
-        $curre= $curre[0];
+$curre = $entityManager->getRepository('\src\TopTen')->findBy(
+        array('symbol' => 'BTC'
+        ), array('id' => 'DESC'), 1);
+$curre = $curre[0];
 
-        $entityManager->getConnection()->exec('update customerorders set avgUSDPrice='.$curre->getAVGUSDPrice().'; ');
-        $entityManager->getConnection()->exec('update customerorders set avgCADPrice='.$curre->getAVGCADPrice().' ; ');
-        
-    
+$entityManager->getConnection()->exec('update customerorders set avgUSDPrice=' . $curre->getAVGUSDPrice() . '; ');
+$entityManager->getConnection()->exec('update customerorders set avgCADPrice=' . $curre->getAVGCADPrice() . ' ; ');
+

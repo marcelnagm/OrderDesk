@@ -170,7 +170,7 @@ class CustomerOrders {
     private $CurrentDate;
 
     /** @Column(type="string") * */
-    private $TrackingNumber;
+    private $TrackingNumber = "";
 
     /** @Column(type="string") * */
     private $Country;
