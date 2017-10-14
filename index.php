@@ -104,12 +104,12 @@ if ($conn) {
             //             echo $order->getId() . ' <br>';
         }
         $orderItems = $orders[$i]['order_items'];
-        for ($j = 0; $j < count($orderItems); $j++) {
+        for ($j = 0; $j < count($orderItems); $j++) {            
+            $data_orderItem = $orderItems[$j];
             $num_records = $entityManager->getRepository('src\OrderItem')->findBy(array('item_id' => $data_orderItem['id']));
             $count = count($num_records);
 
             if ($count == 0) {
-                $data_orderItem = $orderItems[$j];
                 $data_orderItem['order_id'] = $data_order['id'];
                 $data_orderItem['item_id'] = $data_orderItem['id'];
                 ;
