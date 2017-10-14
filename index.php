@@ -21,7 +21,7 @@ require __DIR__ . '/vendor/OrderDeskApiClient.php';
 
 
 //// the connection configuration
- 
+
 require 'config.inc';
 // 
 //
@@ -58,17 +58,18 @@ if ($conn) {
     $entityManager = EntityManager::create($dbParams, $config);
     $entityManager->beginTransaction();
     $orders = $result['orders'];
-var_dump($orders);
+    var_dump($orders);
 //echo "<pre>" . print_r($orders) . "</pre>";
     for ($i = 0; $i < $records; $i++) {
         $data_order = $orders[$i];
         $data_ship = $orders[$i]['shipping'];
-        
+
         $data_ship['sstate'] = $data_ship['state'];
-        $data_ship['order_id'] = $data_order['id'];;
+        $data_ship['order_id'] = $data_order['id'];
+        ;
         $ship = new src\Shipping($data_ship);
 //        echo "<pre>" . print_r($ship) . "</pre>";
-        
+
         unset($data_order['customer']);
         unset($data_order['return_address']);
         unset($data_order['checkout_data']);
@@ -101,18 +102,24 @@ var_dump($orders);
             $entityManager->persist($order);
             $entityManager->flush();
             //             echo $order->getId() . ' <br>';
+        }
+        $orderItems = $orders[$i]['order_items'];
+        for ($j = 0; $j < count($orderItems); $j++) {
+            $num_records = $entityManager->getRepository('src\OrderItem')->findBy(array('item_id' => $data_orderItem['id']));
+            $count = count($num_records);
 
-            $orderItems = $orders[$i]['order_items'];
-            for ($j = 0; $j < count($orderItems); $j++) {
+            if ($count == 0) {
                 $data_orderItem = $orderItems[$j];
-                $data_orderItem['order_id'] = $data_order['id'];                
-                $data_orderItem['item_id'] = $data_orderItem['id'];;
+                $data_orderItem['order_id'] = $data_order['id'];
+                $data_orderItem['item_id'] = $data_orderItem['id'];
+                ;
                 $item = new src\OrderItem($data_orderItem);
-                echo "<pre>" . print_r($item) . "</pre>";	
+                echo "<pre>" . print_r($item) . "</pre>";
                 $entityManager->persist($item);
                 $entityManager->flush();
             }
         }
+
         $result = $api->get("orders/" . $data_order['id_order'] . "/shipments");
         //            echo "orders/" . $data_order['id_order'] . "/shipments<br>";
 //        echo "<pre>" . print_r($result['shipments']) . "</pre>";
@@ -151,9 +158,9 @@ var_dump($orders);
 }
 
 //Force to update the differnts
-  $list = $entityManager->getConnection()->fetchAll("select oi.order_id,oi.quantity from customerorders cu, orderitem oi where cu.order_id = oi.order_id and cu.quantity <> oi.quantity");
-  foreach ($list as $row){
-     $sql = 'update customerorders set quantity ='.$row['quantity'].' where order_id = '.$row['order_id'].' ;';
-  $entityManager->getConnection()->exec($sql);
-  }
+$list = $entityManager->getConnection()->fetchAll("select oi.order_id,oi.quantity from customerorders cu, orderitem oi where cu.order_id = oi.order_id and cu.quantity <> oi.quantity");
+foreach ($list as $row) {
+    $sql = 'update customerorders set quantity =' . $row['quantity'] . ' where order_id = ' . $row['order_id'] . ' ;';
+    $entityManager->getConnection()->exec($sql);
+}
   
