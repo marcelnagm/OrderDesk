@@ -56,9 +56,9 @@ if ($conn) {
 //start the connection with db.
     $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__ . "/src"), $isDevMode);
     $entityManager = EntityManager::create($dbParams, $config);
-    $entityManager->beginTransaction();
+//    $entityManager->beginTransaction();
     $orders = $result['orders'];
-    var_dump($orders);
+//    var_dump($orders);
 //echo "<pre>" . print_r($orders) . "</pre>";
     for ($i = 0; $i < $records; $i++) {
         $data_order = $orders[$i];
@@ -114,7 +114,7 @@ if ($conn) {
                 $data_orderItem['item_id'] = $data_orderItem['id'];
                 ;
                 $item = new src\OrderItem($data_orderItem);
-                echo "<pre>" . print_r($item) . "</pre>";
+//                echo "<pre>" . print_r($item) . "</pre>";
                 $entityManager->persist($item);
                 $entityManager->flush();
             }
@@ -122,7 +122,7 @@ if ($conn) {
 
         $result = $api->get("orders/" . $data_order['id_order'] . "/shipments");
         //            echo "orders/" . $data_order['id_order'] . "/shipments<br>";
-//        echo "<pre>" . print_r($result['shipments']) . "</pre>";
+        echo "<pre>" . print_r($result['shipments']) . "</pre>";
         $data_shipments = $result['shipments'];
 
 
@@ -153,7 +153,7 @@ if ($conn) {
 
 //    
 //    commit and flush all data to db.
-    $entityManager->commit();
+//    $entityManager->commit();
     $entityManager->flush();
 }
 
