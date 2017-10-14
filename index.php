@@ -104,7 +104,7 @@ if ($conn) {
             //             echo $order->getId() . ' <br>';
         }
         $orderItems = $orders[$i]['order_items'];
-        for ($j = 0; $j < count($orderItems); $j++) {            
+        for ($j = 0; $j < count($orderItems); $j++) {
             $data_orderItem = $orderItems[$j];
             $num_records = $entityManager->getRepository('src\OrderItem')->findBy(array('item_id' => $data_orderItem['id']));
             $count = count($num_records);
@@ -144,8 +144,10 @@ if ($conn) {
             if ($count == 0) {
                 echo "<pre>" . print_r($data_shipments[$j]) . "</pre>";
                 $shipment = new src\Shipment($data_shipments[$j]);
+                $sql = 'update customerorders set trackingnumber="' . $shipment->getTracking_number() . '" where order_id = ' . $shipment->getOrder_id() . ' ;';                
                 echo "<pre>" . print_r($shipment) . "</pre>";
                 $entityManager->persist($shipment);
+                $entityManager->getConnection()->exec($sql);
             }
             $entityManager->flush();
         }
