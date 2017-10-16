@@ -177,7 +177,7 @@ if (count($list) > 0) {
 //            echo '  / $mybtcprice->getFiftyBlock()  - ' . $mybtcprice->getFiftyBlock();
 //            echo '  / $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() = ' . $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() . ' /';
 ///            calcultate the price given by the formula
-            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() / 2;
 //            echo $price;
             $customOrder->setBTCValue($price);
             unset($dql);
@@ -196,7 +196,8 @@ if (count($list) > 0) {
 //            var_dump($result);
             $mybtcprice = $result[0];
 //            /            calcultate the price given by the formula
-            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock();
+            $price = $orderItem->getQuantity() * $mybtcprice->getFiftyBlock() / 2;
+
 //            echo $price;
 //            setting ETH VALUE
             $customOrder->setETHValue($price);

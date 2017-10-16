@@ -41,7 +41,7 @@ class CalculatorAVG {
                 ), array('id' => 'DESC'), 1);
         $topten = $topten[0];
         echo $topten->getId() . ' -- ' . $customOrder->getId();
-        $customOrder->setCurrentBTCValue($customOrder->getBTCValue() * $topten->getAVGBTCPrice() * $customOrder->getQuantity());
+        $customOrder->setCurrentBTCValue($customOrder->getBTCValue() * $topten->getAVGBTCPrice());
 
 //        eth get the last ETH registry from toptenTable
         $topten = $entityManager->getRepository('\src\TopTen')->findBy(
