@@ -1,0 +1,154 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages': ['corechart']});
+//            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+
+                var order = document.getElementById("Order_id").value;
+                var email = document.getElementById("email").value;
+
+
+                var request = new XMLHttpRequest();
+                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=" + order + "&email=" + email + "", false);
+//                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9260559&email=pkakouros@gmail.com", false);
+//                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9220922&email=pkakouros@gmail.com", false); //Est001
+//                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9221136&email=pkakouros@gmail.com", false); //sea001
+//                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9220188&email=pkakouros@gmail.com", false); //est001
+//                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9221114&email=pkakouros@gmail.com", false); //vIS0001
+                request.send();
+                var json = request.responseText;
+
+
+                var jsonData = JSON.parse(json);
+                console.log(jsonData);
+//                console.log(jsonData['order_id']);
+
+                if (jsonData['code'] == 'EST001') {
+                    var data = new Date(jsonData['date_purchased']);
+                    document.getElementById("descrip").innerHTML = "You purchased " + jsonData['quantity'] + '  ' + jsonData['title'] + ' on ' + data.toISOString().split('T')[0] + '<br><i>  ' + jsonData['SKU_Description'] + '</i>';
+
+
+                    data2 = new Date(jsonData['current_date']);
+                    var Combined = new Array();
+                    Combined[0] = ['CurrentESTValue', 'Bitcoin', {type: 'string', role: 'tooltip'}];
+//                    console.log(jsonData);
+                    Combined[ 1] = ['BITCOIN', jsonData['CurrentESTValue'], '$ ' + jsonData['CurrentESTValue'].toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')];
+
+                    var data = google.visualization.arrayToDataTable(Combined, false);
+                    var options = {
+                        title: 'Established - Bitcoin graph value as of ' + data2.toISOString().split('T')[0],
+                        vAxis: {format: 'currency', gridlines: {count: 20}},
+                        bar: {groupWidth: "20%"},
+                        legend: {position: 'none'}
+                    };
+//
+                    var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
+
+                    chart.draw(data, options);
+                }
+
+                if (jsonData['code'] == 'SEA001') {
+                    var data = new Date(jsonData['date_purchased']);
+                    document.getElementById("descrip").innerHTML = "You purchased " + jsonData['quantity'] + '  ' + jsonData['title'] + ' on ' + data.toISOString().split('T')[0] + '<br><i>  ' + jsonData['SKU_Description'] + '</i>';
+
+                    var Combined = new Array();
+                    Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}, {type: 'string', role: 'tooltip'}];
+//                    console.log(jsonData);
+                    Combined[ 1] = ['BITCOIN', jsonData['CurrentESTValue'], 'green', '$ ' + jsonData['CurrentESTValue'].toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')];
+                    Combined[ 2] = ['ETHERUM', jsonData['CurrentSEAValue'], 'red', '$ ' + jsonData['CurrentSEAValue'].toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')];
+
+                    var data = google.visualization.arrayToDataTable(Combined, false);
+                    var options = {
+                        title: 'Expanded - Bitcoin & Ethereum graph  ',
+                        vAxis: {format: 'currency', gridlines: {count: 20}},
+                        bar: {groupWidth: "20%"},
+                        legend: {position: 'none'}
+                    };
+//
+                    var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
+
+                    chart.draw(data, options);
+                }
+
+                if (jsonData['code'] == 'EXP001') {
+                  
+
+                    var data = new Date(jsonData['date_purchased']);
+                    document.getElementById("descrip").innerHTML = "You purchased " + jsonData['quantity'] + '  ' + jsonData['title'] + ' on ' + data.toISOString().split('T')[0] + '<br><i>  ' + jsonData['SKU_Description'] + '</i>';
+
+
+                    var Combined = new Array();
+//                    Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}];
+                    Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}, {type: 'string', role: 'tooltip'}];
+                    var Colors = new Array('gold', 'silver', 'grey', 'orange', 'blue');
+                    for (var i = 1; i < 6; i++) {
+                        Combined[i ] = [jsonData['Top' + i + 'Description'], parseFloat(jsonData['Top' + i]), Colors[i - 1], '$ ' + jsonData['Top' + i].toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')];
+//                        Combined[i ] = [jsonData['Top' + i + 'Description'], parseFloat(jsonData['Top' + i]), Colors[i - 1]];
+                    }
+//                    console.log(Combined);
+                    var data = google.visualization.arrayToDataTable(Combined, false);
+                    var options = {
+                        title: 'Expanded – Top 5 Currencies  ',
+                        vAxis: {format: 'currency', gridlines: {count: 20}},
+                        bar: {groupWidth: "20%"},
+                        legend: {position: 'none'}
+                    };
+//
+                    var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
+
+                    chart.draw(data, options);
+                }
+                
+                if (jsonData['code'] == 'VIS001') {
+                  
+
+                    var data = new Date(jsonData['date_purchased']);
+                    document.getElementById("descrip").innerHTML = "You purchased " + jsonData['quantity'] + '  ' + jsonData['title'] + ' on ' + data.toISOString().split('T')[0] + '<br><i>  ' + jsonData['SKU_Description'] + '</i>';
+
+
+                    var Combined = new Array();
+//                    Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}];
+                    Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}, {type: 'string', role: 'tooltip'}];
+                    var Colors = new Array('gold', 'silver', 'grey', 'orange', 'blue','purple');
+                    for (var i = 1; i < 7; i++) {
+                        Combined[i ] = [jsonData['Vision' + i + 'Description'], parseFloat(jsonData['CurrentVIS'+ i+'Value' ]), Colors[i - 1], '$ ' + jsonData['CurrentVIS'+ i+'Value'].toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')];
+//                        Combined[i ] = [jsonData['Top' + i + 'Description'], parseFloat(jsonData['Top' + i]), Colors[i - 1]];
+                    }
+//                    console.log(Combined);
+                    var data = google.visualization.arrayToDataTable(Combined, false);
+                    var options = {
+                        title: 'Visionary – Up and coming currencies  ',
+                        vAxis: {format: 'currency', gridlines: {count: 20}},
+                        bar: {groupWidth: "20%"},
+                        legend: {position: 'none'}
+                    };
+//
+                    var chart = new google.visualization.ColumnChart(document.getElementById('curve_chart'));
+
+                    chart.draw(data, options);
+                }
+            }
+
+            function initialize() {
+                $('#butao').click(function () {
+                    drawChart();
+                });
+            }
+            google.charts.setOnLoadCallback(initialize);
+        </script>
+    </head>
+    <body>
+
+        <label for="Order_id">Order_id</label>
+        <input id="Order_id">
+        <label for="email">email</label>
+        <input id="email">
+        <input type="submit" value="Show!" id="butao">
+        <p id ="descrip" style="text-align:  center;"></p>
+        <div id="curve_chart" style="width: 900px; height: 500px"></div>
+    </body>
+</html>
