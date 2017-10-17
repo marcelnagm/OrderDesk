@@ -16,7 +16,7 @@
                 request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=" + order + "&email=" + email + "", false);
 //                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9260559&email=pkakouros@gmail.com", false);
 //                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9220922&email=pkakouros@gmail.com", false); //Est001
-                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9464814&email=pkakouros@gmail.com", false); //sea001
+//                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9464814&email=pkakouros@gmail.com", false); //sea001
 //                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9220188&email=pkakouros@gmail.com", false); //EXPR01
 //                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9221114&email=pkakouros@gmail.com", false); //vIS0001
                 request.send();
@@ -74,8 +74,7 @@
                     var data = google.visualization.arrayToDataTable(Combined, false);
                     var options = {
                         title: 'Expanded - Bitcoin & Ethereum graph  - ' + data2.toISOString().split('T')[0],
-                        vAxis: {format: 'currency', gridlines: {count: 5}, title: '$',
-                            ticks: marks},
+                        vAxis: {format: 'currency', gridlines: {count: 5},                           ticks: marks},
                         bar: {groupWidth: "10%"},
                         legend: {position: 'none'}
                     };
