@@ -17,7 +17,7 @@
 //                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9260559&email=pkakouros@gmail.com", false);
 //                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9220922&email=pkakouros@gmail.com", false); //Est001
 //                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9221136&email=pkakouros@gmail.com", false); //sea001
-//                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9220188&email=pkakouros@gmail.com", false); //est001
+                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9220188&email=pkakouros@gmail.com", false); //EXPR01
 //                request.open("GET", "http://globaldigitalfunds.azurewebsites.net/api/clientorders?Order_id=9221114&email=pkakouros@gmail.com", false); //vIS0001
                 request.send();
                 var json = request.responseText;
@@ -54,7 +54,7 @@
                 if (jsonData['code'] == 'SEA001') {
                     var data = new Date(jsonData['date_purchased']);
                     document.getElementById("descrip").innerHTML = "You purchased " + jsonData['quantity'] + '  ' + jsonData['title'] + ' on ' + data.toISOString().split('T')[0] + '<br><i>  ' + jsonData['SKU_Description'] + '</i>';
-
+                        data2 = new Date(jsonData['current_date']);
                     var Combined = new Array();
                     Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}, {type: 'string', role: 'tooltip'}];
 //                    console.log(jsonData);
@@ -63,7 +63,7 @@
 
                     var data = google.visualization.arrayToDataTable(Combined, false);
                     var options = {
-                        title: 'Expanded - Bitcoin & Ethereum graph  ',
+                        title: 'Expanded - Bitcoin & Ethereum graph  - '+ data2.toISOString().split('T')[0],
                         vAxis: {format: 'currency', gridlines: {count: 20}},
                         bar: {groupWidth: "20%"},
                         legend: {position: 'none'}
@@ -80,13 +80,13 @@
                     var data = new Date(jsonData['date_purchased']);
                     document.getElementById("descrip").innerHTML = "You purchased " + jsonData['quantity'] + '  ' + jsonData['title'] + ' on ' + data.toISOString().split('T')[0] + '<br><i>  ' + jsonData['SKU_Description'] + '</i>';
 
-
+data2 = new Date(jsonData['current_date']);
                     var Combined = new Array();
 //                    Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}];
                     Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}, {type: 'string', role: 'tooltip'}];
                     var Colors = new Array('gold', 'silver', 'grey', 'orange', 'blue');
                     for (var i = 1; i < 6; i++) {
-                        Combined[i ] = [jsonData['Top' + i + 'Description'], parseFloat(jsonData['Top' + i]), Colors[i - 1], '$ ' + jsonData['Top' + i].toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')];
+                        Combined[i ] = [jsonData['Top' + i + 'Description'], parseFloat(jsonData['CurrentEXP' + i+'Value']), Colors[i - 1], '$ ' + jsonData['CurrentEXP' + i+'Value'].toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')];
 //                        Combined[i ] = [jsonData['Top' + i + 'Description'], parseFloat(jsonData['Top' + i]), Colors[i - 1]];
                     }
 //                    console.log(Combined);
@@ -109,7 +109,7 @@
                     var data = new Date(jsonData['date_purchased']);
                     document.getElementById("descrip").innerHTML = "You purchased " + jsonData['quantity'] + '  ' + jsonData['title'] + ' on ' + data.toISOString().split('T')[0] + '<br><i>  ' + jsonData['SKU_Description'] + '</i>';
 
-
+data2 = new Date(jsonData['current_date']);
                     var Combined = new Array();
 //                    Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}];
                     Combined[0] = ['CurrentESTValue', 'Bitcoin', {role: 'style'}, {type: 'string', role: 'tooltip'}];
